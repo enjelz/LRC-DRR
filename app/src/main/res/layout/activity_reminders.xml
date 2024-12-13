@@ -12,9 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#E4E4E4"
-        android:orientation="vertical"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="63dp">
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -37,80 +35,242 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="30dp"
                 android:text="Please read the following reminders below"
-                android:textSize="15sp"
+                android:textSize="16sp"
                 android:textStyle="italic" />
 
             <androidx.cardview.widget.CardView
-                android:layout_width="350dp"
-                android:layout_height="37dp"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
                 android:layout_marginStart="30dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="30dp"
                 app:cardBackgroundColor="#927d52">
 
                 <TextView
                     android:id="@+id/reminders_text3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="100dp"
-                    android:layout_marginTop="8dp"
-                    android:text="Use of Discussion Room"
+                    android:layout_gravity="center"
+                    android:text="Rules and Regulations"
                     android:textColor="@color/white"
+                    android:textSize="18sp"
                     android:textStyle="bold" />
 
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/reminders_cardview_typing_area"
-                android:layout_width="350dp"
-                android:layout_height="410dp"
+                android:layout_width="match_parent"
+                android:layout_height="550dp"
                 android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp"
                 app:cardBackgroundColor="#161f48">
 
-                <CheckBox
-                    android:id="@+id/reminders_i_agree"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="135dp"
-                    android:layout_marginTop="360dp"
-                    android:text="I agree"
-                    android:textColor="@color/white"/>
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/txt1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:justificationMode="inter_word"
+                            android:text="1. Reservation is on a first-come, first-served basis.  "
+                            android:textColor="@color/white"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/txt2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:justificationMode="inter_word"
+                            android:text="2. Requester may reserve the facility at  a week before the intended schedule of reservation."
+                            android:textColor="@color/white"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/txt3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:justificationMode="inter_word"
+                            android:text="3. A maximum of three (3) reservations per week shall be made per requester. The librarian has the right to limit the number of reservations during peak season. "
+                            android:textColor="@color/white"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/txt4"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:justificationMode="inter_word"
+                            android:text="4. Depending on the purposes or activity, the Librarian has the right to cancel or revoke the confirmed reservation in case of misrepresentation and violation of the policies rules and regulations."
+                            android:textColor="@color/white"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/txt5"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:justificationMode="inter_word"
+                            android:text="5. If there is no conflict in the schedule, the Librarian shall temporarily book the said reservation. "
+                            android:textColor="@color/white"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/txt6"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:justificationMode="inter_word"
+                            android:text="6. The reservation of the Discussion/Function rooms in non-transferrable."
+                            android:textColor="@color/white"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/txt7"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:justificationMode="inter_word"
+                            android:text="7. The requestor has the responsibility to inform the LRC as soon as possible for cancellation of facility reservation, this is to give the time allotment to other requester. Only the person who signed the reservation form has the right to cancel the confirmed reservation at least twenty-four (24) hours before the schedule date. "
+                            android:textColor="@color/white"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/txt8"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:justificationMode="inter_word"
+                            android:text="8. The confirmation of the reservation shall be made upon receipt of duly approved reservation form. The reservation form must be returned to the Librarian for final confirmation.  "
+                            android:textColor="@color/white"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/txt9"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:justificationMode="inter_word"
+                            android:text="9. The requestor shall completely fill-out the reservation form and have it signed by Class adviser/Department or Program Chair/College Dean. "
+                            android:textColor="@color/white"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/txt10"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginTop="10dp"
+                            android:text="10. The submission of the signed form shall be made at least a minimum of 24 hours before the intended event. The lack of the form submitted shall make the pencil booking irrelevant and cancelled. The reservation shall be given to the other requestors."
+                            android:textSize="16sp"
+                            android:textColor="@color/white"
+                            android:justificationMode="inter_word" />
+
+                        <TextView
+                            android:id="@+id/txt11"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginTop="10dp"
+                            android:text="11. The use of the Discussion/Function Rooms can only be made if there is an approval. If there is no approval, then the LRC personnel have the right to reject the pencil booking made and give the slot to another requester. "
+                            android:textSize="16sp"
+                            android:textColor="@color/white"/>
+
+                        <TextView
+                            android:id="@+id/txt12"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginTop="10dp"
+                            android:text="12. Clean as you go (CLAYGO)."
+                            android:textSize="16sp"
+                            android:textColor="@color/white"/>
+
+                        <TextView
+                            android:id="@+id/txt13"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginTop="10dp"
+                            android:text="NOTE: The DISCUSSION ROOM is intended for meetings, presentations, and other group activities. Reservation must be one day before the schedule or first come first"
+                            android:textSize="16sp"
+                            android:textColor="@color/white"/>
+
+                        <CheckBox
+                            android:id="@+id/reminders_i_agree"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="bottom|center_horizontal"
+                            android:text="I agree"
+                            android:textColor="@color/white" />
+
+                    </LinearLayout>
+                </ScrollView>
             </androidx.cardview.widget.CardView>
 
 
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="bottom|center_horizontal"
             android:orientation="horizontal">
-
 
             <Button
                 android:id="@+id/reminders_button_back"
-                android:layout_width="100dp"
-                android:layout_height="50dp"
-                android:layout_marginStart="100dp"
-                android:layout_marginTop="10dp"
+                android:layout_width="150dp"
+                android:layout_height="60dp"
                 android:backgroundTint="#161f48"
                 android:text="Back"
+                android:textSize="16sp"
                 app:cornerRadius="10dp" />
-
 
             <Button
                 android:id="@+id/reminders_button_reserve"
-                android:layout_width="100dp"
-                android:layout_height="50dp"
+                android:layout_width="150dp"
+                android:layout_height="60dp"
                 android:layout_marginLeft="5dp"
-                android:layout_marginTop="10dp"
                 android:backgroundTint="#927d52"
+                android:onClick="btn_reminders_reserve"
                 android:text="Reserve"
-                app:cornerRadius="10dp"
-                android:onClick="btn_reminders_reserve"/>
+                android:textSize="16sp"
+                app:cornerRadius="10dp" />
 
         </LinearLayout>
-
-
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

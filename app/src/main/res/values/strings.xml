@@ -2,4 +2,18 @@
     <string name="app_name">LRC D-R</string>
     <string name="menu_drawer_open">Drawer Open</string>
     <string name="menu_drawer_close">Drawer Close</string>
+
+    <string-array name="user_types">
+        <item>Student</item>
+        <item>Faculty</item>
+        <item>Staff</item>
+    </string-array>
+
+
+    <string-array name="status_options">
+        <item>Pending</item>
+        <item>Confirm</item>
+        <item>Cancel</item>
+        <item>No Show / Absent</item>
+    </string-array>
 </resources>

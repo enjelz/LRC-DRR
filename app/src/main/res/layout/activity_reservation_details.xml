@@ -11,21 +11,12 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="0dp">
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginTop="15dp">
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
 
             <androidx.cardview.widget.CardView
                 android:layout_width="350dp"
                 android:layout_height="37dp"
-                android:layout_marginStart="30dp"
                 android:layout_marginTop="30dp"
                 app:cardBackgroundColor="#927d52">
 
@@ -33,18 +24,18 @@
                     android:id="@+id/receipt_text3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="80dp"
+                    android:layout_gravity="center_horizontal"
                     android:layout_marginTop="8dp"
                     android:text="Reservation Reference Number"
                     android:textColor="@color/white"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:textSize="18sp"/>
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/receipt_reference_number_container"
                 android:layout_width="350dp"
                 android:layout_height="76dp"
-                android:layout_marginStart="30dp"
                 app:cardBackgroundColor="#161f48">
 
                 <TextView
@@ -62,7 +53,6 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="350dp"
                 android:layout_height="37dp"
-                android:layout_marginStart="30dp"
                 android:layout_marginTop="10dp"
                 app:cardBackgroundColor="#927d52">
 
@@ -70,10 +60,11 @@
                     android:id="@+id/reminders_text3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="120dp"
                     android:layout_marginTop="8dp"
+                    android:layout_gravity="center_horizontal"
                     android:text="Reservation Detais"
                     android:textColor="@color/white"
+                    android:textSize="18sp"
                     android:textStyle="bold" />
             </androidx.cardview.widget.CardView>
 
@@ -81,11 +72,10 @@
                 android:id="@+id/reminders_cardview_typing_area"
                 android:layout_width="350dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="30dp"
                 app:cardBackgroundColor="#161f48">
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
@@ -102,6 +92,7 @@
                             android:layout_marginTop="20dp"
                             android:text="Name:"
                             android:textColor="@color/white"
+                            android:textSize="17sp"
                             android:textStyle="bold" />
 
                         <TextView
@@ -112,7 +103,8 @@
                             android:layout_marginTop="20dp"
                             android:ems="10"
                             android:text="Artiaga, Angel Reign"
-                            android:textColor="@color/white" />
+                            android:textColor="@color/white"
+                            android:textSize="17sp"/>
                     </LinearLayout>
 
                     <LinearLayout
@@ -130,7 +122,8 @@
                             android:layout_marginTop="5dp"
                             android:text="User Type:"
                             android:textColor="@color/white"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            android:textSize="17sp"/>
 
                         <TextView
                             android:id="@+id/reservation_details_edittext_usertype"
@@ -140,7 +133,8 @@
                             android:layout_marginTop="5dp"
                             android:ems="10"
                             android:text="Student"
-                            android:textColor="@color/white" />
+                            android:textColor="@color/white"
+                            android:textSize="17sp"/>
                     </LinearLayout>
 
                     <LinearLayout
@@ -157,7 +151,8 @@
                             android:layout_marginTop="5dp"
                             android:text="College:"
                             android:textColor="@color/white"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            android:textSize="17sp"/>
 
                         <TextView
                             android:id="@+id/value_college"
@@ -167,7 +162,8 @@
                             android:layout_marginTop="5dp"
                             android:ems="10"
                             android:text="SET"
-                            android:textColor="@color/white" />
+                            android:textColor="@color/white"
+                            android:textSize="17sp"/>
                     </LinearLayout>
 
                     <LinearLayout
@@ -184,7 +180,8 @@
                             android:layout_marginTop="5dp"
                             android:text="ID No.:"
                             android:textColor="@color/white"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            android:textSize="17sp"/>
 
                         <TextView
                             android:id="@+id/reservation_details_edittext_idnum"
@@ -194,7 +191,8 @@
                             android:layout_marginTop="5dp"
                             android:ems="10"
                             android:text="2023-132332"
-                            android:textColor="@color/white" />
+                            android:textColor="@color/white"
+                            android:textSize="17sp"/>
                     </LinearLayout>
 
                     <LinearLayout
@@ -212,7 +210,8 @@
                             android:layout_marginTop="5dp"
                             android:text="Contoact no.:"
                             android:textColor="@color/white"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            android:textSize="17sp"/>
 
                         <TextView
                             android:id="@+id/reservation_details_edittext_contactnum"
@@ -222,7 +221,8 @@
                             android:layout_marginTop="5dp"
                             android:ems="10"
                             android:text="09271129719"
-                            android:textColor="@color/white" />
+                            android:textColor="@color/white"
+                            android:textSize="17sp"/>
                     </LinearLayout>
 
                     <LinearLayout
@@ -240,7 +240,8 @@
                             android:layout_marginTop="5dp"
                             android:text="Date Requested:"
                             android:textColor="@color/white"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            android:textSize="17sp"/>
 
                         <TextView
                             android:id="@+id/reservation_details_edittext_datereq"
@@ -250,7 +251,8 @@
                             android:layout_marginTop="5dp"
                             android:ems="10"
                             android:text="12/08/24"
-                            android:textColor="@color/white" />
+                            android:textColor="@color/white"
+                            android:textSize="17sp"/>
 
                     </LinearLayout>
 
@@ -266,9 +268,10 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="20dp"
                             android:layout_marginTop="5dp"
-                            android:text="Purpose/Activity"
+                            android:text="Purpose/Activity:"
                             android:textColor="@color/white"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            android:textSize="17sp"/>
 
                         <TextView
                             android:id="@+id/reservation_details_edittext_purpose_activity"
@@ -278,7 +281,8 @@
                             android:layout_marginTop="5dp"
                             android:ems="10"
                             android:text="Group Meeting"
-                            android:textColor="@color/white" />
+                            android:textColor="@color/white"
+                            android:textSize="17sp"/>
 
                     </LinearLayout>
 
@@ -296,7 +300,8 @@
                             android:layout_marginTop="5dp"
                             android:text="Schedule:"
                             android:textColor="@color/white"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            android:textSize="17sp"/>
 
                         <TextView
                             android:id="@+id/reservation_details_edittext_purpose_sched"
@@ -306,7 +311,8 @@
                             android:layout_marginTop="5dp"
                             android:ems="10"
                             android:text="12/12/24"
-                            android:textColor="@color/white" />
+                            android:textColor="@color/white"
+                            android:textSize="17sp"/>
 
                     </LinearLayout>
 
@@ -320,11 +326,12 @@
                             android:id="@+id/duration"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="90dp"
+                            android:layout_marginStart="100dp"
                             android:layout_marginTop="5dp"
                             android:ems="10"
                             android:text="1:00PM to 5:00PM (4hrs)"
-                            android:textColor="@color/white" />
+                            android:textColor="@color/white"
+                            android:textSize="17sp"/>
                     </LinearLayout>
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -336,11 +343,12 @@
                             android:id="@+id/rooms"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="90dp"
+                            android:layout_marginStart="100dp"
                             android:layout_marginTop="5dp"
                             android:ems="10"
                             android:text="Room No. 2 (1 Room)"
-                            android:textColor="@color/white" />
+                            android:textColor="@color/white"
+                            android:textSize="17sp"/>
                     </LinearLayout>
 
                     <LinearLayout
@@ -355,9 +363,10 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="20dp"
                             android:layout_marginTop="5dp"
-                            android:text="No. of table/s"
+                            android:text="No. of table/s:"
                             android:textColor="@color/white"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            android:textSize="17sp"/>
 
                         <TextView
                             android:id="@+id/reservation_details_edittext_num_of_tables"
@@ -367,7 +376,8 @@
                             android:layout_marginTop="5dp"
                             android:ems="10"
                             android:text="1"
-                            android:textColor="@color/white" />
+                            android:textColor="@color/white"
+                            android:textSize="17sp"/>
 
                     </LinearLayout>
 
@@ -384,9 +394,11 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="20dp"
                             android:layout_marginTop="5dp"
-                            android:text="No. of chair/s"
+                            android:layout_marginBottom="5dp"
+                            android:text="No. of chair/s:"
                             android:textColor="@color/white"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            android:textSize="17sp"/>
 
                         <TextView
                             android:id="@+id/reservation_details_edittext_num_of_chairs"
@@ -396,7 +408,8 @@
                             android:layout_marginTop="5dp"
                             android:ems="10"
                             android:text="1"
-                            android:textColor="@color/white" />
+                            android:textColor="@color/white"
+                            android:textSize="17sp"/>
 
                     </LinearLayout>
                 </LinearLayout>
@@ -405,30 +418,31 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginTop="90dp">
 
                 <Button
                     android:id="@+id/reminders_button_back"
                     android:layout_width="100dp"
-                    android:layout_height="50dp"
-                    android:layout_marginStart="70dp"
+                    android:layout_height="60dp"
                     android:layout_marginTop="10dp"
                     android:backgroundTint="#161f48"
                     android:text="Back"
+                    android:textSize="16sp"
                     app:cornerRadius="10dp"
                     android:onClick="btn_reservation_details_back"/>
 
                 <Button
                     android:id="@+id/reminders_button_reserve"
                     android:layout_width="wrap_content"
-                    android:layout_height="50dp"
+                    android:layout_height="60dp"
                     android:layout_marginLeft="5dp"
                     android:layout_marginTop="10dp"
                     android:backgroundTint="#927d52"
                     android:text="Cancel Reservation"
+                    android:textSize="16sp"
                     app:cornerRadius="10dp" />
             </LinearLayout>
-        </LinearLayout>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

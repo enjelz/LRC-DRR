@@ -14,25 +14,25 @@
         android:layout_marginTop="30dp"
         app:cardCornerRadius="60dp">
 
-        <ImageView
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:layout_gravity="center"
-            android:src="@drawable/profile"/>
+    <ImageView
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_gravity="center"
+        android:src="@drawable/profile"/>
     </com.google.android.material.card.MaterialCardView>
 
     <TextView
-        android:id="@+id/disp_sName"
+        android:id="@+id/disp_sName_admin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:padding="5dp"
-        android:text="User's Name"
+        android:text="Admin Name"
         android:textColor="@color/white"
         android:textSize="18sp" />
 
     <TextView
-        android:id="@+id/sNum"
+        android:id="@+id/sNum_admin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"

@@ -13,8 +13,32 @@
         android:theme="@style/Theme.LRCDR"
         tools:targetApi="31">
         <activity
+            android:name=".admin.AdminHistoryDetails"
+            android:exported="false" />
+        <activity
+            android:name=".admin.AdminUpdateStatusActivity"
+            android:exported="false" />
+        <activity
+            android:name=".admin.UpcomingReservationDetailsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".admin.AdminReservationHistoryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".admin.AdminReservationsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".admin.AdminHomepage"
+            android:exported="false" />
+        <activity
+            android:name=".admin_main_drawer_header"
+            android:exported="false" />
+        <activity
+            android:name=".admin.AdminDrawerBaseActivity"
+            android:exported="false" />
+        <activity
             android:name=".SplashActivity"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -41,7 +65,7 @@
             android:exported="false" />
         <activity
             android:name=".users.Reserve"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".users.DrawerBaseActivity"
             android:exported="false" />
@@ -49,4 +73,5 @@
             android:name=".Login"
             android:exported="false" />
     </application>
+
 </manifest>

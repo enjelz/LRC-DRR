@@ -1,4 +1,4 @@
-package com.example.lrcd_r.users
+package com.example.lrcd_r.admin
 
 import android.content.Intent
 import android.view.MenuItem
@@ -13,33 +13,33 @@ import com.example.lrcd_r.Login
 import com.example.lrcd_r.R
 import com.google.android.material.navigation.NavigationView
 
-open class DrawerBaseActivity : AppCompatActivity(),
+open class AdminDrawerBaseActivity : AppCompatActivity(),
     NavigationView.OnNavigationItemSelectedListener {
 
     private lateinit var toolbar: Toolbar
     private lateinit var drawerLayout: DrawerLayout
 
     override fun setContentView(layoutResID: Int) {
-        super.setContentView(R.layout.activity_drawer_base) // Your base layout
-        val contentFrame = findViewById<FrameLayout>(R.id.activityContainer) // Placeholder
+        super.setContentView(R.layout.activity_admin_drawer_base) // Your base layout
+        val contentFrame = findViewById<FrameLayout>(R.id.activityContainer_admin) // Placeholder
         layoutInflater.inflate(
             layoutResID,
             contentFrame,
             true
         ) // Inflate child layout into placeholder
 
-        toolbar = findViewById(R.id.toolbars)
+        toolbar = findViewById(R.id.toolbar_admin)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
         val toolbarLayout = layoutInflater.inflate(R.layout.toolbar_layout, null)
         toolbar.addView(toolbarLayout) //inflate the logo sa toolbar
 
-        menuInflater.inflate(R.menu.main_drawer_menu, toolbar.menu)
+        menuInflater.inflate(R.menu.admin_main_drawer_menu, toolbar.menu)
 
-        drawerLayout = findViewById(R.id.drawerLayout) // Initialize drawerLayout
+        drawerLayout = findViewById(R.id.drawerLayout_admin) // Initialize drawerLayout not done
 
-        val navigationView = drawerLayout.findViewById<NavigationView>(R.id.nav_view)
+        val navigationView = drawerLayout.findViewById<NavigationView>(R.id.nav_view_admin)
         navigationView.setNavigationItemSelectedListener(this)
 
         val toggle = ActionBarDrawerToggle(
@@ -57,12 +57,12 @@ open class DrawerBaseActivity : AppCompatActivity(),
         drawerLayout.closeDrawer(GravityCompat.START)
 
         when (item.itemId) {
-            R.id.nav_reserve -> {
-                startActivity(Intent(this, Reserve::class.java))
+            R.id.nav_availability_admin -> {
+                startActivity(Intent(this, AdminHomepage::class.java))
                 overridePendingTransition(0, 0)
             }
-            R.id.nav_reservations -> {
-                startActivity(Intent(this, ReservationsActivity::class.java))
+            R.id.nav_reservations_admin -> {
+                startActivity(Intent(this, AdminReservationsActivity::class.java))
                 overridePendingTransition(0, 0)
             }
         }

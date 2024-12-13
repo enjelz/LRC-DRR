@@ -13,51 +13,38 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginHorizontal="30dp"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="15dp"
-            android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/formtitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Confirmation"
-                android:textColor="@color/black"
-                android:textSize="30sp"
-                android:textStyle="bold" />
-
-        </LinearLayout>
-
-        <LinearLayout
+        <TextView
+            android:id="@+id/formtitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent">
+            android:layout_marginTop="15dp"
+            android:text="Confirmation"
+            android:textColor="@color/black"
+            android:textSize="30sp"
+            android:textStyle="bold" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Please confirm the following details:"
-                android:textColor="@color/black"
-                android:textSize="15sp"
-                android:textStyle="italic" />
-        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Please confirm the following details:"
+            android:textColor="@color/black"
+            android:textSize="17sp"
+            android:textStyle="italic" />
+
 
         <LinearLayout
-            android:layout_width="350dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="30dp"
             android:orientation="vertical">
 
             <androidx.cardview.widget.CardView
-                android:layout_width="350dp"
+                android:layout_width="match_parent"
                 android:layout_height="37dp"
                 android:textAlignment="center"
                 app:cardBackgroundColor="#927d52">
@@ -79,9 +66,8 @@
                 app:cardBackgroundColor="#161F48">
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="20dp"
                     android:orientation="vertical">
 
                     <LinearLayout
@@ -97,6 +83,7 @@
                             android:layout_marginStart="20dp"
                             android:text="Name:"
                             android:textColor="@color/white"
+                            android:textSize="17sp"
                             android:textStyle="bold" />
 
                         <TextView
@@ -105,7 +92,8 @@
                             android:layout_height="match_parent"
                             android:layout_marginLeft="10dp"
                             android:text="Drilon, Alexis T."
-                            android:textColor="@color/white" />
+                            android:textColor="@color/white"
+                            android:textSize="17sp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -120,6 +108,7 @@
                             android:layout_marginStart="20dp"
                             android:text="Student"
                             android:textColor="@color/white"
+                            android:textSize="17sp"
                             android:textStyle="bold" />
                     </LinearLayout>
 
@@ -135,6 +124,7 @@
                             android:layout_marginStart="20dp"
                             android:text="College:"
                             android:textColor="@color/white"
+                            android:textSize="17sp"
                             android:textStyle="bold" />
 
                         <TextView
@@ -143,7 +133,8 @@
                             android:layout_height="match_parent"
                             android:layout_marginLeft="10dp"
                             android:text="SET"
-                            android:textColor="@color/white" />
+                            android:textColor="@color/white"
+                            android:textSize="17sp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -158,6 +149,7 @@
                             android:layout_marginStart="20dp"
                             android:text="ID No.:"
                             android:textColor="@color/white"
+                            android:textSize="17sp"
                             android:textStyle="bold" />
 
                         <TextView
@@ -166,7 +158,8 @@
                             android:layout_height="match_parent"
                             android:layout_marginLeft="10dp"
                             android:text="2023-132334"
-                            android:textColor="@color/white" />
+                            android:textColor="@color/white"
+                            android:textSize="17sp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -182,6 +175,7 @@
                             android:layout_marginBottom="20dp"
                             android:text="Contact No.:"
                             android:textColor="@color/white"
+                            android:textSize="17sp"
                             android:textStyle="bold" />
 
                         <TextView
@@ -190,7 +184,8 @@
                             android:layout_height="match_parent"
                             android:layout_marginLeft="10dp"
                             android:text="09054949422"
-                            android:textColor="@color/white" />
+                            android:textColor="@color/white"
+                            android:textSize="17sp" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -200,14 +195,14 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
+            android:layout_marginTop="20dp"
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
             <androidx.cardview.widget.CardView
-                android:layout_width="350dp"
+                android:layout_width="match_parent"
                 android:layout_height="37dp"
                 android:textAlignment="center"
                 app:cardBackgroundColor="#927d52">
@@ -226,10 +221,11 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
                 app:cardBackgroundColor="#161F48">
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
@@ -246,6 +242,7 @@
                             android:layout_marginStart="20dp"
                             android:text="Date Requested:"
                             android:textColor="@color/white"
+                            android:textSize="17sp"
                             android:textStyle="bold" />
 
                         <TextView
@@ -254,7 +251,8 @@
                             android:layout_height="match_parent"
                             android:layout_marginLeft="10dp"
                             android:text="Nov. 20, 2024"
-                            android:textColor="@color/white" />
+                            android:textColor="@color/white"
+                            android:textSize="17sp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -269,6 +267,7 @@
                             android:layout_marginStart="20dp"
                             android:text="Purpose/Activity:"
                             android:textColor="@color/white"
+                            android:textSize="17sp"
                             android:textStyle="bold" />
 
                         <TextView
@@ -277,7 +276,8 @@
                             android:layout_height="match_parent"
                             android:layout_marginLeft="10dp"
                             android:text="Group meeting"
-                            android:textColor="@color/white" />
+                            android:textColor="@color/white"
+                            android:textSize="17sp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -292,6 +292,7 @@
                             android:layout_marginStart="20dp"
                             android:text="Schedule:"
                             android:textColor="@color/white"
+                            android:textSize="17sp"
                             android:textStyle="bold" />
 
                         <LinearLayout
@@ -305,7 +306,8 @@
                                 android:layout_height="match_parent"
                                 android:layout_marginLeft="10dp"
                                 android:text="Nov. 25, 2024"
-                                android:textColor="@color/white" />
+                                android:textColor="@color/white"
+                                android:textSize="17sp" />
 
                             <TextView
 
@@ -314,7 +316,8 @@
                                 android:layout_height="match_parent"
                                 android:layout_marginLeft="10dp"
                                 android:text="1:00pm - 5:00pm (4hrs)"
-                                android:textColor="@color/white" />
+                                android:textColor="@color/white"
+                                android:textSize="17sp" />
 
                             <TextView
                                 android:id="@+id/val_schedRoom"
@@ -322,7 +325,8 @@
                                 android:layout_height="match_parent"
                                 android:layout_marginLeft="10dp"
                                 android:text="Room No. 2 and 3 (2 rooms)"
-                                android:textColor="@color/white" />
+                                android:textColor="@color/white"
+                                android:textSize="17sp" />
                         </LinearLayout>
                     </LinearLayout>
 
@@ -338,6 +342,7 @@
                             android:layout_marginStart="20dp"
                             android:text="No. of table/s:"
                             android:textColor="@color/white"
+                            android:textSize="17sp"
                             android:textStyle="bold" />
 
                         <TextView
@@ -346,7 +351,8 @@
                             android:layout_height="match_parent"
                             android:layout_marginLeft="10dp"
                             android:text="1"
-                            android:textColor="@color/white" />
+                            android:textColor="@color/white"
+                            android:textSize="17sp" />
 
                     </LinearLayout>
 
@@ -363,6 +369,7 @@
                             android:layout_marginBottom="20dp"
                             android:text="No. of chair/s:"
                             android:textColor="@color/white"
+                            android:textSize="17sp"
                             android:textStyle="bold" />
 
                         <TextView
@@ -371,7 +378,8 @@
                             android:layout_height="match_parent"
                             android:layout_marginLeft="10dp"
                             android:text="6"
-                            android:textColor="@color/white" />
+                            android:textColor="@color/white"
+                            android:textSize="17sp" />
                     </LinearLayout>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
@@ -380,27 +388,29 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="35dp"
+            android:layout_marginTop="150dp"
             android:gravity="center_horizontal"
             android:orientation="horizontal">
 
             <Button
                 android:id="@+id/confirmation_btn_edit"
-                android:layout_width="100dp"
-                android:layout_height="45dp"
+                android:layout_width="125dp"
+                android:layout_height="60dp"
                 android:backgroundTint="#161f48"
                 android:text="Edit"
+                android:textSize="16sp"
                 app:cornerRadius="10dp" />
 
             <Button
                 android:id="@+id/confirmation_btn_confirmation"
-                android:layout_width="wrap_content"
-                android:layout_height="45dp"
+                android:layout_width="125dp"
+                android:layout_height="60dp"
                 android:layout_marginLeft="15dp"
                 android:backgroundTint="#927d52"
+                android:onClick="btn_confirmation_confirm"
                 android:text="Confirm"
-                app:cornerRadius="10dp"
-                android:onClick="btn_confirmation_confirm"/>
+                android:textSize="16sp"
+                app:cornerRadius="10dp" />
         </LinearLayout>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

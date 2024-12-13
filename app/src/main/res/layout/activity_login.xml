@@ -27,62 +27,60 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="25dp"
+                android:layout_marginStart="35dp"
                 android:text="Login"
                 android:textColor="@color/black"
-                android:textSize="30dp"
+                android:textSize="30sp"
                 android:textStyle="bold"/>
 
 
             <EditText
-                android:id="@+id/login_username"
-                android:layout_width="363dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
+                android:id="@+id/txtEmail"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/custom_edittext"
-                android:drawablePadding="8dp"
                 android:hint="Email"
-                android:padding="8dp"
-                android:textColor="@color/black"
-                android:textColorHighlight="@color/cardview_dark_background" />
+                android:padding="15dp"
+                android:textColor="@color/black" />
 
             <EditText
-                android:id="@+id/login_password"
-                android:layout_width="363dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
+                android:id="@+id/txtPass"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginStart ="30dp"
+                android:layout_marginEnd="30dp"
                 android:layout_marginTop="15dp"
                 android:background="@drawable/custom_edittext"
-                android:drawablePadding="8dp"
                 android:hint="Password"
                 android:inputType="textPassword"
-                android:padding="8dp"
-                android:textColor="@color/black"
-                android:textColorHighlight="@color/cardview_dark_background" />
+                android:padding="15dp"
+                android:textColor="@color/black" />
 
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="63dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <CheckBox
                 android:id="@+id/remember_me_loginpage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="21dp"
+                android:layout_marginStart="30dp"
                 android:text="Remember Me"
                 android:textColor="@color/black">
 
             </CheckBox>
 
             <TextView
-                android:id="@+id/forgot_password"
+                android:id="@+id/forgotPass"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="110dp"
+                android:layout_marginStart="110dp"
                 android:text="Forgot Password?"
                 android:textColor="@color/black">
 
@@ -105,17 +103,18 @@
         android:layout_height="91dp"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.049"
+        app:layout_constraintHorizontal_bias="0.052"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.16"
+        app:layout_constraintVertical_bias="0.327"
         app:srcCompat="@drawable/nu_logo2" />
 
     <Button
         android:id="@+id/loginButton"
         android:layout_width="178dp"
-        android:layout_height="45dp"
+        android:layout_height="50dp"
         android:backgroundTint="@color/black"
+        android:onClick="login"
         android:text="LOGIN"
         android:textColor="@color/white"
         android:textSize="15sp"
@@ -125,8 +124,7 @@
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-        app:layout_constraintVertical_bias="0.032"
-        android:onClick="login"/>
+        app:layout_constraintVertical_bias="0.134" />
 
     <ImageView
         android:id="@+id/dr_logo_loginpage"

@@ -5,6 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/bg_white"
     tools:context=".users.ReceiptActivity">
 
     <LinearLayout
@@ -15,7 +16,7 @@
         tools:layout_editor_absoluteY="0dp">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="60dp"
             android:orientation="vertical">
@@ -24,7 +25,7 @@
                 android:id="@+id/receipt_text1"
                 android:layout_width="301dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="55dp"
+                android:layout_gravity="center_horizontal"
                 android:layout_marginTop="120dp"
                 android:text="You have reserved a discussion room successfully!"
                 android:textAlignment="center"
@@ -35,7 +36,7 @@
                 android:id="@+id/receipt_text2"
                 android:layout_width="374dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
+                android:layout_gravity="center_horizontal"
                 android:layout_marginTop="20dp"
                 android:text="You may now proceed to the NU Fairview LRC on your scheduled date and time. Present your REFERENCE NUMBER to the librarian upon visiting. Thank you."
                 android:textAlignment="center"
@@ -45,7 +46,7 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="350dp"
                 android:layout_height="37dp"
-                android:layout_marginStart="30dp"
+                android:layout_gravity="center_horizontal"
                 android:layout_marginTop="30dp"
                 app:cardBackgroundColor="#927d52">
 
@@ -64,7 +65,7 @@
                 android:id="@+id/receipt_reference_number_container"
                 android:layout_width="350dp"
                 android:layout_height="76dp"
-                android:layout_marginStart="30dp"
+                android:layout_gravity="center_horizontal"
                 app:cardBackgroundColor="#161f48">
 
                 <TextView
@@ -82,12 +83,13 @@
 
         <Button
             android:id="@+id/receipt_button_home"
-            android:layout_width="100dp"
-            android:layout_height="45dp"
-            android:layout_marginStart="160dp"
-            android:layout_marginTop="100dp"
+            android:layout_width="150dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="250dp"
             android:backgroundTint="#161f48"
             android:text="Home"
+            android:textSize="16sp"
             app:cornerRadius="10dp"
             android:onClick="btn_receipt_home"/>
 
