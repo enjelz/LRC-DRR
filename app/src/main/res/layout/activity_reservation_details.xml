@@ -415,11 +415,30 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
+        <androidx.cardview.widget.CardView
+            android:id="@+id/reservationCancelled"
+            android:layout_width="350dp"
+            android:layout_height="76dp"
+            android:layout_marginTop="10dp"
+            app:cardBackgroundColor="@color/cancel"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/res_cancelled"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp"
+                android:text="CANCELLED"
+                android:textColor="@color/white"
+                android:textSize="25sp"
+                android:textStyle="bold" />
+        </androidx.cardview.widget.CardView>
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="90dp">
+                android:orientation="horizontal">
 
                 <Button
                     android:id="@+id/reminders_button_back"
@@ -433,7 +452,7 @@
                     android:onClick="btn_reservation_details_back"/>
 
                 <Button
-                    android:id="@+id/reminders_button_reserve"
+                    android:id="@+id/btn_cancel_reservation"
                     android:layout_width="wrap_content"
                     android:layout_height="60dp"
                     android:layout_marginLeft="5dp"
@@ -441,7 +460,8 @@
                     android:backgroundTint="#927d52"
                     android:text="Cancel Reservation"
                     android:textSize="16sp"
-                    app:cornerRadius="10dp" />
+                    app:cornerRadius="10dp"
+                    android:onClick="btn_reservation_cancel"/>
             </LinearLayout>
     </LinearLayout>
 

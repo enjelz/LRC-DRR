@@ -1,8 +1,10 @@
 package com.example.lrcd_r
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.SpannableString
+import android.text.style.ClickableSpan
 import android.text.style.UnderlineSpan
 import android.view.View
 import android.widget.EditText
@@ -11,6 +13,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.example.lrcd_r.admin.AdminHomepage
 import com.example.lrcd_r.databinding.ActivityLoginBinding
+import com.example.lrcd_r.users.ReservationDetailsActivity
 import com.example.lrcd_r.users.Reserve
 
 class Login : AppCompatActivity() {
@@ -24,17 +27,44 @@ class Login : AppCompatActivity() {
         loginBinding = ActivityLoginBinding.inflate(layoutInflater)
         enableEdgeToEdge()
 
+        //forgot password span
         val forgotPasswordTextView = findViewById<TextView>(R.id.forgotPass)
         val forgotPasswordText = forgotPasswordTextView.text.toString()
         val spannableString = SpannableString(forgotPasswordText)
         spannableString.setSpan(UnderlineSpan(), 0, forgotPasswordText.length, 0)
         forgotPasswordTextView.text = spannableString
 
+        //getting txt from email input field
         txtEmail = findViewById(R.id.txtEmail)
-    }
-    fun login(view: View) {
 
+        //signup span "Don't have an account?"
+        val spanSignup = findViewById<TextView>(R.id.spanSignup)
+        val spanToString = spanSignup.text.toString()
+        val spannableStringSignup = SpannableString(spanToString)
+
+        val clickableSpan = object : ClickableSpan() {
+            override fun onClick(widget: View) {
+                // Start the LoginActivity
+                val intent = Intent(this@Login, signup::class.java)
+                startActivity(intent)
+            }
+        }
+        spannableStringSignup.setSpan(clickableSpan, 0, spanToString.length, 0)
+        spannableStringSignup.setSpan(UnderlineSpan(), 0, spanToString.length, 0)
+
+        spanSignup.text = spannableStringSignup
+        spanSignup.movementMethod = android.text.method.LinkMovementMethod.getInstance()
+    }
+
+    //this is for login button
+    fun login(view: View) {
         val email = txtEmail.text.toString()
+
+        // Clear SharedPreferences here
+        val sharedPreferences = getSharedPreferences("visibility_prefs", Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.clear()
+        editor.apply()
 
         if (email == "admin") {
             val intent = Intent(this, AdminHomepage::class.java)
@@ -43,5 +73,6 @@ class Login : AppCompatActivity() {
             val intent = Intent(this, Reserve::class.java)
             startActivity(intent)
         }
+
     }
 }

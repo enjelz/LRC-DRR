@@ -8,10 +8,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="PLACEHOLDER" />
-                  <option name="mobileSdkAppId" value="" />
-                  <option name="projectId" value="" />
-                  <option name="projectNumber" value="" />
+                  <option name="appId" value="com.example.lrcd_r" />
+                  <option name="mobileSdkAppId" value="1:561537563314:android:3b96e8f97de4a2e890a7ab" />
+                  <option name="projectId" value="lrc-d-r-reservation-system" />
+                  <option name="projectNumber" value="561537563314" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />

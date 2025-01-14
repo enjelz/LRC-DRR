@@ -1,8 +1,10 @@
 package com.example.lrcd_r.admin
 
+import android.app.Dialog
 import android.content.Intent
 import android.view.MenuItem
 import android.view.View
+import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
@@ -18,6 +20,7 @@ open class AdminDrawerBaseActivity : AppCompatActivity(),
 
     private lateinit var toolbar: Toolbar
     private lateinit var drawerLayout: DrawerLayout
+    lateinit var dialog4: Dialog
 
     override fun setContentView(layoutResID: Int) {
         super.setContentView(R.layout.activity_admin_drawer_base) // Your base layout
@@ -51,6 +54,14 @@ open class AdminDrawerBaseActivity : AppCompatActivity(),
         )
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
+
+        //inflating dialog box
+        dialog4 = Dialog(this)
+        dialog4.setContentView(R.layout.dialog_logout)
+        dialog4.getWindow()
+            ?.setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        dialog4.getWindow()?.setBackgroundDrawable(getDrawable(R.drawable.dialog_box))
+        dialog4.setCancelable(false)
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
@@ -70,7 +81,16 @@ open class AdminDrawerBaseActivity : AppCompatActivity(),
     }
 
     fun btnLogout(view: View) {
+        dialog4.show()
+    }
+
+    fun btnLogoutYes(view: View) {
+        dialog4.dismiss()
         startActivity(Intent(this, Login::class.java))
         overridePendingTransition(0, 0)
+    }
+
+    fun btnLogoutNo(view: View) {
+        dialog4.dismiss()
     }
 }

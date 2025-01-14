@@ -1,9 +1,11 @@
 package com.example.lrcd_r.admin
 
+import android.app.Dialog
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
@@ -16,6 +18,7 @@ class AdminUpdateStatusActivity : AdminDrawerBaseActivity() {
 
     private lateinit var adminUpdateStatusBinding: ActivityAdminUpdateStatusBinding
     private lateinit var reservationStatusSpinner: Spinner
+    lateinit var dialog3: Dialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,6 +68,14 @@ class AdminUpdateStatusActivity : AdminDrawerBaseActivity() {
 
             override fun onNothingSelected(parent: AdapterView<*>) {}
         }
+
+        //inflating dialog box
+        dialog3 = Dialog(this)
+        dialog3.setContentView(R.layout.dialog_admin_update_status)
+        dialog3.getWindow()
+            ?.setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        dialog3.getWindow()?.setBackgroundDrawable(getDrawable(R.drawable.dialog_box))
+        dialog3.setCancelable(false)
     }
 
     // Function to get the background color based on the selected status position
@@ -79,6 +90,19 @@ class AdminUpdateStatusActivity : AdminDrawerBaseActivity() {
     }
 
     fun R1Back (view: View) {
+        startActivity(Intent(this, AdminReservationsActivity::class.java))
+        overridePendingTransition(0, 0)
+    }
+    fun btnReservationUpdate(view: View) {
+        dialog3.show()
+    }
+
+    fun btnUpdateNo(view: View) {
+        dialog3.dismiss()
+    }
+
+    fun btnUpdateYes(view: View) {
+        dialog3.dismiss()
         startActivity(Intent(this, AdminReservationsActivity::class.java))
         overridePendingTransition(0, 0)
     }

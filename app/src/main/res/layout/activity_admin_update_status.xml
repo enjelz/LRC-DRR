@@ -524,15 +524,16 @@
                 app:cornerRadius="10dp" />
 
             <Button
-                android:id="@+id/reservation_status_button_done"
+                android:id="@+id/btnReservationUpdate"
                 android:layout_width="150dp"
                 android:layout_height="60dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginStart="15dp"
                 android:backgroundTint="@color/gold"
-                android:text="Done"
+                android:text="Update"
                 android:textSize="16sp"
-                app:cornerRadius="10dp" />
+                app:cornerRadius="10dp"
+                android:onClick="btnReservationUpdate"/>
 
         </LinearLayout>
 
