@@ -9,14 +9,19 @@
     tools:context=".users.RemindersActivity">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#E4E4E4"
-        android:orientation="vertical">
+        android:id="@+id/content_layout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/button_container"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="700dp"
             android:orientation="vertical">
 
             <TextView
@@ -243,34 +248,40 @@
 
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_gravity="bottom|center_horizontal"
-            android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/reminders_button_back"
-                android:layout_width="150dp"
-                android:layout_height="60dp"
-                android:backgroundTint="#161f48"
-                android:text="Back"
-                android:textSize="16sp"
-                app:cornerRadius="10dp" />
+    </LinearLayout>
 
-            <Button
-                android:id="@+id/reminders_button_reserve"
-                android:layout_width="150dp"
-                android:layout_height="60dp"
-                android:layout_marginLeft="5dp"
-                android:backgroundTint="#927d52"
-                android:onClick="btn_reminders_reserve"
-                android:text="Reserve"
-                android:textSize="16sp"
-                app:cornerRadius="10dp" />
+    <LinearLayout
+        android:id="@+id/button_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="30dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
-        </LinearLayout>
+        <Button
+            android:id="@+id/reminders_button_back"
+            android:layout_width="150dp"
+            android:layout_height="60dp"
+            android:backgroundTint="#161f48"
+            android:text="Back"
+            android:textSize="16sp"
+            app:cornerRadius="10dp" />
+
+        <Button
+            android:id="@+id/reminders_button_reserve"
+            android:layout_width="150dp"
+            android:layout_height="60dp"
+            android:layout_marginLeft="5dp"
+            android:backgroundTint="#927d52"
+            android:onClick="btn_reminders_reserve"
+            android:text="Reserve"
+            android:textSize="16sp"
+            app:cornerRadius="10dp" />
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
