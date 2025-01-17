@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "561537563314",
-    "project_id": "lrc-d-r-reservation-system",
-    "storage_bucket": "lrc-d-r-reservation-system.firebasestorage.app"
+    "project_number": "745124686183",
+    "project_id": "lrc-d-rr",
+    "storage_bucket": "lrc-d-rr.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:561537563314:android:3b96e8f97de4a2e890a7ab",
+        "mobilesdk_app_id": "1:745124686183:android:1886fed916b339c000a7c2",
         "android_client_info": {
           "package_name": "com.example.lrcd_r"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyD2DoPXkuNZCx4ncOAJw8CaloTkMl2K9AE"
+          "current_key": "AIzaSyAftZtSfMU3XueMAYCMfWvza4r4Scw9JaM"
         }
       ],
       "services": {

@@ -9,17 +9,22 @@ import android.text.style.UnderlineSpan
 import android.view.View
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.example.lrcd_r.admin.AdminHomepage
 import com.example.lrcd_r.databinding.ActivityLoginBinding
 import com.example.lrcd_r.users.ReservationDetailsActivity
 import com.example.lrcd_r.users.Reserve
+import com.google.firebase.auth.FirebaseAuth
 
 class Login : AppCompatActivity() {
 
+
+    private lateinit var firebaseAuth: FirebaseAuth
     lateinit var loginBinding: ActivityLoginBinding
     lateinit var txtEmail: EditText
+    lateinit var txtPass: EditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,15 +32,13 @@ class Login : AppCompatActivity() {
         loginBinding = ActivityLoginBinding.inflate(layoutInflater)
         enableEdgeToEdge()
 
-        //forgot password span
-        val forgotPasswordTextView = findViewById<TextView>(R.id.forgotPass)
-        val forgotPasswordText = forgotPasswordTextView.text.toString()
-        val spannableString = SpannableString(forgotPasswordText)
-        spannableString.setSpan(UnderlineSpan(), 0, forgotPasswordText.length, 0)
-        forgotPasswordTextView.text = spannableString
+
+        firebaseAuth = FirebaseAuth.getInstance()
+
 
         //getting txt from email input field
         txtEmail = findViewById(R.id.txtEmail)
+        txtPass = findViewById(R.id.txtPass)
 
         //signup span "Don't have an account?"
         val spanSignup = findViewById<TextView>(R.id.spanSignup)
@@ -58,20 +61,40 @@ class Login : AppCompatActivity() {
 
     //this is for login button
     fun login(view: View) {
-        val email = txtEmail.text.toString()
-
+//        val email = txtEmail.text.toString()
+//
         // Clear SharedPreferences here
         val sharedPreferences = getSharedPreferences("visibility_prefs", Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
         editor.clear()
         editor.apply()
+//
+//        if (email == "admin") {
+//            val intent = Intent(this, AdminHomepage::class.java)
+//            startActivity(intent)
+//        } else {
+//            val intent = Intent(this, Reserve::class.java)
+//            startActivity(intent)
+//        }
 
-        if (email == "admin") {
-            val intent = Intent(this, AdminHomepage::class.java)
-            startActivity(intent)
+        //firebase
+        val emailFirebase = txtEmail.text.toString()
+        val password = txtPass.text.toString()
+
+        if (emailFirebase.isNotEmpty() && password.isNotEmpty()) {
+            firebaseAuth.signInWithEmailAndPassword(emailFirebase, password)
+                .addOnCompleteListener(this) { task ->
+                    if (task.isSuccessful) {
+                        Toast.makeText(this, "Login Successful", Toast.LENGTH_SHORT).show()
+                        val intent = Intent(this, Reserve::class.java)
+                        startActivity(intent)
+                        finish()
+                    } else {
+                        Toast.makeText(this, "Login Failed", Toast.LENGTH_SHORT).show()
+                    }
+                }
         } else {
-            val intent = Intent(this, Reserve::class.java)
-            startActivity(intent)
+            Toast.makeText(this, "Fields cannot be empty", Toast.LENGTH_SHORT).show()
         }
 
     }

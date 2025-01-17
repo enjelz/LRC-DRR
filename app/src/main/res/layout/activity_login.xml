@@ -62,28 +62,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <CheckBox
-                    android:id="@+id/remember_me_loginpage"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="30dp"
-                    android:text="Remember Me"
-                    android:textColor="@color/black">
-
-                </CheckBox>
-
-                <TextView
-                    android:id="@+id/forgotPass"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="110dp"
-                    android:text="Forgot Password?"
-                    android:textColor="@color/black">
-
-                </TextView>
-            </LinearLayout>
+                android:orientation="horizontal"/>
 
         </LinearLayout>
 
