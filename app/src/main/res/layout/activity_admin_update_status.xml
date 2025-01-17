@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
@@ -15,10 +15,11 @@
         android:orientation="vertical">
 
         <androidx.cardview.widget.CardView
-            android:layout_width="350dp"
+            android:layout_width="match_parent"
             android:layout_height="37dp"
-            android:layout_gravity="center_horizontal"
+            android:layout_marginStart="21dp"
             android:layout_marginTop="30dp"
+            android:layout_marginEnd="21dp"
             app:cardBackgroundColor="#927d52">
 
             <TextView
@@ -35,9 +36,10 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/reminders_cardview_typing_area"
-            android:layout_width="350dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
+            android:layout_marginStart="21dp"
+            android:layout_marginEnd="21dp"
             app:cardBackgroundColor="#161f48">
 
             <LinearLayout
@@ -378,10 +380,11 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/reservation_details_date_status_cardview_area"
-            android:layout_width="350dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
+            android:layout_marginStart="21dp"
             android:layout_marginTop="15dp"
+            android:layout_marginEnd="21dp"
             app:cardBackgroundColor="#161f48">
 
             <LinearLayout
@@ -490,7 +493,7 @@
                     <Spinner
                         android:id="@+id/reservation_status_spinner"
                         android:layout_width="250dp"
-                        android:layout_height="40dp"
+                        android:layout_height="50dp"
                         android:layout_marginStart="8dp"
                         android:background="@android:color/transparent"
                         android:entries="@array/status_options"
@@ -509,7 +512,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginBottom="20dp"
             android:orientation="horizontal">
 
             <Button
@@ -527,16 +531,16 @@
                 android:id="@+id/btnReservationUpdate"
                 android:layout_width="150dp"
                 android:layout_height="60dp"
-                android:layout_marginTop="10dp"
                 android:layout_marginStart="15dp"
+                android:layout_marginTop="10dp"
                 android:backgroundTint="@color/gold"
+                android:onClick="btnReservationUpdate"
                 android:text="Update"
                 android:textSize="16sp"
-                app:cornerRadius="10dp"
-                android:onClick="btnReservationUpdate"/>
+                app:cornerRadius="10dp" />
 
         </LinearLayout>
 
     </LinearLayout>
 
-</LinearLayout>
+</ScrollView>

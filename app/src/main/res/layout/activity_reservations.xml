@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
@@ -10,68 +10,75 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="0dp">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:fontFamily="sans-serif-medium"
+            android:text="Your Reservations"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="italic" />
 
-        <LinearLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/textView"
+            <LinearLayout
+                android:id="@+id/Reservation1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
-                android:layout_marginTop="20dp"
-                android:fontFamily="sans-serif-medium"
-                android:text="Your Reservations"
-                android:textColor="@color/black"
-                android:textSize="20dp"
-                android:textStyle="italic" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:id="@+id/Reservation1">
+                android:layout_marginEnd="20dp"
+                android:orientation="vertical">
 
                 <androidx.cardview.widget.CardView
-                    android:layout_width="330dp"
-                    android:layout_height="50dp"
-                    android:layout_marginStart="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
                     android:layout_marginTop="15dp"
                     app:cardBackgroundColor="#12264D"
-                    app:cardCornerRadius="1dp">
+                    app:cardCornerRadius="8dp">
 
-                    <TextView
-                        android:id="@+id/textView4"
-                        android:layout_width="324dp"
+                    <!-- Layout Inside CardView -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginStart="10dp"
-                        android:fontFamily="sans-serif-medium"
-                        android:text="Reference Number: LRCDR-00001"
-                        android:textColor="@color/white"
-                        android:textSize="16dp" />
-                </androidx.cardview.widget.CardView>
+                        android:orientation="horizontal">
 
-                <ImageView
-                    android:id="@+id/imageView"
-                    android:layout_width="40dp"
-                    android:layout_height="50dp"
-                    android:layout_marginStart="-1dp"
-                    android:layout_marginTop="15dp"
-                    android:background="@drawable/button_background"
-                    android:padding="8dp"
-                    android:scaleType="centerCrop"
-                    app:srcCompat="@drawable/arrow"
-                    app:tint="@color/white"
-                    android:onClick="reservations"/>
+                        <!-- TextView for Reference Number -->
+                        <TextView
+                            android:id="@+id/textView4"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="10dp"
+                            android:fontFamily="sans-serif-medium"
+                            android:text="Reference Number: LRCDR-00001"
+                            android:textColor="@color/white"
+                            android:textSize="16sp" />
+
+                        <!-- ImageView Inside CardView -->
+                        <ImageView
+                            android:id="@+id/imageView"
+                            android:layout_width="45dp"
+                            android:layout_height="45dp"
+                            android:layout_gravity="center"
+                            android:background="@drawable/button_background"
+                            android:onClick="reservations"
+                            android:padding="8dp"
+                            android:scaleType="centerCrop"
+                            app:srcCompat="@drawable/arrow"
+                            app:tint="@color/white" />
+
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
             </LinearLayout>
-        </LinearLayout>
+        </ScrollView>
     </LinearLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>
