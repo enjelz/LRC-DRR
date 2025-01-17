@@ -6,6 +6,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -20,6 +21,7 @@ open class DrawerBaseActivity : AppCompatActivity(),
 
     private lateinit var toolbar: Toolbar
     private lateinit var drawerLayout: DrawerLayout
+    private lateinit var navigationView: NavigationView
     lateinit var dialog2: Dialog
 
     override fun setContentView(layoutResID: Int) {
@@ -41,8 +43,7 @@ open class DrawerBaseActivity : AppCompatActivity(),
         menuInflater.inflate(R.menu.main_drawer_menu, toolbar.menu)
 
         drawerLayout = findViewById(R.id.drawerLayout) // Initialize drawerLayout
-
-        val navigationView = drawerLayout.findViewById<NavigationView>(R.id.nav_view)
+        navigationView = findViewById(R.id.nav_view)
         navigationView.setNavigationItemSelectedListener(this)
 
         val toggle = ActionBarDrawerToggle(
@@ -88,6 +89,7 @@ open class DrawerBaseActivity : AppCompatActivity(),
 
     fun btnLogoutYes(view: View) {
         dialog2.dismiss()
+        Toast.makeText(this, "Logout Succesfull", Toast.LENGTH_SHORT).show()
         startActivity(Intent(this, Login::class.java))
         overridePendingTransition(0, 0)
     }

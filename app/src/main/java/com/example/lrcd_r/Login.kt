@@ -85,10 +85,17 @@ class Login : AppCompatActivity() {
             firebaseAuth.signInWithEmailAndPassword(emailFirebase, password)
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
-                        Toast.makeText(this, "Login Successful", Toast.LENGTH_SHORT).show()
-                        val intent = Intent(this, Reserve::class.java)
-                        startActivity(intent)
-                        finish()
+                        if(emailFirebase == "admin@gmail.com"){
+                            Toast.makeText(this, "Welcome, Admin!", Toast.LENGTH_SHORT).show()
+                            val intent = Intent(this, AdminHomepage::class.java)
+                            startActivity(intent)
+                            finish()
+                        } else {
+                            Toast.makeText(this, "Login Successful!", Toast.LENGTH_SHORT).show()
+                            val intent = Intent(this, Reserve::class.java)
+                            startActivity(intent)
+                            finish()
+                        }
                     } else {
                         Toast.makeText(this, "Login Failed", Toast.LENGTH_SHORT).show()
                     }

@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.cardview.widget.CardView
 import com.example.lrcd_r.R
@@ -56,7 +57,6 @@ class ReservationDetailsActivity : DrawerBaseActivity() {
 
     fun btnCancelYesClicked(view: View) {
         dialog1.dismiss()
-
         // Save visibility states in SharedPreferences
         val editor = sharedPreferences.edit()
         editor.putBoolean("cardViewVisible", true)

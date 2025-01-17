@@ -6,6 +6,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -86,6 +87,7 @@ open class AdminDrawerBaseActivity : AppCompatActivity(),
 
     fun btnLogoutYes(view: View) {
         dialog4.dismiss()
+        Toast.makeText(this, "Logout Successful", Toast.LENGTH_SHORT).show()
         startActivity(Intent(this, Login::class.java))
         overridePendingTransition(0, 0)
     }

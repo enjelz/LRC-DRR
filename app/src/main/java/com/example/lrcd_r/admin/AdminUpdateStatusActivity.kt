@@ -10,6 +10,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import com.example.lrcd_r.R
 import com.example.lrcd_r.databinding.ActivityAdminUpdateStatusBinding
@@ -103,6 +104,7 @@ class AdminUpdateStatusActivity : AdminDrawerBaseActivity() {
 
     fun btnUpdateYes(view: View) {
         dialog3.dismiss()
+        Toast.makeText(this, "Status Updated!", Toast.LENGTH_SHORT).show()
         startActivity(Intent(this, AdminReservationsActivity::class.java))
         overridePendingTransition(0, 0)
     }
