@@ -90,7 +90,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_marginLeft="10dp"
-                            android:text="Drilon, Alexis T."
+                            android:text="Artiaga, Angel Reign"
                             android:textColor="@color/white"
                             android:textSize="17sp" />
                     </LinearLayout>
@@ -156,7 +156,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_marginLeft="10dp"
-                            android:text="2023-132334"
+                            android:text="2023-132332"
                             android:textColor="@color/white"
                             android:textSize="17sp" />
                     </LinearLayout>
@@ -180,9 +180,10 @@
                         <TextView
                             android:id="@+id/val_contact"
                             android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="20dp"
                             android:layout_marginLeft="10dp"
-                            android:text="09054949422"
+                            android:text="09271129719"
                             android:textColor="@color/white"
                             android:textSize="17sp" />
                     </LinearLayout>
@@ -304,7 +305,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
                                 android:layout_marginLeft="10dp"
-                                android:text="Nov. 25, 2024"
+                                android:text="Wednesday, January 22"
                                 android:textColor="@color/white"
                                 android:textSize="17sp" />
 
@@ -349,7 +350,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_marginLeft="10dp"
-                            android:text="1"
+                            android:text="2"
                             android:textColor="@color/white"
                             android:textSize="17sp" />
 
@@ -376,7 +377,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_marginLeft="10dp"
-                            android:text="6"
+                            android:text="12"
                             android:textColor="@color/white"
                             android:textSize="17sp" />
                     </LinearLayout>
@@ -398,7 +399,8 @@
                 android:backgroundTint="#161f48"
                 android:text="Edit"
                 android:textSize="16sp"
-                app:cornerRadius="10dp" />
+                app:cornerRadius="10dp"
+                android:onClick="edit_confirmation_details"/>
 
             <Button
                 android:id="@+id/confirmation_btn_confirmation"

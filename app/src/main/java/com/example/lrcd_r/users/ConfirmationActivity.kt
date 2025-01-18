@@ -21,4 +21,9 @@ class ConfirmationActivity : DrawerBaseActivity() {
         val intent = Intent(this, RemindersActivity::class.java)
         startActivity(intent)
     }
+    fun edit_confirmation_details(view: View){
+        val intent = Intent(this, FormsActivity::class.java)
+        startActivity(intent)
+    }
+
 }

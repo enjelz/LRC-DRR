@@ -262,8 +262,9 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="5dp"
                             android:layout_marginTop="5dp"
+                            android:layout_marginEnd="5dp"
                             android:ems="10"
-                            android:text="12/08/24"
+                            android:text="Wednesday, January 15"
                             android:textColor="@color/white"
                             android:textSize="17sp" />
 
@@ -323,7 +324,7 @@
                             android:layout_marginStart="5dp"
                             android:layout_marginTop="5dp"
                             android:ems="10"
-                            android:text="12/12/24"
+                            android:text="Friday, January 17"
                             android:textColor="@color/white"
                             android:textSize="17sp" />
 
@@ -421,7 +422,7 @@
                             android:layout_marginStart="5dp"
                             android:layout_marginTop="5dp"
                             android:ems="10"
-                            android:text="1"
+                            android:text="6"
                             android:textColor="@color/white"
                             android:textSize="17sp" />
 
