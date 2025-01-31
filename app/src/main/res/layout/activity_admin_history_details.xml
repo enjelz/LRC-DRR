@@ -69,12 +69,12 @@
 
                     <TextView
                         android:id="@+id/reservation_details_edittext_name"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="5dp"
                         android:layout_marginTop="20dp"
                         android:ems="10"
-                        android:text="Artiaga, Angel Reign"
+                        android:text="Artiaga, Angel Reign Lequin"
                         android:textColor="@color/white"
                         android:textSize="16dp" />
                 </LinearLayout>
@@ -121,7 +121,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
                         android:layout_marginTop="5dp"
-                        android:text="College:"
+                        android:text="Department/Program:"
                         android:textColor="@color/white"
                         android:textSize="16dp"
                         android:textStyle="bold" />
@@ -133,7 +133,7 @@
                         android:layout_marginStart="5dp"
                         android:layout_marginTop="5dp"
                         android:ems="10"
-                        android:text="SET"
+                        android:text="BSIT"
                         android:textColor="@color/white"
                         android:textSize="16dp" />
                 </LinearLayout>
@@ -504,7 +504,7 @@
                         android:layout_marginEnd="15dp"
                         android:background="@color/confirm"
                         android:gravity="center"
-                        android:text="Confirmed"
+                        android:text="Showed Up"
                         android:textAlignment="center"
                         android:textColor="@color/white"
                         android:textStyle="bold"

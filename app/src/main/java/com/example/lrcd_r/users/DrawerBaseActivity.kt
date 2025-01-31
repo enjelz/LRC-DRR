@@ -40,10 +40,6 @@ open class DrawerBaseActivity : AppCompatActivity(),
     private lateinit var navigationView: NavigationView
     lateinit var dialog2: Dialog
 
-    private lateinit var name: TextView
-    private lateinit var id: TextView
-
-
     override fun setContentView(layoutResID: Int) {
         super.setContentView(R.layout.activity_drawer_base) // Your base layout
         val contentFrame = findViewById<FrameLayout>(R.id.activityContainer) // Placeholder
