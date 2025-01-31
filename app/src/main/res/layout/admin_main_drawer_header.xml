@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="250dp"
+    android:layout_height="270dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#927d52"
     android:orientation="vertical"
@@ -11,7 +11,7 @@
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:layout_gravity="center"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="50dp"
         app:cardCornerRadius="60dp">
 
     <ImageView
@@ -22,7 +22,7 @@
     </com.google.android.material.card.MaterialCardView>
 
     <TextView
-        android:id="@+id/disp_sName_admin"
+        android:id="@+id/txt_adName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -32,7 +32,7 @@
         android:textSize="18sp" />
 
     <TextView
-        android:id="@+id/sNum_admin"
+        android:id="@+id/txt_adID"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"

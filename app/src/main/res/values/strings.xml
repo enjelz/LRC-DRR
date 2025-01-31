@@ -4,11 +4,11 @@
     <string name="menu_drawer_close">Drawer Close</string>
 
     <string-array name="user_types">
+        <item>Admin</item>
         <item>Student</item>
         <item>Faculty</item>
         <item>Staff</item>
     </string-array>
-
 
     <string-array name="status_options">
         <item>Pending</item>

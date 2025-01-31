@@ -15,14 +15,14 @@
         android:layout_height="91dp"
         android:layout_gravity="start|top"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="50dp"
         app:srcCompat="@drawable/nu_logo2" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="190dp"
+        android:layout_marginTop="145dp"
         android:orientation="vertical">
 
         <TextView
@@ -34,13 +34,85 @@
             android:textSize="30sp"
             android:textStyle="bold" />
 
+        <EditText
+            android:id="@+id/txtGname"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="30dp"
+            android:background="@drawable/custom_edittext"
+            android:hint="Given Name"
+            android:padding="15dp"
+            android:textColor="@color/black" />
+
+        <EditText
+            android:id="@+id/txtLname"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="30dp"
+            android:background="@drawable/custom_edittext"
+            android:hint="Last Name"
+            android:padding="15dp"
+            android:textColor="@color/black" />
+
+        <EditText
+            android:id="@+id/txtMname"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="30dp"
+            android:background="@drawable/custom_edittext"
+            android:hint="Middle Name"
+            android:padding="15dp"
+            android:textColor="@color/black" />
+
+
+        <Spinner
+            android:id="@+id/userTypeSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="30dp"
+            android:background="@drawable/custom_edittext"
+            android:hint="Select User Type ⌵"
+            android:padding="15dp" />
+
+
+        <EditText
+            android:id="@+id/txtDept"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="30dp"
+            android:background="@drawable/custom_edittext"
+            android:hint="Department/Program"
+            android:padding="15dp"
+            android:textColor="@color/black" />
+
+        <EditText
+            android:id="@+id/txtID"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="30dp"
+            android:background="@drawable/custom_edittext"
+            android:hint="ID Number"
+            android:padding="15dp"
+            android:textColor="@color/black" />
 
         <EditText
             android:id="@+id/txtEmail"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginStart="30dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             android:layout_marginEnd="30dp"
             android:background="@drawable/custom_edittext"
             android:hint="Email"
@@ -52,7 +124,7 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginStart="30dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="10dp"
             android:layout_marginEnd="30dp"
             android:background="@drawable/custom_edittext"
             android:hint="Create Password"

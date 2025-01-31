@@ -12,6 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.LRCDR"
         tools:targetApi="31" >
+
         <activity
             android:name=".signup"
             android:exported="false" />
@@ -21,9 +22,7 @@
         <activity
             android:name=".admin.AdminUpdateStatusActivity"
             android:exported="false" />
-        <activity
-            android:name=".admin.UpcomingReservationDetailsActivity"
-            android:exported="false" />
+
         <activity
             android:name=".admin.AdminReservationHistoryActivity"
             android:exported="false" />
@@ -33,9 +32,7 @@
         <activity
             android:name=".admin.AdminHomepage"
             android:exported="false" />
-        <activity
-            android:name=".admin_main_drawer_header"
-            android:exported="false" />
+
         <activity
             android:name=".admin.AdminDrawerBaseActivity"
             android:exported="false" />
@@ -76,5 +73,9 @@
             android:name=".Login"
             android:exported="false" />
     </application>
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
 
 </manifest>
