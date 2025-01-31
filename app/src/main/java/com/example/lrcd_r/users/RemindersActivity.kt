@@ -22,4 +22,8 @@ class RemindersActivity : DrawerBaseActivity() {
         val intent = Intent(this, ReceiptActivity::class.java)
         startActivity(intent)
     }
+    fun btnBack(view: View){
+        val intent = Intent(this, ConfirmationActivity::class.java)
+        startActivity(intent)
+    }
 }
