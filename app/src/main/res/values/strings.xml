@@ -2,6 +2,9 @@
     <string name="app_name">LRC DRR</string>
     <string name="menu_drawer_open">Drawer Open</string>
     <string name="menu_drawer_close">Drawer Close</string>
+    <string name="default_date_text">Select Date</string>
+    <string name="default_start_time_text">Start Time</string>
+    <string name="default_end_time_text">End Time</string>
 
     <string-array name="user_types">
         <item>Admin</item>
@@ -16,4 +19,9 @@
         <item>Cancel</item>
         <item>No Show / Absent</item>
     </string-array>
+
+
+
+
+
 </resources>

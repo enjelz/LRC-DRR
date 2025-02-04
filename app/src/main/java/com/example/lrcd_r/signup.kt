@@ -8,7 +8,6 @@ import android.text.style.UnderlineSpan
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.AutoCompleteTextView
 import android.widget.EditText
 import android.widget.Spinner
 import android.widget.TextView
@@ -21,7 +20,6 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
-import java.sql.Types.NULL
 
 class signup : AppCompatActivity() {
 
@@ -37,7 +35,6 @@ class signup : AppCompatActivity() {
     lateinit var txtID: EditText
     lateinit var txtEmail: EditText
     lateinit var txtPass: EditText
-    lateinit var userTypeSpinner: Spinner
     private var selectedUserType: String = "" // Variable to store the selected user type
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,6 +43,7 @@ class signup : AppCompatActivity() {
         signupBinding = ActivitySignupBinding.inflate(layoutInflater)
         enableEdgeToEdge()
 
+        //firebase
         firebaseAuth = FirebaseAuth.getInstance()
         databaseReferences = FirebaseDatabase.getInstance().getReference("Users")
 
@@ -140,7 +138,6 @@ class signup : AppCompatActivity() {
                     if (task.isSuccessful) {
                         Toast.makeText(this, "Sign Up Successful", Toast.LENGTH_SHORT)
                             .show()
-
 
                         val user = User(gname, lname, mname, selectedUserType, dept, ID, email,password)
                         if (uid != null) {

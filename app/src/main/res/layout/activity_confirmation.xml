@@ -121,7 +121,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_marginStart="20dp"
-                            android:text="Departmemt/Program:"
+                            android:text="Department/Program:"
                             android:textColor="@color/white"
                             android:textSize="17sp"
                             android:textStyle="bold" />
@@ -157,6 +157,31 @@
                             android:layout_height="match_parent"
                             android:layout_marginLeft="10dp"
                             android:text="2023-132332"
+                            android:textColor="@color/white"
+                            android:textSize="17sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/lbl_eml"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="20dp"
+                            android:text="Email:"
+                            android:textColor="@color/white"
+                            android:textSize="17sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/val_email"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="10dp"
+                            android:text="school email"
                             android:textColor="@color/white"
                             android:textSize="17sp" />
                     </LinearLayout>
@@ -315,7 +340,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
                                 android:layout_marginLeft="10dp"
-                                android:text="1:00pm - 5:00pm (4hrs)"
+                                android:text="1:00pm - 5:00pm"
                                 android:textColor="@color/white"
                                 android:textSize="17sp" />
 
@@ -324,7 +349,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
                                 android:layout_marginLeft="10dp"
-                                android:text="Room No. 2 and 3 (2 rooms)"
+                                android:text="Room No. 2 and 3"
                                 android:textColor="@color/white"
                                 android:textSize="17sp" />
                         </LinearLayout>
