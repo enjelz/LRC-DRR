@@ -7,16 +7,12 @@ import android.widget.CheckBox
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import com.example.lrcd_r.R
-import com.example.lrcd_r.databinding.ActivityRemindersBinding
 
 class RemindersActivity : DrawerBaseActivity() {
 
-    lateinit var activityRemindersBinding: ActivityRemindersBinding
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        activityRemindersBinding = ActivityRemindersBinding.inflate(layoutInflater)
-        setContentView(activityRemindersBinding.root)
+        setContentView(R.layout.activity_reminders) // Keep the layout as is
         enableEdgeToEdge()
     }
 
@@ -27,7 +23,7 @@ class RemindersActivity : DrawerBaseActivity() {
             val intent = Intent(this, ReceiptActivity::class.java)
             startActivity(intent)
         } else {
-            Toast.makeText(this, "You must agree to proceed.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "You must read and agree on the rules and regulation to proceed.", Toast.LENGTH_SHORT).show()
         }
     }
 
