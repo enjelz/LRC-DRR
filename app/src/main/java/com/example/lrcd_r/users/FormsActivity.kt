@@ -5,6 +5,8 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
@@ -38,6 +40,7 @@ class FormsActivity : DrawerBaseActivity() {
     lateinit var purp: EditText
     lateinit var mats: EditText
 
+
     private lateinit var receivedDate: String
     private lateinit var receivedStartTime: String
     private lateinit var receivedEndTime: String
@@ -63,6 +66,115 @@ class FormsActivity : DrawerBaseActivity() {
         chrCount = findViewById<TextInputLayout>(R.id.inputChairs).editText!!
         purp = findViewById<TextInputLayout>(R.id.inputPurpose).editText!!
         mats = findViewById<TextInputLayout>(R.id.inputMaterials).editText!!
+
+
+// Apply number and length restriction on cNum (Contact Number)
+        val contactTextWatcher = object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                if (s != null) {
+                    val filtered = s.toString().replace("[^0-9]".toRegex(), "") // Keep only numbers
+                    if (filtered.length > 11) {
+                        // Prevent infinite loop by checking if the length is more than 11 before updating
+                        if (s.toString() != filtered) {
+                            s.replace(0, s.length, filtered.substring(0, 11)) // Limit to 11 digits
+                        }
+                    } else if (s.toString() != filtered) {
+                        s.replace(0, s.length, filtered)
+                    }
+                }
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        }
+
+// Apply number and length restriction on tblCount (Tables) - Only 1 digit
+        val tablesTextWatcher = object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                if (s != null) {
+                    val filtered = s.toString().replace("[^0-9]".toRegex(), "") // Keep only numbers
+                    if (filtered.length > 1) {
+                        // Prevent infinite loop by checking if the length is more than 1 before updating
+                        if (s.toString() != filtered) {
+                            s.replace(0, s.length, filtered.substring(0, 1)) // Limit to 1 digit
+                        }
+                    } else if (s.toString() != filtered) {
+                        s.replace(0, s.length, filtered)
+                    }
+                }
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        }
+
+// Apply number and length restriction on chrCount (Chairs) - Only 2 digits
+        val chairsTextWatcher = object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                if (s != null) {
+                    val filtered = s.toString().replace("[^0-9]".toRegex(), "") // Keep only numbers
+                    if (filtered.length > 2) {
+                        // Prevent infinite loop by checking if the length is more than 2 before updating
+                        if (s.toString() != filtered) {
+                            s.replace(0, s.length, filtered.substring(0, 2)) // Limit to 2 digits
+                        }
+                    } else if (s.toString() != filtered) {
+                        s.replace(0, s.length, filtered)
+                    }
+                }
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        }
+
+// Restrict numbers from being entered in purpose (Purpose field) - Only letters allowed
+        val purposeTextWatcher = object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                if (s != null) {
+                    val filtered = s.toString().replace("[0-9]".toRegex(), "") // Remove numbers
+                    if (filtered != s.toString()) {
+                        // Avoid calling setText() if no changes
+                        if (s.toString() != filtered) {
+                            purp.setText(filtered)
+                            purp.setSelection(filtered.length) // Keep cursor at the end
+                        }
+                    }
+                }
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        }
+
+// Restrict numbers from being entered in materials (Materials field) - Only letters allowed
+        val materialsTextWatcher = object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                if (s != null) {
+                    val filtered = s.toString().replace("[0-9]".toRegex(), "") // Remove numbers
+                    if (filtered != s.toString()) {
+                        // Avoid calling setText() if no changes
+                        if (s.toString() != filtered) {
+                            mats.setText(filtered)
+                            mats.setSelection(filtered.length) // Keep cursor at the end
+                        }
+                    }
+                }
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        }
+
+// Apply TextWatchers to the fields
+        cNum.addTextChangedListener(contactTextWatcher) // Contact Number (Only numbers, max 11 digits)
+        tblCount.addTextChangedListener(tablesTextWatcher) // Tables (Only 1 digit)
+        chrCount.addTextChangedListener(chairsTextWatcher) // Chairs (Only 2 digits)
+        purp.addTextChangedListener(purposeTextWatcher) // Purpose (No numbers allowed)
+        mats.addTextChangedListener(materialsTextWatcher) // Materials (No numbers allowed)
+
+
+
 
         // Retrieve data from Intent
         receivedDate = intent.getStringExtra("DATE") ?: "No Date Selected"
@@ -131,7 +243,7 @@ class FormsActivity : DrawerBaseActivity() {
         // Check if any of the required fields are empty
         if (contact.isEmpty() || tables.isEmpty() || chairs.isEmpty() || purpose.isEmpty()) {
             // Display an error message to the user
-            Toast.makeText(this, "Please fill in all required fields.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Please fill in all required fields properly.", Toast.LENGTH_SHORT).show()
             return // Exit the function without proceeding
         } else {
             val intent = Intent(this, ConfirmationActivity::class.java).apply {

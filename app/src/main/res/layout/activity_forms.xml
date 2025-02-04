@@ -203,8 +203,11 @@
                 android:hint="09XXXXXXXXX">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_contact"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:maxLength="11"/>
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
 
@@ -231,8 +234,11 @@
                 android:hint="(e.g. 1)">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_tables"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:maxLength="1"/>
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
 
@@ -259,8 +265,11 @@
                 android:hint="(e.g. 4)">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editChairs"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:maxLength="2"/>
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
 
@@ -285,10 +294,13 @@
             android:layout_marginEnd="25dp">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editPurpose"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="e.g. Meeting" />
+                android:hint="e.g. Meeting"
+                android:inputType="textCapWords" />
         </com.google.android.material.textfield.TextInputLayout>
+
 
 
         <TextView
@@ -313,10 +325,13 @@
             android:layout_marginEnd="25dp">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editMaterials"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="e.g. Projector" />
+                android:hint="e.g. Projector"
+                android:inputType="textCapWords" />
         </com.google.android.material.textfield.TextInputLayout>
+
 
         <LinearLayout
             android:layout_width="wrap_content"
