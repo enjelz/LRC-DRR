@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
+import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -15,6 +16,7 @@ import androidx.compose.ui.semantics.text
 import com.example.lrcd_r.R
 import com.example.lrcd_r.User
 import com.example.lrcd_r.databinding.ActivityFormsBinding
+import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -30,12 +32,21 @@ class FormsActivity : DrawerBaseActivity() {
     private lateinit var user: User
     private lateinit var uid: String
 
+    lateinit var cNum: EditText
+    lateinit var tblCount: EditText
+    lateinit var chrCount: EditText
+    lateinit var purp: EditText
+    lateinit var mats: EditText
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_forms) // Provide layout resource ID
         activityFormsBinding = ActivityFormsBinding.inflate(layoutInflater)
 
         enableEdgeToEdge()
+
+
 
         auth = FirebaseAuth.getInstance()
         uid = auth.currentUser?.uid.toString()
@@ -44,6 +55,14 @@ class FormsActivity : DrawerBaseActivity() {
         if (uid.isNotEmpty()) {
             getUserData()
         }
+
+        cNum = findViewById<TextInputLayout>(R.id.inputcontact).editText!!
+        tblCount = findViewById<TextInputLayout>(R.id.inputTables).editText!!
+        chrCount = findViewById<TextInputLayout>(R.id.inputChairs).editText!!
+        purp = findViewById<TextInputLayout>(R.id.inputPurpose).editText!!
+        mats = findViewById<TextInputLayout>(R.id.inputMaterials).editText!!
+
+
     }
 
     private fun getUserData() {
@@ -94,7 +113,42 @@ class FormsActivity : DrawerBaseActivity() {
     }
 
     fun btn_forms_submit(view: View){
+
+        val contact = cNum.text.toString()
+        val tables = tblCount.text.toString()
+        val chairs = chrCount.text.toString()
+        val purpose = purp.text.toString()
+        val materials = mats.text.toString()
+
+        // Check if any of the required fields are empty
+        if (contact.isEmpty() || tables.isEmpty() || chairs.isEmpty() || purpose.isEmpty()) {
+            // Display an error message to the user
+            Toast.makeText(this, "Please fill in all required fields.", Toast.LENGTH_SHORT).show()
+            return // Exit the function without proceeding
+        }
+
         val intent = Intent(this, ConfirmationActivity::class.java)
+
+        // Pass the data to ConfirmationActivity
+        intent.putExtra("CONTACT", contact)
+        intent.putExtra("TABLES", tables)
+        intent.putExtra("CHAIRS", chairs)
+        intent.putExtra("PURPOSE", purpose)
+        intent.putExtra("MATERIALS", materials)
+
+        //pass the user data
+        intent.putExtra("USER_NAME", findViewById<TextView>(R.id.txtName).text.toString())
+        intent.putExtra("USER_TYPE", findViewById<TextView>(R.id.txt_usertype).text.toString())
+        intent.putExtra("USER_DEPT", findViewById<TextView>(R.id.dispDept).text.toString())
+        intent.putExtra("USER_ID", findViewById<TextView>(R.id.dispID).text.toString())
+        intent.putExtra("USER_EMAIL", findViewById<TextView>(R.id.dispEmail).text.toString())
+
+        startActivity(intent)
+
+    }
+
+    fun btn_forms_back(view: View){
+        val intent = Intent(this,Reserve::class.java)
         startActivity(intent)
     }
 }

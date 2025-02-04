@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.cardview.widget.CardView
@@ -22,11 +23,16 @@ class ReservationDetailsActivity : DrawerBaseActivity() {
     private lateinit var btnCancelReservation: Button
     lateinit var sharedPreferences: SharedPreferences
 
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_reservation_details) // Provide layout resource ID
         activityReservationDetailsBinding = ActivityReservationDetailsBinding.inflate(layoutInflater)
         enableEdgeToEdge()
+
+
+
 
         //inflating dialog box
         dialog1 = Dialog(this)
