@@ -8,7 +8,7 @@
     android:background="@drawable/login_bg"
     tools:context=".signup">
 
-
+    <!-- NU Logo at the top left corner -->
     <ImageView
         android:id="@+id/nu_logo_loginpage"
         android:layout_width="86dp"
@@ -18,146 +18,148 @@
         android:layout_marginTop="50dp"
         app:srcCompat="@drawable/nu_logo2" />
 
-
-    <LinearLayout
-        android:id="@+id/linearLayout"
+    <!-- Scrollable content -->
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="145dp"
-        android:orientation="vertical">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="35dp"
-            android:text="Sign up"
-            android:textColor="@color/black"
-            android:textSize="30sp"
-            android:textStyle="bold" />
-
-        <EditText
-            android:id="@+id/txtGname"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="30dp"
-            android:background="@drawable/custom_edittext"
-            android:hint="Given Name"
-            android:padding="15dp"
-            android:textColor="@color/black" />
-
-        <EditText
-            android:id="@+id/txtLname"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="30dp"
-            android:background="@drawable/custom_edittext"
-            android:hint="Last Name"
-            android:padding="15dp"
-            android:textColor="@color/black" />
-
-        <EditText
-            android:id="@+id/txtMname"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="30dp"
-            android:background="@drawable/custom_edittext"
-            android:hint="Middle Name"
-            android:padding="15dp"
-            android:textColor="@color/black" />
-
-
-        <Spinner
-            android:id="@+id/userTypeSpinner"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:id="@+id/linearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="30dp"
-            android:background="@drawable/custom_edittext"
-            android:hint="Select User Type ⌵"
-            android:padding="15dp" />
+            android:layout_marginTop="145dp"
+            android:orientation="vertical">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="35dp"
+                android:text="Sign up"
+                android:textColor="@color/black"
+                android:textSize="30sp"
+                android:textStyle="bold" />
 
-        <EditText
-            android:id="@+id/txtDept"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="30dp"
-            android:background="@drawable/custom_edittext"
-            android:hint="Department/Program"
-            android:padding="15dp"
-            android:textColor="@color/black" />
+            <EditText
+                android:id="@+id/txtGname"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="30dp"
+                android:background="@drawable/custom_edittext"
+                android:hint="Given Name"
+                android:padding="15dp"
+                android:textColor="@color/black" />
 
-        <EditText
-            android:id="@+id/txtID"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="30dp"
-            android:background="@drawable/custom_edittext"
-            android:hint="ID Number"
-            android:padding="15dp"
-            android:textColor="@color/black" />
+            <EditText
+                android:id="@+id/txtLname"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="30dp"
+                android:background="@drawable/custom_edittext"
+                android:hint="Last Name"
+                android:padding="15dp"
+                android:textColor="@color/black" />
 
-        <EditText
-            android:id="@+id/txtEmail"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="30dp"
-            android:background="@drawable/custom_edittext"
-            android:hint="Email"
-            android:padding="15dp"
-            android:textColor="@color/black" />
+            <EditText
+                android:id="@+id/txtMname"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="30dp"
+                android:background="@drawable/custom_edittext"
+                android:hint="Middle Name"
+                android:padding="15dp"
+                android:textColor="@color/black" />
 
-        <EditText
-            android:id="@+id/txtPass"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="30dp"
-            android:background="@drawable/custom_edittext"
-            android:hint="Create Password"
-            android:inputType="textPassword"
-            android:padding="15dp"
-            android:textColor="@color/black" />
+            <Spinner
+                android:id="@+id/userTypeSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="30dp"
+                android:background="@drawable/custom_edittext"
+                android:hint="Select User Type ⌵"
+                android:padding="15dp" />
 
+            <EditText
+                android:id="@+id/txtDept"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="30dp"
+                android:background="@drawable/custom_edittext"
+                android:hint="Department/Program"
+                android:padding="15dp"
+                android:textColor="@color/black" />
 
-        <Button
-            android:id="@+id/loginButton"
-            android:layout_width="178dp"
-            android:layout_height="50dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="30dp"
-            android:backgroundTint="@color/black"
-            android:onClick="signup"
-            android:text="Register"
-            android:textColor="@color/white"
-            android:textSize="15sp"
-            app:cornerRadius="20dp" />
+            <EditText
+                android:id="@+id/txtID"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="30dp"
+                android:background="@drawable/custom_edittext"
+                android:hint="ID Number"
+                android:padding="15dp"
+                android:textColor="@color/black" />
 
-        <TextView
-            android:id="@+id/spanLogin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="10dp"
-            android:text="Go Back to Login"
-            android:textColor="@color/black" />
+            <EditText
+                android:id="@+id/txtEmail"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="30dp"
+                android:background="@drawable/custom_edittext"
+                android:hint="Email"
+                android:padding="15dp"
+                android:textColor="@color/black" />
 
-    </LinearLayout>
+            <EditText
+                android:id="@+id/txtPass"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="30dp"
+                android:background="@drawable/custom_edittext"
+                android:hint="Create Password"
+                android:inputType="textPassword"
+                android:padding="15dp"
+                android:textColor="@color/black" />
 
+            <Button
+                android:id="@+id/loginButton"
+                android:layout_width="178dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="30dp"
+                android:backgroundTint="@color/black"
+                android:onClick="signup"
+                android:text="Register"
+                android:textColor="@color/white"
+                android:textSize="15sp"
+                app:cornerRadius="20dp" />
+
+            <TextView
+                android:id="@+id/spanLogin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:text="Go Back to Login"
+                android:textColor="@color/black" />
+
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- Logo at the bottom right corner -->
     <ImageView
         android:id="@+id/dr_logo_loginpage"
         android:layout_width="167dp"
@@ -166,6 +168,5 @@
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="20dp"
         app:srcCompat="@drawable/dr_logo" />
-
 
 </FrameLayout>

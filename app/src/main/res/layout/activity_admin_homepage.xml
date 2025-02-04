@@ -245,7 +245,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:fontFamily="sans-serif-medium"
-                    android:text="Unnavailable"
+                    android:text="Unavailable"
                     android:textSize="17dp"
                     android:textAlignment="center"
                     android:textStyle="italic" />

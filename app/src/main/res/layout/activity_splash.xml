@@ -33,7 +33,7 @@
                 android:id="@+id/dr_logo_splashpage"
                 android:layout_width="332dp"
                 android:layout_height="71dp"
-                android:layout_marginLeft="55dp"
+                android:layout_marginLeft="50dp"
                 android:layout_marginTop="20dp"
                 android:layout_weight="1"
                 app:srcCompat="@drawable/dr_logo" />
