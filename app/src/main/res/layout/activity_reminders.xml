@@ -261,15 +261,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <Button
-            android:id="@+id/reminders_button_back"
-            android:layout_width="150dp"
-            android:layout_height="60dp"
-            android:backgroundTint="#161f48"
-            android:text="Back"
-            android:onClick="btnBack"
-            android:textSize="16sp"
-            app:cornerRadius="10dp" />
 
         <Button
             android:id="@+id/reminders_button_reserve"
@@ -278,7 +269,7 @@
             android:layout_marginLeft="5dp"
             android:backgroundTint="#927d52"
             android:onClick="btn_reminders_reserve"
-            android:text="Reserve"
+            android:text="Continue"
             android:textSize="16sp"
             app:cornerRadius="10dp" />
 

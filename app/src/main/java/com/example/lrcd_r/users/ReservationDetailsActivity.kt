@@ -17,7 +17,7 @@ import com.example.lrcd_r.databinding.ActivityReservationDetailsBinding
 
 class ReservationDetailsActivity : DrawerBaseActivity() {
 
-    lateinit var activityReservationDetailsBinding: ActivityReservationDetailsBinding
+    private lateinit var activityReservationDetailsBinding: ActivityReservationDetailsBinding
     lateinit var dialog1: Dialog
     private lateinit var reservationCancelledCardView: CardView
     private lateinit var btnCancelReservation: Button

@@ -116,8 +116,6 @@ class signup : AppCompatActivity() {
     }
 
     fun signup(view: View) {
-        val uid = firebaseAuth.currentUser?.uid
-
         val gname = txtGname.text.toString()
         val lname = txtLname.text.toString()
         val mname = txtMname.text.toString()
@@ -126,46 +124,63 @@ class signup : AppCompatActivity() {
         val email = txtEmail.text.toString()
         val password = txtPass.text.toString()
 
-        if (gname.isNotEmpty() && 
-            lname.isNotEmpty() &&
-            selectedUserType.isNotEmpty()&&
-            dept.isNotEmpty() &&
-            ID.isNotEmpty() &&
-            email.isNotEmpty() && 
-            password.isNotEmpty()) {
+        if (gname.isNotEmpty() && lname.isNotEmpty() && selectedUserType.isNotEmpty() &&
+            dept.isNotEmpty() && ID.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty()) {
+
             firebaseAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
-                        Toast.makeText(this, "Sign Up Successful", Toast.LENGTH_SHORT)
-                            .show()
+                        val databaseReference = FirebaseDatabase.getInstance().getReference("Users")
 
-                        val user = User(gname, lname, mname, selectedUserType, dept, ID, email,password)
-                        if (uid != null) {
-                            databaseReferences.child(uid).setValue(user).addOnCompleteListener{
-                                if (it.isSuccessful){
+                        // Fetch the last user ID and generate the next ID
+                        databaseReference.orderByKey().limitToLast(1).get()
+                            .addOnSuccessListener { snapshot ->
+                                var newIdNumber = 1 // Default to user00001 if no users exist
 
-                                    storageReference = FirebaseStorage.getInstance().getReference("Users/"+firebaseAuth.currentUser?.uid)
+                                if (snapshot.exists()) {
+                                    val lastKey = snapshot.children.first().key
+                                    lastKey?.let {
+                                        val numericPart = it.removePrefix("user").toIntOrNull()
+                                        if (numericPart != null) {
+                                            newIdNumber = numericPart + 1
+                                        }
+                                    }
+                                }
 
-                                    val intent = Intent(this, Login::class.java)
-                                    startActivity(intent)
-                                    finish()
+                                val newUserId = String.format("user%05d", newIdNumber) // Format to user00001
 
-                                } else {
-                                    Toast.makeText(this, "Data Sign up Unsuccessful: ${it.exception?.message}", Toast.LENGTH_SHORT).show()
+                                // Create the user object
+                                val user = User(gname, lname, mname, selectedUserType, dept, ID, email, password)
+
+                                // Store user data with custom user ID
+                                databaseReference.child(newUserId).setValue(user).addOnCompleteListener {
+                                    if (it.isSuccessful) {
+                                        storageReference = FirebaseStorage.getInstance().getReference("Users/$newUserId")
+
+                                        Toast.makeText(this, "Sign Up Successful", Toast.LENGTH_SHORT).show()
+
+                                        // Pass userID to the Login activity
+                                        val intent = Intent(this, Login::class.java).apply {
+                                            putExtra("USER_ID", newUserId)
+                                        }
+                                        startActivity(intent)
+                                        finish()
+                                    } else {
+                                        Toast.makeText(this, "Data Sign up Unsuccessful: ${it.exception?.message}", Toast.LENGTH_SHORT).show()
+                                    }
                                 }
                             }
-                        }
+                            .addOnFailureListener {
+                                Toast.makeText(this, "Failed to retrieve last user ID", Toast.LENGTH_SHORT).show()
+                            }
                     } else {
-                        Toast.makeText(
-                            this,
-                            "Sign Up Unsuccessful: ${task.exception?.message}",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        Toast.makeText(this, "Sign Up Unsuccessful: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
                     }
                 }
         } else {
             Toast.makeText(this, "Fields cannot be empty", Toast.LENGTH_SHORT).show()
         }
     }
+
 }
         

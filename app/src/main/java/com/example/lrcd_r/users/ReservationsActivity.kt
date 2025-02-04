@@ -9,7 +9,7 @@ import com.example.lrcd_r.databinding.ActivityReservationsBinding
 
 class ReservationsActivity :  DrawerBaseActivity() {
 
-    lateinit var activityReservationsBinding: ActivityReservationsBinding
+    private lateinit var activityReservationsBinding: ActivityReservationsBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

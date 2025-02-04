@@ -26,7 +26,7 @@ import com.google.firebase.database.ValueEventListener
 
 class FormsActivity : DrawerBaseActivity() {
 
-    lateinit var activityFormsBinding: ActivityFormsBinding
+    private lateinit var activityFormsBinding: ActivityFormsBinding
     private lateinit var auth: FirebaseAuth
     private lateinit var databaseReference: DatabaseReference
     private lateinit var user: User
@@ -38,15 +38,17 @@ class FormsActivity : DrawerBaseActivity() {
     lateinit var purp: EditText
     lateinit var mats: EditText
 
+    private lateinit var receivedDate: String
+    private lateinit var receivedStartTime: String
+    private lateinit var receivedEndTime: String
+    private lateinit var receivedRooms: String
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_forms) // Provide layout resource ID
         activityFormsBinding = ActivityFormsBinding.inflate(layoutInflater)
-
         enableEdgeToEdge()
-
-
 
         auth = FirebaseAuth.getInstance()
         uid = auth.currentUser?.uid.toString()
@@ -62,6 +64,11 @@ class FormsActivity : DrawerBaseActivity() {
         purp = findViewById<TextInputLayout>(R.id.inputPurpose).editText!!
         mats = findViewById<TextInputLayout>(R.id.inputMaterials).editText!!
 
+        // Retrieve data from Intent
+        receivedDate = intent.getStringExtra("DATE") ?: "No Date Selected"
+        receivedStartTime = intent.getStringExtra("START_TIME") ?: "No Start Time Selected"
+        receivedEndTime = intent.getStringExtra("END_TIME") ?: "No End Time Selected"
+        receivedRooms = intent.getStringExtra("ROOMS") ?: "No Rooms Selected"
 
     }
 
@@ -87,6 +94,7 @@ class FormsActivity : DrawerBaseActivity() {
                         val txtDept = findViewById<TextView>(R.id.dispDept)
                         val txtUserType = findViewById<TextView>(R.id.txt_usertype)
                         val txtID = findViewById<TextView>(R.id.dispID)
+                        val txtEmail = findViewById<TextView>(R.id.dispEmail)
 
                         if (txtName != null) {
                             val lastName = user.lname ?: "N/A"
@@ -98,13 +106,13 @@ class FormsActivity : DrawerBaseActivity() {
                         if (txtUserType != null) txtUserType.text = user.userType
                         if (txtDept != null) txtDept.text = user.dept
                         if (txtID != null) txtID.text = user.id
+                        if (txtEmail != null) txtEmail.text = user.email
                         break // Exit loop after first match
                     }
                 } else {
                     Toast.makeText(this@FormsActivity, "User not found", Toast.LENGTH_SHORT).show()
                 }
             }
-
                 override fun onCancelled(error: DatabaseError) {
                     Toast.makeText(this@FormsActivity, "Something went wrong", Toast.LENGTH_SHORT)
                         .show()
@@ -125,26 +133,29 @@ class FormsActivity : DrawerBaseActivity() {
             // Display an error message to the user
             Toast.makeText(this, "Please fill in all required fields.", Toast.LENGTH_SHORT).show()
             return // Exit the function without proceeding
+        } else {
+            val intent = Intent(this, ConfirmationActivity::class.java).apply {
+                // Pass the data to ConfirmationActivity
+                putExtra("DATE", receivedDate)
+                putExtra("START_TIME", receivedStartTime)
+                putExtra("END_TIME", receivedEndTime)
+                putExtra("ROOMS", receivedRooms)
+
+                putExtra("CONTACT", contact)
+                putExtra("TABLES", tables)
+                putExtra("CHAIRS", chairs)
+                putExtra("PURPOSE", purpose)
+                putExtra("MATERIALS", materials)
+
+                //pass the user data
+                putExtra("USER_NAME", findViewById<TextView>(R.id.txtName).text.toString())
+                putExtra("USER_TYPE", findViewById<TextView>(R.id.txt_usertype).text.toString())
+                putExtra("USER_DEPT", findViewById<TextView>(R.id.dispDept).text.toString())
+                putExtra("USER_ID", findViewById<TextView>(R.id.dispID).text.toString())
+                putExtra("USER_EMAIL", findViewById<TextView>(R.id.dispEmail).text.toString())
+            }
+            startActivity(intent)
         }
-
-        val intent = Intent(this, ConfirmationActivity::class.java)
-
-        // Pass the data to ConfirmationActivity
-        intent.putExtra("CONTACT", contact)
-        intent.putExtra("TABLES", tables)
-        intent.putExtra("CHAIRS", chairs)
-        intent.putExtra("PURPOSE", purpose)
-        intent.putExtra("MATERIALS", materials)
-
-        //pass the user data
-        intent.putExtra("USER_NAME", findViewById<TextView>(R.id.txtName).text.toString())
-        intent.putExtra("USER_TYPE", findViewById<TextView>(R.id.txt_usertype).text.toString())
-        intent.putExtra("USER_DEPT", findViewById<TextView>(R.id.dispDept).text.toString())
-        intent.putExtra("USER_ID", findViewById<TextView>(R.id.dispID).text.toString())
-        intent.putExtra("USER_EMAIL", findViewById<TextView>(R.id.dispEmail).text.toString())
-
-        startActivity(intent)
-
     }
 
     fun btn_forms_back(view: View){

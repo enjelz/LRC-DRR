@@ -1,36 +1,62 @@
 package com.example.lrcd_r.users
 
+import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.ui.semantics.text
+import com.example.lrcd_r.Login
 import com.example.lrcd_r.R
+import com.example.lrcd_r.Reservations
 import com.example.lrcd_r.databinding.ActivityConfirmationBinding
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import java.text.SimpleDateFormat
+import java.util.*
 
 class ConfirmationActivity : DrawerBaseActivity() {
 
-    lateinit var activityConfirmationBinding: ActivityConfirmationBinding
+    private lateinit var activityConfirmationBinding: ActivityConfirmationBinding
+    private lateinit var firebaseAuth: FirebaseAuth
+    private lateinit var databaseReferences: DatabaseReference
+    private lateinit var uid: String
+
+    private lateinit var userName: String
+    private lateinit var userType: String
+    private lateinit var userDept: String
+    private lateinit var userId: String
+    private lateinit var userEmail: String
+
+    private lateinit var contact: String
+    private lateinit var tables: String
+    private lateinit var chairs: String
+    private lateinit var purpose: String
+    private lateinit var materials: String
+
+    private lateinit var confirmedDate: String
+    private lateinit var confirmedStartTime: String
+    private lateinit var confirmedEndTime: String
+    private lateinit var confirmedRooms: String
+
+    private lateinit var currentDate: String
+    lateinit var dialogConfReserve: Dialog
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_confirmation) // Provide layout resource ID
         activityConfirmationBinding = ActivityConfirmationBinding.inflate(layoutInflater)
+        setContentView(R.layout.activity_confirmation) // Provide layout resource ID
         enableEdgeToEdge()
 
-        val contact = intent.getStringExtra("CONTACT")
-        val tables = intent.getStringExtra("TABLES")
-        val chairs = intent.getStringExtra("CHAIRS")
-        val purpose = intent.getStringExtra("PURPOSE")
-        val materials = intent.getStringExtra("MATERIALS")
+        //firebase
+        firebaseAuth = FirebaseAuth.getInstance()
+        databaseReferences = FirebaseDatabase.getInstance().getReference("Users")
+        uid = firebaseAuth.currentUser?.uid.toString()
 
-        //get the user data
-        val userName = intent.getStringExtra("USER_NAME")
-        val userType = intent.getStringExtra("USER_TYPE")
-        val userDept = intent.getStringExtra("USER_DEPT")
-        val userId = intent.getStringExtra("USER_ID")
-        val userEmail = intent.getStringExtra("USER_EMAIL")
 
         //find the user data textview
         val valName = findViewById<TextView>(R.id.val_name)
@@ -45,6 +71,34 @@ class ConfirmationActivity : DrawerBaseActivity() {
         val valChairs = findViewById<TextView>(R.id.val_chairs)
         val valPurpose = findViewById<TextView>(R.id.val_purpose)
         val valMaterials = findViewById<TextView>(R.id.val_othermaterials)
+
+        val valDate = findViewById<TextView>(R.id.val_schedDate)
+        val valTime = findViewById<TextView>(R.id.val_schedTime)
+        val valRoom = findViewById<TextView>(R.id.val_schedRoom)
+
+        // Find the TextView
+        val valDateReq: TextView = findViewById(R.id.val_dateReq)
+
+        //get the user data
+        userName = intent.getStringExtra("USER_NAME").toString()
+        userType = intent.getStringExtra("USER_TYPE").toString()
+        userDept = intent.getStringExtra("USER_DEPT").toString()
+        userId = intent.getStringExtra("USER_ID").toString()
+        userEmail = intent.getStringExtra("USER_EMAIL").toString()
+
+        contact = intent.getStringExtra("CONTACT").toString()
+        tables = intent.getStringExtra("TABLES").toString()
+        chairs = intent.getStringExtra("CHAIRS").toString()
+        purpose = intent.getStringExtra("PURPOSE").toString()
+        materials = intent.getStringExtra("MATERIALS").toString()
+
+        // Get current date in the format "MMM dd, yyyy"
+        currentDate = SimpleDateFormat("MMM dd, yyyy", Locale.getDefault()).format(Date()).toString()
+
+        confirmedDate = intent.getStringExtra("DATE") ?: "No Date"
+        confirmedStartTime = intent.getStringExtra("START_TIME") ?: "No Start Time"
+        confirmedEndTime = intent.getStringExtra("END_TIME") ?: "No End Time"
+        confirmedRooms = intent.getStringExtra("ROOMS") ?: "No Rooms"
 
 
         // Set the text of the TextViews
@@ -61,18 +115,88 @@ class ConfirmationActivity : DrawerBaseActivity() {
         valId.text = userId
         valEmail.text = userEmail
 
+        // Set the current date to the TextView
+        valDateReq.text = currentDate
 
+        valDate.text = confirmedDate
+        valTime.text = "$confirmedStartTime - $confirmedEndTime"
+        valRoom.text = "Discussion Room $confirmedRooms"
 
-
-
+        //inflating dialog box
+        dialogConfReserve = Dialog(this)
+        dialogConfReserve.setContentView(R.layout.user_dialog_confirm_reservation)
+        dialogConfReserve.getWindow()
+            ?.setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        dialogConfReserve.getWindow()?.setBackgroundDrawable(getDrawable(R.drawable.dialog_box))
+        dialogConfReserve.setCancelable(false)
     }
-    fun btn_confirmation_confirm(view: View){
-        val intent = Intent(this, RemindersActivity::class.java)
-        startActivity(intent)
+
+    fun btn_confirmation_confirm(view: View) {
+        dialogConfReserve.show()
     }
-    fun edit_confirmation_details(view: View){
+
+    fun btnYesClicked(view: View) {
+        val sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE)
+        val userID = sharedPreferences.getString("USER_ID", null) ?: return // Retrieve stored userID
+
+        val reservationRef = FirebaseDatabase.getInstance().getReference("Reservations")
+
+        // Fetch the last reservation ID and generate the next ID
+        reservationRef.orderByKey().limitToLast(1).get().addOnSuccessListener { snapshot ->
+            var newIdNumber = 1 // Default ID number if no previous entry exists
+
+            if (snapshot.exists()) {
+                val lastKey = snapshot.children.first().key
+                lastKey?.let {
+                    val numericPart = it.substringAfter("LRCDRR-").toIntOrNull()
+                    if (numericPart != null) {
+                        newIdNumber = numericPart + 1
+                    }
+                }
+            }
+
+            val newReservationId = String.format("LRCDRR-%05d", newIdNumber) // Ensure 5-digit format
+
+            // Create the reservation object
+            val reservation = Reservations(
+                userID = userID,
+                reservationDate = currentDate,
+                date = confirmedDate,
+                stime = confirmedStartTime,
+                etime = confirmedEndTime,
+                roomNum = confirmedRooms,
+                cnum = contact,
+                tableCount = tables,
+                chairCount = chairs,
+                purpose = purpose,
+                otherMaterials = materials
+            )
+
+            // Push data with the new custom ID
+            reservationRef.child(newReservationId).setValue(reservation).addOnCompleteListener {
+                if (it.isSuccessful) {
+                    Toast.makeText(this, "Reservation added successfully", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(this, RemindersActivity::class.java).apply {
+                        putExtra("REF_NO", newReservationId)
+                    }
+                    startActivity(intent)
+                    finish()
+                } else {
+                    Toast.makeText(this, "Failed to add reservation: ${it.exception?.message}", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }.addOnFailureListener {
+            Toast.makeText(this, "Failed to retrieve last reservation ID", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+
+    fun btnNoClicked(view: View) {
+        dialogConfReserve.dismiss()
+    }
+
+    fun edit_confirmation_details(view: View) {
         val intent = Intent(this, FormsActivity::class.java)
         startActivity(intent)
     }
-
 }

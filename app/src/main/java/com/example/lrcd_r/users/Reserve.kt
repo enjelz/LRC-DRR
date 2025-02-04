@@ -25,8 +25,6 @@ class Reserve : DrawerBaseActivity() {
     private lateinit var activityReserveBinding: ActivityReserveBinding
     private lateinit var firebaseAuth: FirebaseAuth
     private lateinit var databaseReferences: DatabaseReference
-    private lateinit var storageReference: StorageReference
-
 
     private lateinit var datePickerDialog: DatePickerDialog
     private lateinit var startTimePickerDialog: TimePickerDialog
@@ -40,6 +38,9 @@ class Reserve : DrawerBaseActivity() {
     private lateinit var checkBox3: CheckBox
     private lateinit var checkBox4: CheckBox
     private val selectedRooms: MutableList<String> = mutableListOf()
+
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -146,31 +147,26 @@ class Reserve : DrawerBaseActivity() {
         val rooms: String = selectedRooms.joinToString(", ")
 
         // Default values (to prevent using unchanged button text as valid input)
-        val defaultDate = getString(R.string.default_date_text) // Example: "Select Date"
-        val defaultStartTime = getString(R.string.default_start_time_text) // Example: "Start Time"
-        val defaultEndTime = getString(R.string.default_end_time_text) // Example: "End Time"
+        val defaultDate = getString(R.string.default_date_text)
+        val defaultStartTime = getString(R.string.default_start_time_text)
+        val defaultEndTime = getString(R.string.default_end_time_text)
 
         // Validate all fields
         if (date == defaultDate || startTime == defaultStartTime || endTime == defaultEndTime || rooms.isEmpty()) {
-            Toast.makeText(this, "Fields cannot be empty.", Toast.LENGTH_SHORT).show()
-            return // Stop execution if validation fails
+            Toast.makeText(this, "You should select date, time, and a room.", Toast.LENGTH_SHORT).show()
+            return
         } else {
-            val schedule = Schedule(date, startTime, endTime, rooms)
-            val scheduleRef = FirebaseDatabase.getInstance().getReference("Schedules")
-            val scheduleId = scheduleRef.push().key
 
-            if (scheduleId != null) {
-                scheduleRef.child(scheduleId).setValue(schedule)
-                    .addOnCompleteListener {
-                        if (it.isSuccessful) {
-                            Toast.makeText(this, "Schedule added successfully", Toast.LENGTH_SHORT).show()
-                            startActivity(Intent(this, FormsActivity::class.java))
-                            finish()
-                        } else {
-                            Toast.makeText(this, "Failed to add schedule: ${it.exception?.message}", Toast.LENGTH_SHORT).show()
-                        }
-                    }
+            // Create Intent and pass data to FormsActivity
+            val intent = Intent(this, FormsActivity::class.java).apply {
+                putExtra("DATE", date)
+                putExtra("START_TIME", startTime)
+                putExtra("END_TIME", endTime)
+                putExtra("ROOMS", rooms)
             }
+
+            startActivity(intent)
+            finish()
         }
     }
 

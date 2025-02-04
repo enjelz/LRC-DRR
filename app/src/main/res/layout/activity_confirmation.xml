@@ -90,7 +90,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_marginLeft="10dp"
-                            android:text="Artiaga, Angel Reign"
+                            android:text="XXX"
                             android:textColor="@color/white"
                             android:textSize="17sp" />
                     </LinearLayout>
@@ -105,7 +105,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_marginStart="20dp"
-                            android:text="Student"
+                            android:text="XXX"
                             android:textColor="@color/white"
                             android:textSize="17sp"
                             android:textStyle="bold" />
@@ -156,7 +156,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_marginLeft="10dp"
-                            android:text="2023-132332"
+                            android:text="XXX"
                             android:textColor="@color/white"
                             android:textSize="17sp" />
                     </LinearLayout>
@@ -208,7 +208,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="20dp"
                             android:layout_marginLeft="10dp"
-                            android:text="09271129719"
+                            android:text="XXX"
                             android:textColor="@color/white"
                             android:textSize="17sp" />
                     </LinearLayout>
@@ -275,7 +275,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_marginLeft="10dp"
-                            android:text="Nov. 20, 2024"
+                            android:text="Date Requested"
                             android:textColor="@color/white"
                             android:textSize="17sp" />
                     </LinearLayout>
@@ -300,7 +300,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_marginLeft="10dp"
-                            android:text="Group meeting"
+                            android:text="XXX"
                             android:textColor="@color/white"
                             android:textSize="17sp" />
                     </LinearLayout>
@@ -330,26 +330,25 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
                                 android:layout_marginLeft="10dp"
-                                android:text="Wednesday, January 22"
+                                android:text="Day, MM DD"
                                 android:textColor="@color/white"
                                 android:textSize="17sp" />
 
                             <TextView
-
                                 android:id="@+id/val_schedTime"
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
                                 android:layout_marginLeft="10dp"
-                                android:text="1:00pm - 5:00pm"
+                                android:text="start time - end time"
                                 android:textColor="@color/white"
                                 android:textSize="17sp" />
 
                             <TextView
                                 android:id="@+id/val_schedRoom"
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
                                 android:layout_marginLeft="10dp"
-                                android:text="Room No. 2 and 3"
+                                android:text="Room No."
                                 android:textColor="@color/white"
                                 android:textSize="17sp" />
                         </LinearLayout>
@@ -375,7 +374,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_marginLeft="10dp"
-                            android:text="2"
+                            android:text="XX"
                             android:textColor="@color/white"
                             android:textSize="17sp" />
 
@@ -402,7 +401,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_marginLeft="10dp"
-                            android:text="12"
+                            android:text="XX"
                             android:textColor="@color/white"
                             android:textSize="17sp" />
 
@@ -429,7 +428,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_marginLeft="10dp"
-                            android:text="Projector"
+                            android:text="XXX"
                             android:textColor="@color/white"
                             android:textSize="17sp" />
 
