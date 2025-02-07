@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.core.content.ContextCompat
 import com.example.lrcd_r.R
@@ -23,7 +24,7 @@ class AdminHomepage : AdminDrawerBaseActivity() {
     private lateinit var datePickerDialog: DatePickerDialog
     private lateinit var startTimePickerDialog: TimePickerDialog
     private lateinit var endTimePickerDialog: TimePickerDialog
-    private lateinit var availabilityLayout: LinearLayout //
+    private lateinit var availabilityLayout: LinearLayout
     private lateinit var btnDate: Button
     private lateinit var btnTimeStart: Button
     private lateinit var btnTimeEnd: Button
@@ -31,11 +32,11 @@ class AdminHomepage : AdminDrawerBaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_admin_homepage) // Provide layout resource ID
+        setContentView(R.layout.activity_admin_homepage)
         adminHomepageBinding = ActivityAdminHomepageBinding.inflate(layoutInflater)
         enableEdgeToEdge()
 
-        // Initialize buttons manually using findViewById
+        // Initialize buttons manually
         btnDate = findViewById(R.id.btnDate)
         btnTimeStart = findViewById(R.id.btnTimeStart)
         btnTimeEnd = findViewById(R.id.btnTimeEnd)
@@ -43,31 +44,13 @@ class AdminHomepage : AdminDrawerBaseActivity() {
         setupDatePicker()
         setupTimePickers()
 
-        // Initialize availabilityLayout
+        // Initialize availability layout
         availabilityLayout = findViewById(R.id.availability)
-
-        // Set text color based on availability
-        val availabilityTextViews = listOf(
-            findViewById<TextView>(R.id.textView18),
-            findViewById<TextView>(R.id.textView19),
-            findViewById<TextView>(R.id.textView20),
-            findViewById<TextView>(R.id.textView21)
-        )
-
-        for (textView in availabilityTextViews) {
-            when (textView.text) {
-                "Available" -> textView.setTextColor(ContextCompat.getColor(this, R.color.confirm))
-                "Unnavailable" -> textView.setTextColor(ContextCompat.getColor(this, R.color.cancel))
-            }
-        }
     }
 
     private fun setupDatePicker() {
         val today = Calendar.getInstance()
         val currentYear = today.get(Calendar.YEAR)
-        val year = today.get(Calendar.YEAR)
-        val month = today.get(Calendar.MONTH)
-        val day = today.get(Calendar.DAY_OF_MONTH)
 
         datePickerDialog = DatePickerDialog(
             this,
@@ -75,20 +58,23 @@ class AdminHomepage : AdminDrawerBaseActivity() {
                 val calendar = Calendar.getInstance()
                 calendar.set(selectedYear, selectedMonth, selectedDay)
 
-                // Determine the format based on the year
-                val dateFormat = if (selectedYear == currentYear) {
-                    SimpleDateFormat("EEEE, MMMM dd", Locale.getDefault()) // Same year
-                } else {
-                    SimpleDateFormat("MMMM dd, yyyy", Locale.getDefault()) // Different year
+                // Prevent selection of Sundays
+                if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
+                    Toast.makeText(this, "Reservations are only available Monday to Saturday. Please select a different date.", Toast.LENGTH_LONG).show()
+                    return@DatePickerDialog
                 }
 
+                val dateFormat = SimpleDateFormat("MMMM dd, yyyy", Locale.getDefault())
                 val selectedDate = dateFormat.format(calendar.time)
-                btnDate.text = selectedDate // Update button text
+                btnDate.text = selectedDate
             },
-            year,
-            month,
-            day
+            today.get(Calendar.YEAR),
+            today.get(Calendar.MONTH),
+            today.get(Calendar.DAY_OF_MONTH)
         )
+
+        // Disable past dates
+        datePickerDialog.datePicker.minDate = System.currentTimeMillis() - 1000
     }
 
     private fun setupTimePickers() {
@@ -97,14 +83,19 @@ class AdminHomepage : AdminDrawerBaseActivity() {
         startTimePickerDialog = TimePickerDialog(
             this,
             { _, hourOfDay, minute ->
+                if (hourOfDay < 8 || hourOfDay >= 17) {  // Restrict time from 8AM to 5PM
+                    Toast.makeText(this, "Reservations are only allowed between 8 AM and 5 PM.", Toast.LENGTH_SHORT).show()
+                    return@TimePickerDialog
+                }
+
                 val calendar = Calendar.getInstance()
                 calendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
                 calendar.set(Calendar.MINUTE, minute)
 
                 val selectedTime = timeFormat.format(calendar.time)
-                btnTimeStart.text = selectedTime // Update button text
+                btnTimeStart.text = selectedTime
             },
-            12,
+            8, // Default to 8 AM
             0,
             false
         )
@@ -112,18 +103,24 @@ class AdminHomepage : AdminDrawerBaseActivity() {
         endTimePickerDialog = TimePickerDialog(
             this,
             { _, hourOfDay, minute ->
+                if (hourOfDay < 8 || hourOfDay >= 17) {  // Restrict time from 8AM to 5PM
+                    Toast.makeText(this, "Reservations are only allowed between 8 AM and 5 PM.", Toast.LENGTH_SHORT).show()
+                    return@TimePickerDialog
+                }
+
                 val calendar = Calendar.getInstance()
                 calendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
                 calendar.set(Calendar.MINUTE, minute)
 
                 val selectedTime = timeFormat.format(calendar.time)
-                btnTimeEnd.text = selectedTime // Update button text
+                btnTimeEnd.text = selectedTime
             },
-            12,
+            17, // Default to 5 PM
             0,
             false
         )
     }
+
     private fun checkRoomAvailabilityForAdmin() {
         val selectedDate = btnDate.text.toString()
         val startTime = btnTimeStart.text.toString()
@@ -137,21 +134,20 @@ class AdminHomepage : AdminDrawerBaseActivity() {
 
         databaseRef.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                val reservedRooms = mutableSetOf<String>() // Stores reserved room numbers
+                val reservedRooms = mutableSetOf<String>()
 
                 for (reservation in snapshot.children) {
-                    val date = reservation.child("date").getValue(String::class.java)?: continue
-                    val stime = reservation.child("stime").getValue(String::class.java)?: continue
-                    val etime = reservation.child("etime").getValue(String::class.java)?: continue
-                    val roomNum = reservation.child("roomNum").getValue(String::class.java) // Stored as "1,2,3"
+                    val date = reservation.child("date").getValue(String::class.java) ?: continue
+                    val stime = reservation.child("stime").getValue(String::class.java) ?: continue
+                    val etime = reservation.child("etime").getValue(String::class.java) ?: continue
+                    val roomNum = reservation.child("roomNum").getValue(String::class.java)
 
-                    if (date == selectedDate) { // Check only reservations on the same date
-                        if (isTimeOverlapping(startTime, endTime, stime, etime)) {
-                            roomNum?.split(",")?.forEach { room -> reservedRooms.add(room.trim()) }
-                        }
+                    if (date == selectedDate && isTimeOverlapping(startTime, endTime, stime, etime)) {
+                        roomNum?.split(",")?.map { it.trim() }?.forEach { room -> reservedRooms.add(room) }
                     }
                 }
-                // Update the UI to show unavailable rooms
+
+                Log.d("Debug", "Reserved Rooms Set after Firebase fetch: $reservedRooms")
                 updateRoomAvailabilityUI(reservedRooms)
             }
 
@@ -161,23 +157,29 @@ class AdminHomepage : AdminDrawerBaseActivity() {
         })
     }
 
-
-    //Helper function to check if two time slots overlap
     private fun isTimeOverlapping(start1: String, end1: String, start2: String?, end2: String?): Boolean {
         if (start2 == null || end2 == null) return false
-        return (start1 < end2 && end1 > start2) // Overlapping condition
+        val sdf = SimpleDateFormat("h:mm a", Locale.getDefault()) // Ensure AM/PM is considered
+        val time1Start = sdf.parse(start1)?.time ?: return false
+        val time1End = sdf.parse(end1)?.time ?: return false
+        val time2Start = sdf.parse(start2)?.time ?: return false
+        val time2End = sdf.parse(end2)?.time ?: return false
+        return time1Start < time2End && time1End > time2Start
     }
 
     private fun updateRoomAvailabilityUI(reservedRooms: Set<String>) {
         val roomTextViews = listOf(
-            findViewById<TextView>(R.id.textView18), // Room 1
-            findViewById<TextView>(R.id.textView19), // Room 2
-            findViewById<TextView>(R.id.textView20), // Room 3
-            findViewById<TextView>(R.id.textView21)  // Room 4
+            findViewById<TextView>(R.id.textView18),
+            findViewById<TextView>(R.id.textView19),
+            findViewById<TextView>(R.id.textView20),
+            findViewById<TextView>(R.id.textView21)
         )
 
         for ((index, textView) in roomTextViews.withIndex()) {
             val roomNumber = (index + 1).toString()
+
+            Log.d("Debug", "Checking room $roomNumber - Reserved: ${reservedRooms.contains(roomNumber)}")
+
             availabilityLayout.visibility = View.VISIBLE
             if (reservedRooms.contains(roomNumber)) {
                 textView.text = "Unavailable"
@@ -189,20 +191,19 @@ class AdminHomepage : AdminDrawerBaseActivity() {
         }
     }
 
-
-    fun btnDate(view: View){
+    fun btnDate(view: View) {
         datePickerDialog.show()
     }
 
-    fun btnTimeStart(view: View){
+    fun btnTimeStart(view: View) {
         startTimePickerDialog.show()
     }
 
-    fun btnTimeEnd(view: View){
+    fun btnTimeEnd(view: View) {
         endTimePickerDialog.show()
     }
 
     fun btnCheckAvail(view: View) {
-        checkRoomAvailabilityForAdmin() // Call function to check availability
+        checkRoomAvailabilityForAdmin()
     }
 }

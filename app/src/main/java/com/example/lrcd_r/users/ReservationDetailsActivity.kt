@@ -4,7 +4,9 @@ import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
@@ -12,6 +14,7 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.annotation.RequiresApi
 import androidx.cardview.widget.CardView
 import com.example.lrcd_r.R
 import com.example.lrcd_r.User
@@ -22,12 +25,16 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.time.temporal.ChronoUnit
+
 
 class ReservationDetailsActivity : DrawerBaseActivity() {
 
     private lateinit var activityReservationDetailsBinding: ActivityReservationDetailsBinding
     lateinit var dialog1: Dialog
-    private lateinit var reservationCancelledCardView: CardView
+    private lateinit var reservationStatusCardView: CardView
     private lateinit var btnCancelReservation: Button
     lateinit var sharedPreferences: SharedPreferences
 
@@ -63,7 +70,7 @@ class ReservationDetailsActivity : DrawerBaseActivity() {
         dialog1.getWindow()?.setBackgroundDrawable(getDrawable(R.drawable.dialog_box))
         dialog1.setCancelable(false)
 
-        reservationCancelledCardView = findViewById(R.id.reservationCancelled)
+        reservationStatusCardView = findViewById(R.id.reservation_details_status_cardview_area)
         btnCancelReservation = findViewById(R.id.btn_cancel_reservation)
         dispRefNum = findViewById(R.id.disp_refnum)
         dispName = findViewById(R.id.disp_name)
@@ -85,7 +92,7 @@ class ReservationDetailsActivity : DrawerBaseActivity() {
         val cardViewVisible = sharedPreferences.getBoolean("cardViewVisible", false)
         val buttonVisible = sharedPreferences.getBoolean("buttonVisible", true)
 
-        reservationCancelledCardView.visibility = if (cardViewVisible) View.VISIBLE else View.GONE
+        reservationStatusCardView.visibility = if (cardViewVisible) View.VISIBLE else View.GONE
         btnCancelReservation.visibility = if (buttonVisible) View.VISIBLE else View.GONE
 
         databaseReference = FirebaseDatabase.getInstance().reference
@@ -101,36 +108,59 @@ class ReservationDetailsActivity : DrawerBaseActivity() {
     private fun fetchReservationDetails(refNum: String) {
         val reservationRef = databaseReference.child("Reservations").child(refNum)
 
-        reservationRef.addListenerForSingleValueEvent(object : ValueEventListener {
+        reservationRef.addValueEventListener(object : ValueEventListener {
+            @RequiresApi(Build.VERSION_CODES.O)
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.exists()) {
                     val chairCount = snapshot.child("chairCount").value?.toString() ?: "N/A"
                     val cnum = snapshot.child("cnum").value?.toString() ?: "N/A"
                     val date = snapshot.child("date").value?.toString() ?: "N/A"
                     val etime = snapshot.child("etime").value?.toString() ?: "N/A"
-                    val otherMaterials = snapshot.child("otherMaterials").value?.toString()?.takeIf { it.isNotBlank() } ?: "None" // Set "None" if null or empty
+                    val otherMaterials = snapshot.child("otherMaterials").value?.toString()?.takeIf { it.isNotBlank() } ?: "None"
                     val purpose = snapshot.child("purpose").value?.toString() ?: "N/A"
                     val reservationDate = snapshot.child("reservationDate").value?.toString() ?: "N/A"
                     val roomNum = snapshot.child("roomNum").value?.toString() ?: "N/A"
                     val stime = snapshot.child("stime").value?.toString() ?: "N/A"
                     val tableCount = snapshot.child("tableCount").value?.toString() ?: "N/A"
                     val userID = snapshot.child("userID").value?.toString()
+                    val reservationStatus = snapshot.child("status").value?.toString()?.trim()?.uppercase() ?: ""
 
-                    //  Concatenate "Discussion Room " + room number
-                    val formattedRoomNum = if (roomNum != "N/A") "Discussion Room $roomNum" else "N/A"
+                    Log.d("FirebaseData", "Fetched status: $reservationStatus") // Debugging
 
+                    // Update UI
                     dispCNum.text = cnum
                     dispReservationDate.text = reservationDate
                     dispPurpose.text = purpose
                     dispDate.text = date
                     dispDuration.text = "$stime to $etime"
-                    dispRooms.text = formattedRoomNum // ✅ Updated
+                    dispRooms.text = if (roomNum != "N/A") "Discussion Room $roomNum" else "N/A"
                     dispTable.text = tableCount
                     dispChair.text = chairCount
-                    dispOther.text = otherMaterials // ✅ Updated
+                    dispOther.text = otherMaterials
+
+                    // Update Status Display
+                    updateReservationStatus(reservationStatus)
 
                     if (userID != null) {
                         fetchUserDetails(userID)
+                    }
+
+                    // Restrict Cancellation - Hide button only if status is explicitly set to a non-cancelable state
+                    try {
+                        val formatter = DateTimeFormatter.ofPattern("MMMM d, yyyy")
+                        val reservationLocalDate = LocalDate.parse(date, formatter)
+                        val currentDate = LocalDate.now()
+                        val daysUntilReservation = ChronoUnit.DAYS.between(currentDate, reservationLocalDate)
+
+                        Log.d("DateCheck", "Current Date: $currentDate, Reservation Date: $reservationLocalDate, Days Until: $daysUntilReservation")
+
+                        if (reservationStatus in listOf("CONFIRMED", "CANCELLED", "SHOWED UP", "NO SHOW/ABSENT") || daysUntilReservation < 1) {
+                            btnCancelReservation.visibility = View.GONE
+                        } else {
+                            btnCancelReservation.visibility = View.VISIBLE
+                        }
+                    } catch (e: Exception) {
+                        Log.e("DateParseError", "Error parsing date: ${e.message}")
                     }
                 } else {
                     Toast.makeText(this@ReservationDetailsActivity, "Reservation not found", Toast.LENGTH_SHORT).show()
@@ -142,6 +172,44 @@ class ReservationDetailsActivity : DrawerBaseActivity() {
             }
         })
     }
+
+
+
+
+    private fun updateReservationStatus(status: String) {
+        val dispStatus = findViewById<TextView>(R.id.disp_users_status)
+        val normalizedStatus = status.trim().uppercase()
+
+        Log.d("UpdateStatusCheck", "Updating status: $normalizedStatus")
+
+        // Prevent cancellation if status is already set (not pending)
+        if (normalizedStatus != "PENDING") {
+            btnCancelReservation.visibility = View.GONE
+        }
+
+        when (normalizedStatus) {
+            "CANCELLED" -> {
+                reservationStatusCardView.visibility = View.VISIBLE
+                dispStatus.text = "CANCELLED"
+            }
+            "CONFIRMED", "SHOWED UP" -> {
+                reservationStatusCardView.visibility = View.VISIBLE
+                dispStatus.text = "CONFIRMED"
+            }
+            "NO SHOW/ABSENT" -> {
+                reservationStatusCardView.visibility = View.VISIBLE
+                dispStatus.text = "NO SHOW/ABSENT"
+            }
+            else -> {
+                reservationStatusCardView.visibility = View.GONE
+                btnCancelReservation.visibility = View.VISIBLE // Show only if status is "PENDING"
+                dispStatus.text = "PENDING"
+            }
+        }
+    }
+
+
+
 
 
     private fun fetchUserDetails(userID: String) {
@@ -200,15 +268,33 @@ class ReservationDetailsActivity : DrawerBaseActivity() {
 
     fun btnCancelYesClicked(view: View) {
         dialog1.dismiss()
-        // Save visibility states in SharedPreferences
-        val editor = sharedPreferences.edit()
-        editor.putBoolean("cardViewVisible", true)
-        editor.putBoolean("buttonVisible", false)
-        editor.apply()
 
-        reservationCancelledCardView.visibility = View.VISIBLE
-        btnCancelReservation.visibility = View.GONE // Hide the button
+        val refNum = dispRefNum.text.toString()
+        val reservationRef = databaseReference.child("Reservations").child(refNum)
+
+        reservationRef.child("status").setValue("CANCELLED").addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                Toast.makeText(this, "Reservation Cancelled", Toast.LENGTH_SHORT).show()
+
+                // Save visibility states in SharedPreferences
+                val editor = sharedPreferences.edit()
+                editor.putBoolean("cardViewVisible", true)
+                editor.putBoolean("buttonVisible", false)  // Ensure it's set to false
+                editor.apply()
+
+                // Update UI
+                updateReservationStatus("CANCELLED")
+
+                // Explicitly hide the button again to ensure it disappears
+                btnCancelReservation.visibility = View.GONE
+
+            } else {
+                Toast.makeText(this, "Failed to cancel reservation", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
+
+
 
     fun btnCancelNoClicked(view: View) {
         dialog1.dismiss()
