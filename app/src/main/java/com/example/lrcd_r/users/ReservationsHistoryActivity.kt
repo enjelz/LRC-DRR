@@ -11,29 +11,26 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import com.example.lrcd_r.R
-import com.example.lrcd_r.databinding.ActivityReservationsBinding
+import com.example.lrcd_r.databinding.ActivityReservationsHistoryBinding
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
-class ReservationsActivity :  DrawerBaseActivity() {
+class ReservationsHistoryActivity : DrawerBaseActivity() {
 
-    private lateinit var activityReservationsBinding: ActivityReservationsBinding
+    private lateinit var reservationsHistoryBinding: ActivityReservationsHistoryBinding
     private lateinit var reservationsLayout: LinearLayout
     private lateinit var databaseReference: DatabaseReference
     private var userID: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_reservations) // Provide layout resource ID
-        activityReservationsBinding = ActivityReservationsBinding.inflate(layoutInflater)
+        setContentView(R.layout.activity_reservations_history) // Provide layout resource ID
+        reservationsHistoryBinding = ActivityReservationsHistoryBinding.inflate(layoutInflater)
         enableEdgeToEdge()
 
-        reservationsLayout = findViewById(R.id.ReservationCard)
-
-        // Retrieve logged-in userID from SharedPreferences
         val userPrefs = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)
         userID = userPrefs.getString("USER_ID", null)
 
@@ -42,14 +39,20 @@ class ReservationsActivity :  DrawerBaseActivity() {
             return
         }
 
-        // Reference to Firebase Reservations node
+        reservationsLayout = findViewById(R.id.reservationsHistoryCard) // Make sure this ID exists in your XML
         databaseReference = FirebaseDatabase.getInstance().getReference("Reservations")
 
-        // Fetch reservations
-        fetchUserReservations()
+        fetchReservations()
     }
 
-    private fun fetchUserReservations() {
+    fun Upcoming(view: View) {
+        val intent = Intent(this, ReservationsActivity::class.java)
+        overridePendingTransition(0, 0) // Disable animations
+        startActivity(intent)
+        overridePendingTransition(0, 0) // Disable animations again
+    }
+
+    private fun fetchReservations() {
         databaseReference.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 reservationsLayout.removeAllViews() // Clear old data
@@ -58,8 +61,8 @@ class ReservationsActivity :  DrawerBaseActivity() {
                     val reservationUserID = reservationSnapshot.child("userID").value?.toString()
                     val status = reservationSnapshot.child("status").getValue(String::class.java)
 
-                    // Check if reservation belongs to the logged-in user and status is null or empty
-                    if (reservationUserID == userID && status.isNullOrEmpty()) {
+                    // Check if reservation belongs to the logged-in user and status is NOT null/empty
+                    if (reservationUserID == userID && !status.isNullOrEmpty()) {
                         val refNum = reservationSnapshot.key.toString()
 
                         // Create a new reservation card dynamically
@@ -69,7 +72,7 @@ class ReservationsActivity :  DrawerBaseActivity() {
             }
 
             override fun onCancelled(error: DatabaseError) {
-                Toast.makeText(this@ReservationsActivity, "Error: ${error.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@ReservationsHistoryActivity, "Error: ${error.message}", Toast.LENGTH_SHORT).show()
             }
         })
     }
@@ -94,7 +97,7 @@ class ReservationsActivity :  DrawerBaseActivity() {
             val refNumText = refNumTextView?.text?.toString()?.replace("Reference Number: ", "")
 
             if (!refNumText.isNullOrEmpty()) {
-                val intent = Intent(this, ReservationDetailsActivity::class.java)
+                val intent = Intent(this, ReservationsHistoryDetailsActivity::class.java)
                 overridePendingTransition(0, 0) // Disable animations
                 intent.putExtra("REF_NUM", refNumText) // Pass Reference Number
                 startActivity(intent)
@@ -103,12 +106,5 @@ class ReservationsActivity :  DrawerBaseActivity() {
                 Toast.makeText(this, "Reference number not found!", Toast.LENGTH_SHORT).show()
             }
         }
-    }
-
-    fun History(view: View) {
-        val intent = Intent(this, ReservationsHistoryActivity::class.java)
-        overridePendingTransition(0, 0) // Disable animations
-        startActivity(intent)
-        overridePendingTransition(0, 0) // Disable animations again
     }
 }
