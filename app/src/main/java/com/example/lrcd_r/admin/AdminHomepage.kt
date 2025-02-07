@@ -27,6 +27,7 @@ class AdminHomepage : AdminDrawerBaseActivity() {
     private lateinit var btnDate: Button
     private lateinit var btnTimeStart: Button
     private lateinit var btnTimeEnd: Button
+    private var isReservationMade = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -139,9 +140,9 @@ class AdminHomepage : AdminDrawerBaseActivity() {
                 val reservedRooms = mutableSetOf<String>() // Stores reserved room numbers
 
                 for (reservation in snapshot.children) {
-                    val date = reservation.child("date").getValue(String::class.java)
-                    val stime = reservation.child("stime").getValue(String::class.java)
-                    val etime = reservation.child("etime").getValue(String::class.java)
+                    val date = reservation.child("date").getValue(String::class.java)?: continue
+                    val stime = reservation.child("stime").getValue(String::class.java)?: continue
+                    val etime = reservation.child("etime").getValue(String::class.java)?: continue
                     val roomNum = reservation.child("roomNum").getValue(String::class.java) // Stored as "1,2,3"
 
                     if (date == selectedDate) { // Check only reservations on the same date
@@ -150,7 +151,6 @@ class AdminHomepage : AdminDrawerBaseActivity() {
                         }
                     }
                 }
-
                 // Update the UI to show unavailable rooms
                 updateRoomAvailabilityUI(reservedRooms)
             }
@@ -161,8 +161,8 @@ class AdminHomepage : AdminDrawerBaseActivity() {
         })
     }
 
-    //Helper function to check if two time slots overlap
 
+    //Helper function to check if two time slots overlap
     private fun isTimeOverlapping(start1: String, end1: String, start2: String?, end2: String?): Boolean {
         if (start2 == null || end2 == null) return false
         return (start1 < end2 && end1 > start2) // Overlapping condition
@@ -178,6 +178,7 @@ class AdminHomepage : AdminDrawerBaseActivity() {
 
         for ((index, textView) in roomTextViews.withIndex()) {
             val roomNumber = (index + 1).toString()
+            availabilityLayout.visibility = View.VISIBLE
             if (reservedRooms.contains(roomNumber)) {
                 textView.text = "Unavailable"
                 textView.setTextColor(ContextCompat.getColor(this, R.color.cancel))
@@ -187,7 +188,6 @@ class AdminHomepage : AdminDrawerBaseActivity() {
             }
         }
     }
-
 
 
     fun btnDate(view: View){
@@ -203,8 +203,6 @@ class AdminHomepage : AdminDrawerBaseActivity() {
     }
 
     fun btnCheckAvail(view: View) {
-        availabilityLayout.visibility = View.VISIBLE
         checkRoomAvailabilityForAdmin() // Call function to check availability
-
     }
 }
