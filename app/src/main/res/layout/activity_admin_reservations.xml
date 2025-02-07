@@ -17,6 +17,7 @@
             android:layout_width="390dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:layout_marginTop="30dp"
             android:orientation="horizontal">
 
             <Button
@@ -24,7 +25,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="60dp"
-                android:layout_marginTop="45dp"
                 android:layout_weight="1"
                 android:backgroundTint="#161f48"
                 android:fontFamily="sans-serif-medium"
@@ -38,7 +38,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="-20dp"
-                android:layout_marginTop="45dp"
                 android:layout_marginRight="60dp"
                 android:layout_weight="1"
                 android:backgroundTint="#d8e1e8"

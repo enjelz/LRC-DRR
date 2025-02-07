@@ -43,9 +43,11 @@ class AdminReservationsActivity : AdminDrawerBaseActivity() {
 
                 for (reservationSnapshot in snapshot.children) {
                     val refNum = reservationSnapshot.key.toString()
+                    val status = reservationSnapshot.child("status").getValue(String::class.java)
 
-                    // Create and add a reservation card dynamically
-                    addReservationCard(refNum)
+                    if (status.isNullOrEmpty()) { // Only add reservations with NO status
+                        addReservationCard(refNum)
+                    }
                 }
             }
 

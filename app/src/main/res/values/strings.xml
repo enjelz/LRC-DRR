@@ -15,8 +15,8 @@
 
     <string-array name="status_options">
         <item>Tap to select status</item>
-        <item>Showed Up</item>
-        <item>Cancel</item>
-        <item>No Show / Absent</item>
+        <item>SHOWED UP</item>
+        <item>CANCELLED</item>
+        <item>NO SHOW/ABSENT</item>
     </string-array>
 </resources>
