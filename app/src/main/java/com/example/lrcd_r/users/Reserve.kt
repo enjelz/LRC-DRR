@@ -250,10 +250,6 @@ class Reserve : DrawerBaseActivity() {
         }
     }
 
-
-
-
-
     private fun isTimeConflict(startTime: String, endTime: String, bookedStart: String, bookedEnd: String): Boolean {
         val formatter = SimpleDateFormat("hh:mm a", Locale.getDefault())
 
@@ -264,9 +260,6 @@ class Reserve : DrawerBaseActivity() {
 
         return (selectedStart!!.before(existingEnd) && selectedEnd!!.after(existingStart))
     }
-
-
-
 
     private fun updateUIAvailability(unavailableRooms: List<String>) {
         val checkBoxes = listOf(checkBox1, checkBox2, checkBox3, checkBox4)
@@ -286,10 +279,6 @@ class Reserve : DrawerBaseActivity() {
             }
         }
     }
-
-
-
-
 
     fun btn_reserve_next(view: View) {
         val uid = firebaseAuth.currentUser?.uid
@@ -323,7 +312,6 @@ class Reserve : DrawerBaseActivity() {
                 putExtra("END_TIME", endTime)
                 putExtra("ROOMS", rooms)
             }
-
             startActivity(intent)
             finish()
         }

@@ -119,7 +119,7 @@ class ConfirmationActivity : DrawerBaseActivity() {
         valDateReq.text = currentDate
 
         valDate.text = confirmedDate
-        valTime.text = "$confirmedStartTime - $confirmedEndTime"
+        valTime.text = "$confirmedStartTime to $confirmedEndTime"
         valRoom.text = "Discussion Room $confirmedRooms"
 
         //inflating dialog box
@@ -169,7 +169,8 @@ class ConfirmationActivity : DrawerBaseActivity() {
                 tableCount = tables,
                 chairCount = chairs,
                 purpose = purpose,
-                otherMaterials = materials
+                otherMaterials = materials,
+                status = ""
             )
 
             // Push data with the new custom ID

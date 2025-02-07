@@ -15,5 +15,7 @@ data class Reservations(
     val tableCount: String ?= null,
     val chairCount: String ?= null,
     val purpose: String ?= null,
-    val otherMaterials: String ?= null
+    val otherMaterials: String ?= null,
+
+    val status: String ?= null
 )

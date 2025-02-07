@@ -14,14 +14,9 @@
     </string-array>
 
     <string-array name="status_options">
-        <item>Pending</item>
+        <item>Tap to select status</item>
         <item>Showed Up</item>
         <item>Cancel</item>
         <item>No Show / Absent</item>
     </string-array>
-
-
-
-
-
 </resources>

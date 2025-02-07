@@ -446,6 +446,10 @@
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
+
+
+
+
         <androidx.cardview.widget.CardView
             android:id="@+id/reservation_details_date_status_cardview_area"
             android:layout_width="match_parent"
@@ -483,7 +487,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:layout_marginBottom="15dp"
+                    android:layout_marginBottom="5dp"
                     android:orientation="horizontal">
 
                     <TextView

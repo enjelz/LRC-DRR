@@ -59,21 +59,25 @@ class AdminUpdateStatusActivity : AdminDrawerBaseActivity() {
             android.R.layout.simple_spinner_item,  // Default spinner item layout
             resources.getStringArray(R.array.status_options)  // Array from strings.xml
         ) {
-            // Override the getView method to set the background color and text color
             override fun getView(position: Int, convertView: View?, parent: android.view.ViewGroup): View {
                 val view = super.getView(position, convertView, parent)
                 val textView = view.findViewById<TextView>(android.R.id.text1)
-                textView.setBackgroundColor(getStatusColor(position)) // Set background color
-                textView.setTextColor(Color.WHITE) // Set text color to white
+
+                textView.setPadding(16, 20, 16, 20) // Adjust top & bottom padding
+                textView.textSize = 16f // Adjust text size
+                textView.setBackgroundColor(getStatusColor(position)) // Background color
+                textView.setTextColor(Color.WHITE) // Text color
                 return view
             }
 
-            // Override the getDropDownView method to set the background color and text color for dropdown items
             override fun getDropDownView(position: Int, convertView: View?, parent: android.view.ViewGroup): View {
                 val view = super.getDropDownView(position, convertView, parent)
                 val textView = view.findViewById<TextView>(android.R.id.text1)
-                textView.setBackgroundColor(getStatusColor(position)) // Set background color for the dropdown items
-                textView.setTextColor(Color.WHITE) // Set text color to white for dropdown items
+
+                textView.setPadding(16, 20, 16, 20) // Adjust top & bottom padding
+                textView.textSize = 16f // Adjust text size
+                textView.setBackgroundColor(getStatusColor(position)) // Background color
+                textView.setTextColor(Color.WHITE) // Text color
                 return view
             }
         }
@@ -82,15 +86,22 @@ class AdminUpdateStatusActivity : AdminDrawerBaseActivity() {
         reservationStatusSpinner.adapter = adapter
 
         // Set a listener for Spinner item selection
-        reservationStatusSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-                val selectedStatus = parent.getItemAtPosition(position).toString()
-                // Change the background color based on the selected status
-                // (You might want to remove this line if you're setting the background color in the adapter)
-                // view?.setBackgroundColor(getStatusColor(position))
+        reservationStatusSpinner.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    val selectedStatus = parent.getItemAtPosition(position).toString()
+                    // Change the background color based on the selected status
+                    // (You might want to remove this line if you're setting the background color in the adapter)
+                    // view?.setBackgroundColor(getStatusColor(position))
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>) {}
             }
-            override fun onNothingSelected(parent: AdapterView<*>) {}
-        }
 
         //inflating dialog box
         dialog3 = Dialog(this)
@@ -135,16 +146,19 @@ class AdminUpdateStatusActivity : AdminDrawerBaseActivity() {
                     val cnum = snapshot.child("cnum").value?.toString() ?: "N/A"
                     val date = snapshot.child("date").value?.toString() ?: "N/A"
                     val etime = snapshot.child("etime").value?.toString() ?: "N/A"
-                    val otherMaterials = snapshot.child("otherMaterials").value?.toString()?.takeIf { it.isNotBlank() } ?: "None" // Set "None" if null or empty
+                    val otherMaterials = snapshot.child("otherMaterials").value?.toString()
+                        ?.takeIf { it.isNotBlank() } ?: "None" // Set "None" if null or empty
                     val purpose = snapshot.child("purpose").value?.toString() ?: "N/A"
-                    val reservationDate = snapshot.child("reservationDate").value?.toString() ?: "N/A"
+                    val reservationDate =
+                        snapshot.child("reservationDate").value?.toString() ?: "N/A"
                     val roomNum = snapshot.child("roomNum").value?.toString() ?: "N/A"
                     val stime = snapshot.child("stime").value?.toString() ?: "N/A"
                     val tableCount = snapshot.child("tableCount").value?.toString() ?: "N/A"
                     val userID = snapshot.child("userID").value?.toString()
 
                     //  Concatenate "Discussion Room " + room number
-                    val formattedRoomNum = if (roomNum != "N/A") "Discussion Room $roomNum" else "N/A"
+                    val formattedRoomNum =
+                        if (roomNum != "N/A") "Discussion Room $roomNum" else "N/A"
 
                     dispCNum.text = cnum
                     dispReservationDate.text = reservationDate
@@ -160,66 +174,94 @@ class AdminUpdateStatusActivity : AdminDrawerBaseActivity() {
                         fetchUserDetails(userID)  // Pass the userID from reservation to fetch the correct user details
                     }
                 } else {
-                    Toast.makeText(this@AdminUpdateStatusActivity, "Reservation not found", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        this@AdminUpdateStatusActivity,
+                        "Reservation not found",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
 
             override fun onCancelled(error: DatabaseError) {
-                Toast.makeText(this@AdminUpdateStatusActivity, "Error: ${error.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this@AdminUpdateStatusActivity,
+                    "Error: ${error.message}",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         })
     }
 
     private fun fetchUserDetails(userID: String) {
         // Retrieve user details using the provided userID, not the logged-in user's email
-        databaseReference.child("Users").child(userID).addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                if (snapshot.exists()) {
-                    val user = snapshot.getValue(User::class.java)
+        databaseReference.child("Users").child(userID)
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if (snapshot.exists()) {
+                        val user = snapshot.getValue(User::class.java)
 
-                    if (user != null) {
-                        val txtName = findViewById<TextView>(R.id.disp_name)
-                        val txtDept = findViewById<TextView>(R.id.disp_dept)
-                        val txtUserType = findViewById<TextView>(R.id.disp_userType)
-                        val txtID = findViewById<TextView>(R.id.disp_idnum)
+                        if (user != null) {
+                            val txtName = findViewById<TextView>(R.id.disp_name)
+                            val txtDept = findViewById<TextView>(R.id.disp_dept)
+                            val txtUserType = findViewById<TextView>(R.id.disp_userType)
+                            val txtID = findViewById<TextView>(R.id.disp_idnum)
 
-                        if (txtName != null) {
-                            val formattedName = "${user.lname ?: "N/A"}, ${user.gname ?: "N/A"} ${user.mname ?: "N/A"}"
-                            txtName.text = formattedName
+                            if (txtName != null) {
+                                val formattedName =
+                                    "${user.lname ?: "N/A"}, ${user.gname ?: "N/A"} ${user.mname ?: "N/A"}"
+                                txtName.text = formattedName
+                            }
+                            if (txtUserType != null) txtUserType.text = user.userType ?: "N/A"
+                            if (txtDept != null) txtDept.text = user.dept ?: "N/A"
+                            if (txtID != null) txtID.text = user.id ?: "N/A"
                         }
-                        if (txtUserType != null) txtUserType.text = user.userType ?: "N/A"
-                        if (txtDept != null) txtDept.text = user.dept ?: "N/A"
-                        if (txtID != null) txtID.text = user.id ?: "N/A"
+                    } else {
+                        Toast.makeText(
+                            this@AdminUpdateStatusActivity,
+                            "User not found",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
-                } else {
-                    Toast.makeText(this@AdminUpdateStatusActivity, "User not found", Toast.LENGTH_SHORT).show()
                 }
-            }
 
-            override fun onCancelled(error: DatabaseError) {
-                Toast.makeText(this@AdminUpdateStatusActivity, "Something went wrong", Toast.LENGTH_SHORT).show()
-            }
-        })
+                override fun onCancelled(error: DatabaseError) {
+                    Toast.makeText(
+                        this@AdminUpdateStatusActivity,
+                        "Something went wrong",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            })
     }
 
 
     // Function to get the background color based on the selected status position
     private fun getStatusColor(position: Int): Int {
         return when (position) {
-            0 -> Color.parseColor("#a06617") // Orange for Pending
+            0 -> Color.parseColor("#4c4848") // Grey
             1 -> Color.parseColor("#265427") // Green for Confirmed
             2 -> Color.parseColor("#3e0606") // Maroon for Cancelled
-            3 -> Color.parseColor("#4c4848") // Grey for No Show/Absent
+            3 -> Color.parseColor("#a06617") // Orange
             else -> Color.TRANSPARENT // Default transparent if position is invalid
         }
     }
 
-    fun R1Back (view: View) {
+    fun R1Back(view: View) {
         startActivity(Intent(this, AdminReservationsActivity::class.java))
         overridePendingTransition(0, 0)
     }
+
     fun btnReservationUpdate(view: View) {
-        dialog3.show()
+        val selectedPosition = reservationStatusSpinner.selectedItemPosition
+        val selectedStatus = reservationStatusSpinner.selectedItem.toString()
+
+        // Check if the user has selected a status
+        if (selectedPosition == 0) { // Assuming position 0 is a default "Select Status"
+            Toast.makeText(this, "You have to select a status first!", Toast.LENGTH_SHORT).show()
+            return // Stop further execution
+        } else {
+            dialog3.show()
+        }
     }
 
     fun btnUpdateNo(view: View) {
@@ -228,8 +270,27 @@ class AdminUpdateStatusActivity : AdminDrawerBaseActivity() {
 
     fun btnUpdateYes(view: View) {
         dialog3.dismiss()
-        Toast.makeText(this, "Status Updated!", Toast.LENGTH_SHORT).show()
-        startActivity(Intent(this, AdminReservationsActivity::class.java))
-        overridePendingTransition(0, 0)
+
+        val selectedStatus = reservationStatusSpinner.selectedItem.toString()
+        val refNum = intent.getStringExtra("REF_NUM") // Get Reference Number from Intent
+
+        if (refNum.isNullOrEmpty()) {
+            Toast.makeText(this, "Error: Reference Number not found!", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        // Reference to the reservation in Firebase
+        val reservationRef = FirebaseDatabase.getInstance().getReference("Reservations").child(refNum)
+
+        // Update the status field
+        reservationRef.child("status").setValue(selectedStatus)
+            .addOnSuccessListener {
+                Toast.makeText(this, "Status Updated!", Toast.LENGTH_SHORT).show()
+                startActivity(Intent(this, AdminReservationsActivity::class.java))
+                overridePendingTransition(0, 0)
+            }
+            .addOnFailureListener { e ->
+                Toast.makeText(this, "Failed to update status: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
     }
 }
