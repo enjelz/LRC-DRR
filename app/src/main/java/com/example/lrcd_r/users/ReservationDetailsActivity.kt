@@ -266,33 +266,63 @@ class ReservationDetailsActivity : DrawerBaseActivity() {
         dialog1.show()
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun btnCancelYesClicked(view: View) {
-        dialog1.dismiss()
-
         val refNum = dispRefNum.text.toString()
         val reservationRef = databaseReference.child("Reservations").child(refNum)
 
-        reservationRef.child("status").setValue("CANCELLED").addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                Toast.makeText(this, "Reservation Cancelled", Toast.LENGTH_SHORT).show()
+        reservationRef.child("date").get().addOnSuccessListener { dataSnapshot ->
+            val reservationDateStr = dataSnapshot.value?.toString()
+            if (reservationDateStr != null) {
+                try {
+                    val formatter = DateTimeFormatter.ofPattern("MMMM d, yyyy") // Ensure correct format
+                    val reservationDate = LocalDate.parse(reservationDateStr, formatter)
+                    val currentDate = LocalDate.now()
+                    val daysUntilReservation = ChronoUnit.DAYS.between(currentDate, reservationDate)
 
-                // Save visibility states in SharedPreferences
-                val editor = sharedPreferences.edit()
-                editor.putBoolean("cardViewVisible", true)
-                editor.putBoolean("buttonVisible", false)  // Ensure it's set to false
-                editor.apply()
+                    Log.d("CancelCheck", "Current Date: $currentDate, Reservation Date: $reservationDate, Days Until: $daysUntilReservation")
 
-                // Update UI
-                updateReservationStatus("CANCELLED")
+                    // Prevent cancellation on the same day or a day before
+                    if (daysUntilReservation <= 1) {
+                        Toast.makeText(this, "You can no longer cancel this reservation.", Toast.LENGTH_SHORT).show()
+                        dialog1.dismiss()
+                        return@addOnSuccessListener
+                    }
 
-                // Explicitly hide the button again to ensure it disappears
-                btnCancelReservation.visibility = View.GONE
+                    // Proceed with cancellation
+                    dialog1.dismiss()
+                    reservationRef.child("status").setValue("CANCELLED").addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            Toast.makeText(this, "Reservation Cancelled", Toast.LENGTH_SHORT).show()
 
+                            // Save visibility states in SharedPreferences
+                            val editor = sharedPreferences.edit()
+                            editor.putBoolean("cardViewVisible", true)
+                            editor.putBoolean("buttonVisible", false)
+                            editor.apply()
+
+                            // Update UI
+                            updateReservationStatus("CANCELLED")
+                            btnCancelReservation.visibility = View.GONE
+                        } else {
+                            Toast.makeText(this, "Failed to cancel reservation", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                } catch (e: Exception) {
+                    Log.e("DateParseError", "Error parsing reservation date: ${e.message}")
+                    Toast.makeText(this, "Error processing cancellation", Toast.LENGTH_SHORT).show()
+                    dialog1.dismiss()
+                }
             } else {
-                Toast.makeText(this, "Failed to cancel reservation", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Reservation date not found", Toast.LENGTH_SHORT).show()
+                dialog1.dismiss()
             }
+        }.addOnFailureListener {
+            Toast.makeText(this, "Error fetching reservation date", Toast.LENGTH_SHORT).show()
+            dialog1.dismiss()
         }
     }
+
 
 
 
