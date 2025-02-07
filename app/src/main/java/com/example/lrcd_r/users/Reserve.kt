@@ -192,6 +192,28 @@ class Reserve : DrawerBaseActivity() {
         }
     }
 
+    private fun makeReservation(roomNums: List<String>, date: String, startTime: String, endTime: String) {
+        val reservationRef = FirebaseDatabase.getInstance().getReference("Reservations").push()
+        val roomNumbersString = roomNums.joinToString(",") // Create a comma-separated string
+
+        val reservationData = mapOf(
+            "roomNum" to roomNumbersString,
+            "date" to date,
+            "stime" to startTime,
+            "etime" to endTime
+        )
+
+        reservationRef.setValue(reservationData).addOnSuccessListener {
+            // Reservation was successful, set the flag to refresh availability
+            isReservationMade = true
+            checkRoomAvailability() // Recheck room availability
+        }.addOnFailureListener {
+            Log.e("ReservationError", "Failed to make reservation: ${it.message}")
+        }
+    }
+
+
+
     private fun fetchReservations(databaseRef: DatabaseReference, selectedDate: String, startTime: String, endTime: String) {
         databaseRef.get().addOnSuccessListener { snapshot ->
             if (!snapshot.exists()) {
