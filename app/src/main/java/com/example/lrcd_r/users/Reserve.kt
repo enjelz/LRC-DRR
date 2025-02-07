@@ -109,11 +109,7 @@ class Reserve : DrawerBaseActivity() {
             this,
             { _, hourOfDay, minute ->
                 if (hourOfDay < 8 || hourOfDay > 17) { // Restrict to 8 AM - 5 PM ~~~
-                    Toast.makeText(
-                        this,
-                        "Select a time between 8:00am - 5:00pm.",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    Toast.makeText(this, "Select a time between 8:00am - 5:00pm.", Toast.LENGTH_SHORT).show()
                     return@TimePickerDialog
                 }
                 val calendar = Calendar.getInstance()
@@ -132,11 +128,7 @@ class Reserve : DrawerBaseActivity() {
             this,
             { _, hourOfDay, minute ->
                 if (hourOfDay < 8 || hourOfDay > 17) { // Restrict to 8 AM - 5 PM
-                    Toast.makeText(
-                        this,
-                        "Select a time between 8:00 AM - 5:00 PM.",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    Toast.makeText(this, "Select a time between 8:00 AM - 5:00 PM.", Toast.LENGTH_SHORT).show()
                     return@TimePickerDialog
                 }
                 val calendarStart = Calendar.getInstance()
@@ -147,22 +139,21 @@ class Reserve : DrawerBaseActivity() {
                 calendarEnd.set(Calendar.HOUR_OF_DAY, hourOfDay)
                 calendarEnd.set(Calendar.MINUTE, minute)
 
-    // Compare the start time and end time
-                if (calendarEnd.before(calendarStart)) {
-                    Toast.makeText(
-                        this,
-                        "Please ensure the end time is later than the start time.",
-                        Toast.LENGTH_SHORT
-                    ).show()
+//                val defaultStartTime = getString(R.string.default_start_time_text)
+//                val calendarStartToText = calendarStart.toString()
+//
+//                if (calendarStartToText == defaultStartTime){
+//                    Toast.makeText(this, "Please select start time first.", Toast.LENGTH_SHORT).show()
+//                    return@TimePickerDialog
+//                } else
+                    if (calendarEnd.before(calendarStart)) { // Compare the start time and end time
+                    Toast.makeText(this, "Please ensure the end time is later than the start time.", Toast.LENGTH_SHORT).show()
                     return@TimePickerDialog
+                } else {
+                    val selectedTime = timeFormat.format(calendarEnd.time)
+                    btnTimeEnd.text = selectedTime // Update button text
+                    checkRoomAvailability() // Check room availability after selecting end time
                 }
-
-
-                val selectedTime = timeFormat.format(calendarEnd.time)
-                btnTimeEnd.text = selectedTime // Update button text
-
-                // Check room availability after selecting end time
-                checkRoomAvailability()
             },
             8,
             0,
@@ -191,28 +182,6 @@ class Reserve : DrawerBaseActivity() {
             fetchReservations(databaseRef, selectedDate, startTime, endTime)
         }
     }
-
-    private fun makeReservation(roomNums: List<String>, date: String, startTime: String, endTime: String) {
-        val reservationRef = FirebaseDatabase.getInstance().getReference("Reservations").push()
-        val roomNumbersString = roomNums.joinToString(",") // Create a comma-separated string
-
-        val reservationData = mapOf(
-            "roomNum" to roomNumbersString,
-            "date" to date,
-            "stime" to startTime,
-            "etime" to endTime
-        )
-
-        reservationRef.setValue(reservationData).addOnSuccessListener {
-            // Reservation was successful, set the flag to refresh availability
-            isReservationMade = true
-            checkRoomAvailability() // Recheck room availability
-        }.addOnFailureListener {
-            Log.e("ReservationError", "Failed to make reservation: ${it.message}")
-        }
-    }
-
-
 
     private fun fetchReservations(databaseRef: DatabaseReference, selectedDate: String, startTime: String, endTime: String) {
         databaseRef.get().addOnSuccessListener { snapshot ->
@@ -326,6 +295,12 @@ class Reserve : DrawerBaseActivity() {
     }
 
     fun btnTimeEnd(view: View) {
-        endTimePickerDialog.show()
+        val defaultStartTime = getString(R.string.default_start_time_text)
+        if (btnTimeStart.text.toString() == defaultStartTime){
+            Toast.makeText(this, "Please select start time first.", Toast.LENGTH_SHORT).show()
+        } else {
+            endTimePickerDialog.show()
+        }
+
     }
 }

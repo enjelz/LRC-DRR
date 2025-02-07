@@ -36,7 +36,7 @@ class ReservationDetailsActivity : DrawerBaseActivity() {
     lateinit var dialog1: Dialog
     private lateinit var reservationStatusCardView: CardView
     private lateinit var btnCancelReservation: Button
-    lateinit var sharedPreferences: SharedPreferences
+    private lateinit var sharedPreferences: SharedPreferences
 
     private lateinit var databaseReference: DatabaseReference
     private lateinit var dispRefNum: TextView
@@ -90,13 +90,6 @@ class ReservationDetailsActivity : DrawerBaseActivity() {
         dispStatus = findViewById(R.id.disp_users_status)
 
         sharedPreferences = getSharedPreferences("visibility_prefs", Context.MODE_PRIVATE)
-
-//      val cardViewVisible = sharedPreferences.getBoolean("cardViewVisible", false)
-//        val buttonVisible = sharedPreferences.getBoolean("buttonVisible", true)
-
-//        reservationStatusCardView.visibility = if (cardViewVisible) View.VISIBLE else View.GONE
-//        btnCancelReservation.visibility = if (buttonVisible) View.VISIBLE else View.GONE
-
         databaseReference = FirebaseDatabase.getInstance().reference
 
         val refNum = intent.getStringExtra("REF_NUM")
@@ -148,30 +141,9 @@ class ReservationDetailsActivity : DrawerBaseActivity() {
                         reservationStatusCardView.visibility = View.GONE
                     }
 
-//                    // Update Status Display
-//                    updateReservationStatus(reservationStatus)
-
                     if (userID != null) {
                         fetchUserDetails(userID)
                     }
-
-                    // Restrict Cancellation - Hide button only if status is explicitly set to a non-cancelable state
-//                    try {
-//                        val formatter = DateTimeFormatter.ofPattern("MMMM d, yyyy")
-//                        val reservationLocalDate = LocalDate.parse(date, formatter)
-//                        val currentDate = LocalDate.now()
-//                        val daysUntilReservation = ChronoUnit.DAYS.between(currentDate, reservationLocalDate)
-//
-//                        Log.d("DateCheck", "Current Date: $currentDate, Reservation Date: $reservationLocalDate, Days Until: $daysUntilReservation")
-//
-//                        if (reservationStatus in listOf("CONFIRMED", "CANCELLED", "SHOWED UP", "NO SHOW/ABSENT") || daysUntilReservation < 1) {
-////                            btnCancelReservation.visibility = View.GONE
-//                        } else {
-////                            btnCancelReservation.visibility = View.VISIBLE
-//                        }
-//                    } catch (e: Exception) {
-//                        Log.e("DateParseError", "Error parsing date: ${e.message}")
-//                    }
 
                 } else {
                     Toast.makeText(this@ReservationDetailsActivity, "Reservation not found", Toast.LENGTH_SHORT).show()
@@ -183,45 +155,6 @@ class ReservationDetailsActivity : DrawerBaseActivity() {
             }
         })
     }
-
-
-
-
-//    private fun updateReservationStatus(status: String) {
-//        val dispStatus = findViewById<TextView>(R.id.disp_users_status)
-//        val normalizedStatus = status.trim().uppercase()
-//
-//        Log.d("UpdateStatusCheck", "Updating status: $normalizedStatus")
-//
-//        // Prevent cancellation if status is already set (not pending)
-//        if (normalizedStatus != "PENDING") {
-//            btnCancelReservation.visibility = View.GONE
-//        }
-//
-//        when (normalizedStatus) {
-//            "CANCELLED" -> {
-//                reservationStatusCardView.visibility = View.VISIBLE
-//                dispStatus.text = "CANCELLED"
-//            }
-//            "CONFIRMED", "SHOWED UP" -> {
-//                reservationStatusCardView.visibility = View.VISIBLE
-//                dispStatus.text = "CONFIRMED"
-//            }
-//            "NO SHOW/ABSENT" -> {
-//                reservationStatusCardView.visibility = View.VISIBLE
-//                dispStatus.text = "NO SHOW/ABSENT"
-//            }
-//            else -> {
-//                reservationStatusCardView.visibility = View.GONE
-//                btnCancelReservation.visibility = View.VISIBLE // Show only if status is "PENDING"
-//                dispStatus.text = "PENDING"
-//            }
-//        }
-//    }
-
-
-
-
 
     private fun fetchUserDetails(userID: String) {
         val auth = FirebaseAuth.getInstance()
@@ -271,7 +204,9 @@ class ReservationDetailsActivity : DrawerBaseActivity() {
 
     fun btn_reservation_details_back(view: View) {
         val intent = Intent(this, ReservationsActivity::class.java)
+        overridePendingTransition(0, 0) // Disable animations
         startActivity(intent)
+        overridePendingTransition(0, 0) // Disable animations again
     }
     fun btn_reservation_cancel(view: View) {
         dialog1.show()
@@ -304,23 +239,12 @@ class ReservationDetailsActivity : DrawerBaseActivity() {
                         reservationRef.child("status").setValue("CANCELLED").addOnCompleteListener { task ->
                             if (task.isSuccessful) {
                                 Toast.makeText(this, "Reservation Cancelled", Toast.LENGTH_SHORT).show()
-
-                                // Save visibility states in SharedPreferences
-//                            val editor = sharedPreferences.edit()
-//                            editor.putBoolean("cardViewVisible", true)
-//                            editor.putBoolean("buttonVisible", false)
-//                            editor.apply()
-
-                                // Update UI
-//                            updateReservationStatus("CANCELLED")
                                 btnCancelReservation.visibility = View.GONE
                                 val intent = intent
                                 finish()
                                 overridePendingTransition(0, 0) // Disable animations
                                 startActivity(intent)
                                 overridePendingTransition(0, 0) // Disable animations again
-
-
                             } else {
                                 Toast.makeText(this, "Failed to cancel reservation", Toast.LENGTH_SHORT).show()
                             }

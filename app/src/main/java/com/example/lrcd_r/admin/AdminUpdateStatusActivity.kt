@@ -286,8 +286,10 @@ class AdminUpdateStatusActivity : AdminDrawerBaseActivity() {
         reservationRef.child("status").setValue(selectedStatus)
             .addOnSuccessListener {
                 Toast.makeText(this, "Status Updated!", Toast.LENGTH_SHORT).show()
-                startActivity(Intent(this, AdminReservationsActivity::class.java))
-                overridePendingTransition(0, 0)
+                val intent = Intent(this, AdminReservationsActivity::class.java)
+                overridePendingTransition(0, 0) // Disable animations
+                startActivity(intent)
+                overridePendingTransition(0, 0) // Disable animations again
             }
             .addOnFailureListener { e ->
                 Toast.makeText(this, "Failed to update status: ${e.message}", Toast.LENGTH_SHORT).show()

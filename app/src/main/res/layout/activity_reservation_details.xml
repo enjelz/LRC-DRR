@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="37dp"
             android:layout_marginStart="21dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="20dp"
             android:layout_marginEnd="21dp"
             app:cardBackgroundColor="#927d52">
 
@@ -510,6 +510,7 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
             android:orientation="horizontal">
 
             <Button

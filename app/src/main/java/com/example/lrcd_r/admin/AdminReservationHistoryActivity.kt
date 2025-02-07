@@ -36,8 +36,10 @@ class AdminReservationHistoryActivity : AdminDrawerBaseActivity() {
     }
 
     fun Upcoming(view: View) {
-        startActivity(Intent(this, AdminReservationsActivity::class.java))
-        overridePendingTransition(0, 0)
+        val intent = Intent(this, AdminReservationsActivity::class.java)
+        overridePendingTransition(0, 0) // Disable animations
+        startActivity(intent)
+        overridePendingTransition(0, 0) // Disable animations again
     }
 
     private fun fetchReservations() {
@@ -87,6 +89,7 @@ class AdminReservationHistoryActivity : AdminDrawerBaseActivity() {
                 overridePendingTransition(0, 0)
                 intent.putExtra("REF_NUM", refNumText) // Pass Reference Number
                 startActivity(intent)
+                overridePendingTransition(0, 0)
             } else {
                 Toast.makeText(this, "Reference number not found!", Toast.LENGTH_SHORT).show()
             }

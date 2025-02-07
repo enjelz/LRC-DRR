@@ -92,8 +92,10 @@ class ReservationsActivity :  DrawerBaseActivity() {
 
             if (!refNumText.isNullOrEmpty()) {
                 val intent = Intent(this, ReservationDetailsActivity::class.java)
+                overridePendingTransition(0, 0) // Disable animations
                 intent.putExtra("REF_NUM", refNumText) // Pass Reference Number
                 startActivity(intent)
+                overridePendingTransition(0, 0) // Disable animations
             } else {
                 Toast.makeText(this, "Reference number not found!", Toast.LENGTH_SHORT).show()
             }

@@ -103,8 +103,8 @@ class AdminHomepage : AdminDrawerBaseActivity() {
         endTimePickerDialog = TimePickerDialog(
             this,
             { _, hourOfDay, minute ->
-                if (hourOfDay < 8 || hourOfDay >= 17) {  // Restrict time from 8AM to 5PM
-                    Toast.makeText(this, "Reservations are only allowed between 8 AM and 5 PM.", Toast.LENGTH_SHORT).show()
+                if (hourOfDay < 8 || hourOfDay >= 17 && minute > 0) {  // Restrict time from 8AM to 5PM
+                    Toast.makeText(this, "Reservations are only allowed from 8 AM to 5 PM.", Toast.LENGTH_SHORT).show()
                     return@TimePickerDialog
                 }
 

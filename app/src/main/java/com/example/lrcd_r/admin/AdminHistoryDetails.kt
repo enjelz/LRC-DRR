@@ -168,7 +168,9 @@ class AdminHistoryDetails : AdminDrawerBaseActivity() {
     }
 
     fun H1Back (view: View){
-        startActivity(Intent(this, AdminReservationHistoryActivity::class.java))
-        overridePendingTransition(0, 0)
+        val intent = Intent(this, AdminReservationHistoryActivity::class.java)
+        overridePendingTransition(0, 0) // Disable animations
+        startActivity(intent)
+        overridePendingTransition(0, 0) // Disable animations again
     }
 }

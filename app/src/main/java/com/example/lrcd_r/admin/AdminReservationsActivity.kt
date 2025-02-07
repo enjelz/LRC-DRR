@@ -12,6 +12,7 @@ import androidx.activity.enableEdgeToEdge
 import com.example.lrcd_r.R
 import com.example.lrcd_r.databinding.ActivityAdminReservationsBinding
 import com.example.lrcd_r.users.ReservationDetailsActivity
+import com.example.lrcd_r.users.ReservationsActivity
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
@@ -69,8 +70,10 @@ class AdminReservationsActivity : AdminDrawerBaseActivity() {
     }
 
     fun History(view: View) {
-        startActivity(Intent(this, AdminReservationHistoryActivity::class.java))
-        overridePendingTransition(0, 0)
+        val intent = Intent(this, AdminReservationHistoryActivity::class.java)
+        overridePendingTransition(0, 0) // Disable animations
+        startActivity(intent)
+        overridePendingTransition(0, 0) // Disable animations again
     }
 
     fun reservations(view: View) {
@@ -83,8 +86,10 @@ class AdminReservationsActivity : AdminDrawerBaseActivity() {
 
             if (!refNumText.isNullOrEmpty()) {
                 val intent = Intent(this, AdminUpdateStatusActivity::class.java)
+                overridePendingTransition(0, 0)
                 intent.putExtra("REF_NUM", refNumText) // Pass Reference Number
                 startActivity(intent)
+                overridePendingTransition(0, 0)
             } else {
                 Toast.makeText(this, "Reference number not found!", Toast.LENGTH_SHORT).show()
             }
