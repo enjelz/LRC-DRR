@@ -4,12 +4,14 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import com.example.lrcd_r.R
 import com.example.lrcd_r.databinding.ActivityAdminReservationsBinding
+import com.example.lrcd_r.users.ReservationDetailsActivity
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
@@ -60,12 +62,6 @@ class AdminReservationsActivity : AdminDrawerBaseActivity() {
         val refNumTextView = cardView.findViewById<TextView>(R.id.dispRefNum)
         refNumTextView.text = "Reference Number: $refNum"
 
-        cardView.setOnClickListener {
-            val intent = Intent(this, AdminUpdateStatusActivity::class.java)
-            intent.putExtra("REF_NUM", refNum) // Pass reference number to next activity
-            startActivity(intent)
-        }
-
         // Add to parent layout
         reservationsLayout.addView(cardView)
     }
@@ -75,8 +71,21 @@ class AdminReservationsActivity : AdminDrawerBaseActivity() {
         overridePendingTransition(0, 0)
     }
 
-    fun R1(view: View) {
-        startActivity(Intent(this, AdminUpdateStatusActivity::class.java))
-        overridePendingTransition(0, 0)
+    fun reservations(view: View) {
+        // Get the parent CardView
+        val parentCardView = view.parent as? ViewGroup
+        if (parentCardView != null) {
+            // Find the TextView inside the card
+            val refNumTextView = parentCardView.findViewById<TextView>(R.id.dispRefNum)
+            val refNumText = refNumTextView?.text?.toString()?.replace("Reference Number: ", "")
+
+            if (!refNumText.isNullOrEmpty()) {
+                val intent = Intent(this, AdminUpdateStatusActivity::class.java)
+                intent.putExtra("REF_NUM", refNumText) // Pass Reference Number
+                startActivity(intent)
+            } else {
+                Toast.makeText(this, "Reference number not found!", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 }
