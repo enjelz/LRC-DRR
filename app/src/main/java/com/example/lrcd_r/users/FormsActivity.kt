@@ -40,7 +40,6 @@ class FormsActivity : DrawerBaseActivity() {
     lateinit var purp: EditText
     lateinit var mats: EditText
 
-
     private lateinit var receivedDate: String
     private lateinit var receivedStartTime: String
     private lateinit var receivedEndTime: String
@@ -68,7 +67,7 @@ class FormsActivity : DrawerBaseActivity() {
         mats = findViewById<TextInputLayout>(R.id.inputMaterials).editText!!
 
 
-// Apply number and length restriction on cNum (Contact Number)
+        // Apply number and length restriction on cNum (Contact Number)
         val contactTextWatcher = object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
                 if (s != null) {
@@ -88,7 +87,7 @@ class FormsActivity : DrawerBaseActivity() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         }
 
-// Apply number and length restriction on tblCount (Tables) - Only 1 digit
+        // Apply number and length restriction on tblCount (Tables) - Only 1 digit
         val tablesTextWatcher = object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
                 if (s != null) {
@@ -108,7 +107,7 @@ class FormsActivity : DrawerBaseActivity() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         }
 
-// Apply number and length restriction on chrCount (Chairs) - Only 2 digits
+        // Apply number and length restriction on chrCount (Chairs) - Only 2 digits
         val chairsTextWatcher = object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
                 if (s != null) {
@@ -128,7 +127,7 @@ class FormsActivity : DrawerBaseActivity() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         }
 
-// Restrict numbers from being entered in purpose (Purpose field) - Only letters allowed
+        // Restrict numbers from being entered in purpose (Purpose field) - Only letters allowed
         val purposeTextWatcher = object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
                 if (s != null) {
@@ -147,7 +146,7 @@ class FormsActivity : DrawerBaseActivity() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         }
 
-// Restrict numbers from being entered in materials (Materials field) - Only letters allowed
+        // Restrict numbers from being entered in materials (Materials field) - Only letters allowed
         val materialsTextWatcher = object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
                 if (s != null) {
@@ -166,14 +165,12 @@ class FormsActivity : DrawerBaseActivity() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         }
 
-// Apply TextWatchers to the fields
+        // Apply TextWatchers to the fields
         cNum.addTextChangedListener(contactTextWatcher) // Contact Number (Only numbers, max 11 digits)
         tblCount.addTextChangedListener(tablesTextWatcher) // Tables (Only 1 digit)
         chrCount.addTextChangedListener(chairsTextWatcher) // Chairs (Only 2 digits)
         purp.addTextChangedListener(purposeTextWatcher) // Purpose (No numbers allowed)
         mats.addTextChangedListener(materialsTextWatcher) // Materials (No numbers allowed)
-
-
 
 
         // Retrieve data from Intent
@@ -182,6 +179,13 @@ class FormsActivity : DrawerBaseActivity() {
         receivedEndTime = intent.getStringExtra("END_TIME") ?: "No End Time Selected"
         receivedRooms = intent.getStringExtra("ROOMS") ?: "No Rooms Selected"
 
+        val txtRoom = findViewById<TextView>(R.id.dispRoom)
+        val txtDate = findViewById<TextView>(R.id.dispDate)
+        val txtTime = findViewById<TextView>(R.id.dispTime)
+
+        txtRoom.text = "Discussion Room $receivedRooms"
+        txtDate.text = receivedDate
+        txtTime.text = "$receivedStartTime to $receivedEndTime"
     }
 
     private fun getUserData() {
@@ -195,44 +199,46 @@ class FormsActivity : DrawerBaseActivity() {
         }
 
         databaseReference.orderByChild("email").equalTo(currentUserEmail)
-            .addListenerForSingleValueEvent(object : ValueEventListener  {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                if (snapshot.exists()) {
-                    for (userSnapshot in snapshot.children) { // Iterate over results
-                        user = userSnapshot.getValue(User::class.java)!!
-                        // Find the views once and check for null
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if (snapshot.exists()) {
+                        for (userSnapshot in snapshot.children) { // Iterate over results
+                            user = userSnapshot.getValue(User::class.java)!!
+                            // Find the views once and check for null
 
-                        val txtName = findViewById<TextView>(R.id.txtName)
-                        val txtDept = findViewById<TextView>(R.id.dispDept)
-                        val txtUserType = findViewById<TextView>(R.id.txt_usertype)
-                        val txtID = findViewById<TextView>(R.id.dispID)
-                        val txtEmail = findViewById<TextView>(R.id.dispEmail)
+                            val txtName = findViewById<TextView>(R.id.txtName)
+                            val txtDept = findViewById<TextView>(R.id.dispDept)
+                            val txtUserType = findViewById<TextView>(R.id.txt_usertype)
+                            val txtID = findViewById<TextView>(R.id.dispID)
+                            val txtEmail = findViewById<TextView>(R.id.dispEmail)
 
-                        if (txtName != null) {
-                            val lastName = user.lname ?: "N/A"
-                            val givenName = user.gname ?: "N/A"
-                            val middleName = user.mname ?: "N/A"
-                            val formattedName = "$lastName, $givenName $middleName"
-                            txtName.text = formattedName
+                            if (txtName != null) {
+                                val lastName = user.lname ?: "N/A"
+                                val givenName = user.gname ?: "N/A"
+                                val middleName = user.mname ?: "N/A"
+                                val formattedName = "$lastName, $givenName $middleName"
+                                txtName.text = formattedName
+                            }
+                            if (txtUserType != null) txtUserType.text = user.userType
+                            if (txtDept != null) txtDept.text = user.dept
+                            if (txtID != null) txtID.text = user.id
+                            if (txtEmail != null) txtEmail.text = user.email
+                            break // Exit loop after first match
                         }
-                        if (txtUserType != null) txtUserType.text = user.userType
-                        if (txtDept != null) txtDept.text = user.dept
-                        if (txtID != null) txtID.text = user.id
-                        if (txtEmail != null) txtEmail.text = user.email
-                        break // Exit loop after first match
+                    } else {
+                        Toast.makeText(this@FormsActivity, "User not found", Toast.LENGTH_SHORT)
+                            .show()
                     }
-                } else {
-                    Toast.makeText(this@FormsActivity, "User not found", Toast.LENGTH_SHORT).show()
                 }
-            }
+
                 override fun onCancelled(error: DatabaseError) {
                     Toast.makeText(this@FormsActivity, "Something went wrong", Toast.LENGTH_SHORT)
                         .show()
                 }
-        })
+            })
     }
 
-    fun btn_forms_submit(view: View){
+    fun btn_forms_submit(view: View) {
 
         val contact = cNum.text.toString()
         val tables = tblCount.text.toString()
@@ -243,7 +249,8 @@ class FormsActivity : DrawerBaseActivity() {
         // Check if any of the required fields are empty
         if (contact.isEmpty() || tables.isEmpty() || chairs.isEmpty() || purpose.isEmpty()) {
             // Display an error message to the user
-            Toast.makeText(this, "Please fill in all required fields properly.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Please fill in all required fields properly.", Toast.LENGTH_SHORT)
+                .show()
             return // Exit the function without proceeding
         } else {
             val intent = Intent(this, ConfirmationActivity::class.java).apply {
@@ -270,8 +277,8 @@ class FormsActivity : DrawerBaseActivity() {
         }
     }
 
-    fun btn_forms_back(view: View){
-        val intent = Intent(this,Reserve::class.java)
+    fun btn_forms_back(view: View) {
+        val intent = Intent(this, Reserve::class.java)
         startActivity(intent)
     }
 }

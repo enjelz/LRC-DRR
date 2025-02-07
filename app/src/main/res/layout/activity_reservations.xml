@@ -30,7 +30,7 @@
             android:layout_height="wrap_content">
 
             <LinearLayout
-                android:id="@+id/Reservation1"
+                android:id="@+id/ReservationCard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
@@ -52,20 +52,20 @@
 
                         <!-- TextView for Reference Number -->
                         <TextView
-                            android:id="@+id/textView4"
+                            android:id="@+id/dispRefNum"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:layout_gravity="center_vertical"
                             android:layout_marginStart="10dp"
                             android:fontFamily="sans-serif-medium"
-                            android:text="Reference Number: LRCDR-00001"
+                            android:text="Reference Number: LRCDR-000XX"
                             android:textColor="@color/white"
                             android:textSize="16sp" />
 
                         <!-- ImageView Inside CardView -->
                         <ImageView
-                            android:id="@+id/imageView"
+                            android:id="@+id/arrow"
                             android:layout_width="45dp"
                             android:layout_height="45dp"
                             android:layout_gravity="center"

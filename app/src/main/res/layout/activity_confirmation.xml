@@ -451,7 +451,7 @@
                 android:layout_width="125dp"
                 android:layout_height="60dp"
                 android:backgroundTint="#161f48"
-                android:text="Edit"
+                android:text="Start Over"
                 android:textSize="16sp"
                 app:cornerRadius="10dp"
                 android:onClick="edit_confirmation_details"/>

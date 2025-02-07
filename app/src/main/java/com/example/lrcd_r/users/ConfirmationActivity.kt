@@ -196,7 +196,7 @@ class ConfirmationActivity : DrawerBaseActivity() {
     }
 
     fun edit_confirmation_details(view: View) {
-        val intent = Intent(this, FormsActivity::class.java)
+        val intent = Intent(this, Reserve::class.java)
         startActivity(intent)
     }
 }

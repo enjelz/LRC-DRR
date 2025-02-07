@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="45dp"
+    android:layout_marginTop="15dp"
+    app:cardBackgroundColor="#12264D"
+    app:cardCornerRadius="8dp">
+
+    <!-- Layout Inside CardView -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <!-- TextView for Reference Number -->
+        <TextView
+            android:id="@+id/dispRefNum"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="10dp"
+            android:fontFamily="sans-serif-medium"
+            android:text="Reference Number: LRCDR-000XX"
+            android:textColor="@android:color/white"
+            android:textSize="16sp" />
+
+        <!-- ImageView Inside CardView -->
+        <ImageView
+            android:id="@+id/arrow"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_gravity="center"
+            android:background="@drawable/button_background"
+            android:onClick="reservations"
+            android:padding="8dp"
+            android:scaleType="centerCrop"
+            app:srcCompat="@drawable/arrow"
+            app:tint="@android:color/white" />
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>
