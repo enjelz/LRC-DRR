@@ -14,6 +14,8 @@ import com.example.lrcd_r.R
 import com.example.lrcd_r.databinding.ActivityAdminHomepageBinding
 import java.text.SimpleDateFormat
 import java.util.Locale
+import com.google.firebase.database.*
+import android.util.Log
 
 class AdminHomepage : AdminDrawerBaseActivity() {
 
@@ -121,6 +123,72 @@ class AdminHomepage : AdminDrawerBaseActivity() {
             false
         )
     }
+    private fun checkRoomAvailabilityForAdmin() {
+        val selectedDate = btnDate.text.toString()
+        val startTime = btnTimeStart.text.toString()
+        val endTime = btnTimeEnd.text.toString()
+
+        if (selectedDate.isEmpty() || startTime.isEmpty() || endTime.isEmpty()) {
+            return
+        }
+
+        val databaseRef = FirebaseDatabase.getInstance().getReference("Reservations")
+
+        databaseRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val reservedRooms = mutableSetOf<String>() // Stores reserved room numbers
+
+                for (reservation in snapshot.children) {
+                    val date = reservation.child("date").getValue(String::class.java)
+                    val stime = reservation.child("stime").getValue(String::class.java)
+                    val etime = reservation.child("etime").getValue(String::class.java)
+                    val roomNum = reservation.child("roomNum").getValue(String::class.java) // Stored as "1,2,3"
+
+                    if (date == selectedDate) { // Check only reservations on the same date
+                        if (isTimeOverlapping(startTime, endTime, stime, etime)) {
+                            roomNum?.split(",")?.forEach { room -> reservedRooms.add(room.trim()) }
+                        }
+                    }
+                }
+
+                // Update the UI to show unavailable rooms
+                updateRoomAvailabilityUI(reservedRooms)
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.e("FirebaseError", "Failed to read data: ${error.message}")
+            }
+        })
+    }
+
+    //Helper function to check if two time slots overlap
+
+    private fun isTimeOverlapping(start1: String, end1: String, start2: String?, end2: String?): Boolean {
+        if (start2 == null || end2 == null) return false
+        return (start1 < end2 && end1 > start2) // Overlapping condition
+    }
+
+    private fun updateRoomAvailabilityUI(reservedRooms: Set<String>) {
+        val roomTextViews = listOf(
+            findViewById<TextView>(R.id.textView18), // Room 1
+            findViewById<TextView>(R.id.textView19), // Room 2
+            findViewById<TextView>(R.id.textView20), // Room 3
+            findViewById<TextView>(R.id.textView21)  // Room 4
+        )
+
+        for ((index, textView) in roomTextViews.withIndex()) {
+            val roomNumber = (index + 1).toString()
+            if (reservedRooms.contains(roomNumber)) {
+                textView.text = "Unavailable"
+                textView.setTextColor(ContextCompat.getColor(this, R.color.cancel))
+            } else {
+                textView.text = "Available"
+                textView.setTextColor(ContextCompat.getColor(this, R.color.confirm))
+            }
+        }
+    }
+
+
 
     fun btnDate(view: View){
         datePickerDialog.show()
@@ -136,5 +204,7 @@ class AdminHomepage : AdminDrawerBaseActivity() {
 
     fun btnCheckAvail(view: View) {
         availabilityLayout.visibility = View.VISIBLE
+        checkRoomAvailabilityForAdmin() // Call function to check availability
+
     }
 }

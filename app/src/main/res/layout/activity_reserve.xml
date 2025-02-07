@@ -163,6 +163,10 @@
                 android:textStyle="bold"
                 android:textSize="17dp"/>
 
+
+
+
+
             <CheckBox
                 android:id="@+id/checkBox2"
                 android:layout_width="match_parent"

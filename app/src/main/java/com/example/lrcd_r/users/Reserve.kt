@@ -5,6 +5,7 @@ import android.app.TimePickerDialog
 import android.content.Intent
 import android.icu.util.Calendar
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.CheckBox
@@ -32,6 +33,7 @@ class Reserve : DrawerBaseActivity() {
     private lateinit var btnDate: Button
     private lateinit var btnTimeStart: Button
     private lateinit var btnTimeEnd: Button
+    private var isReservationMade = false
 
     private lateinit var checkBox1: CheckBox
     private lateinit var checkBox2: CheckBox
@@ -71,7 +73,8 @@ class Reserve : DrawerBaseActivity() {
 
     private fun setupDatePicker() {
         val today = Calendar.getInstance()
-        val currentYear = today.get(Calendar.YEAR)
+        today.add(Calendar.DAY_OF_MONTH, 1) // Move to the next day to prevent selecting today
+
         val year = today.get(Calendar.YEAR)
         val month = today.get(Calendar.MONTH)
         val day = today.get(Calendar.DAY_OF_MONTH)
@@ -82,20 +85,21 @@ class Reserve : DrawerBaseActivity() {
                 val calendar = Calendar.getInstance()
                 calendar.set(selectedYear, selectedMonth, selectedDay)
 
-                // Determine the format based on the year
-                val dateFormat = if (selectedYear == currentYear) {
-                    SimpleDateFormat("EEEE, MMMM dd", Locale.getDefault()) // Same year
-                } else {
-                    SimpleDateFormat("MMMM dd, yyyy", Locale.getDefault()) // Different year
+                // Check if the selected day is Sunday
+                if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
+                    Toast.makeText(this, "Sundays are not selectable.", Toast.LENGTH_SHORT).show()
+                    return@DatePickerDialog
                 }
 
+                val dateFormat = SimpleDateFormat("MMMM dd, yyyy", Locale.getDefault())
                 val selectedDate = dateFormat.format(calendar.time)
                 btnDate.text = selectedDate // Update button text
             },
-            year,
-            month,
-            day
+            year, month, day
         )
+
+        // Disable past dates and today's date
+        datePickerDialog.datePicker.minDate = today.timeInMillis
     }
 
     private fun setupTimePickers() {
@@ -104,6 +108,14 @@ class Reserve : DrawerBaseActivity() {
         startTimePickerDialog = TimePickerDialog(
             this,
             { _, hourOfDay, minute ->
+                if (hourOfDay < 8 || hourOfDay > 17) { // Restrict to 8 AM - 5 PM ~~~
+                    Toast.makeText(
+                        this,
+                        "Select a time between 8:00am - 5:00pm.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    return@TimePickerDialog
+                }
                 val calendar = Calendar.getInstance()
                 calendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
                 calendar.set(Calendar.MINUTE, minute)
@@ -111,7 +123,7 @@ class Reserve : DrawerBaseActivity() {
                 val selectedTime = timeFormat.format(calendar.time)
                 btnTimeStart.text = selectedTime // Update button text
             },
-            12,
+            8,
             0,
             false
         )
@@ -119,18 +131,164 @@ class Reserve : DrawerBaseActivity() {
         endTimePickerDialog = TimePickerDialog(
             this,
             { _, hourOfDay, minute ->
-                val calendar = Calendar.getInstance()
-                calendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
-                calendar.set(Calendar.MINUTE, minute)
+                if (hourOfDay < 8 || hourOfDay > 17) { // Restrict to 8 AM - 5 PM
+                    Toast.makeText(
+                        this,
+                        "Select a time between 8:00 AM - 5:00 PM.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    return@TimePickerDialog
+                }
+                val calendarStart = Calendar.getInstance()
+                calendarStart.set(Calendar.HOUR_OF_DAY, hourOfDay) // Use the selected start time here
+                calendarStart.set(Calendar.MINUTE, minute)
 
-                val selectedTime = timeFormat.format(calendar.time)
+                val calendarEnd = Calendar.getInstance()
+                calendarEnd.set(Calendar.HOUR_OF_DAY, hourOfDay)
+                calendarEnd.set(Calendar.MINUTE, minute)
+
+    // Compare the start time and end time
+                if (calendarEnd.before(calendarStart)) {
+                    Toast.makeText(
+                        this,
+                        "Please ensure the end time is later than the start time.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    return@TimePickerDialog
+                }
+
+
+                val selectedTime = timeFormat.format(calendarEnd.time)
                 btnTimeEnd.text = selectedTime // Update button text
+
+                // Check room availability after selecting end time
+                checkRoomAvailability()
             },
-            12,
+            8,
             0,
             false
         )
     }
+
+
+    private fun checkRoomAvailability() {
+        val selectedDate = btnDate.text.toString()
+        val startTime = btnTimeStart.text.toString()
+        val endTime = btnTimeEnd.text.toString()
+
+        if (selectedDate.isEmpty() || startTime.isEmpty() || endTime.isEmpty()) {
+            return
+        }
+
+        val databaseRef = FirebaseDatabase.getInstance().getReference("Reservations")
+
+        // Force reload of data if a new reservation was made
+        if (isReservationMade) {
+            // After reservation, reset the flag and re-check availability
+            fetchReservations(databaseRef, selectedDate, startTime, endTime)
+            isReservationMade = false
+        } else {
+            fetchReservations(databaseRef, selectedDate, startTime, endTime)
+        }
+    }
+    private fun makeReservation(roomNums: List<String>, date: String, startTime: String, endTime: String) {
+        val reservationRef = FirebaseDatabase.getInstance().getReference("Reservations").push()
+        val roomNumbersString = roomNums.joinToString(",") // Create a comma-separated string
+
+        val reservationData = mapOf(
+            "roomNum" to roomNumbersString,
+            "date" to date,
+            "stime" to startTime,
+            "etime" to endTime
+        )
+
+        reservationRef.setValue(reservationData).addOnSuccessListener {
+            // Reservation was successful, set the flag to refresh availability
+            isReservationMade = true
+            checkRoomAvailability() // Recheck room availability
+        }.addOnFailureListener {
+            Log.e("ReservationError", "Failed to make reservation: ${it.message}")
+        }
+    }
+
+
+
+    private fun fetchReservations(databaseRef: DatabaseReference, selectedDate: String, startTime: String, endTime: String) {
+        databaseRef.get().addOnSuccessListener { snapshot ->
+            if (!snapshot.exists()) {
+                // No reservations exist, all rooms are available
+                updateUIAvailability(emptyList())
+                return@addOnSuccessListener
+            }
+
+            val unavailableRooms = mutableListOf<String>()
+
+            for (reservationSnapshot in snapshot.children) {
+                val resDate = reservationSnapshot.child("date").getValue(String::class.java) ?: continue
+
+                if (resDate == selectedDate) { // Check only reservations on the selected date
+                    val rooms = reservationSnapshot.child("roomNum").getValue(String::class.java) ?: continue
+                    val bookedStart = reservationSnapshot.child("stime").getValue(String::class.java) ?: continue
+                    val bookedEnd = reservationSnapshot.child("etime").getValue(String::class.java) ?: continue
+
+                    // Split the room numbers (stored as comma-separated values)
+                    val reservedRooms = rooms.split(",").map { it.trim() }
+
+                    // Check if the room conflicts, including the newly made reservation
+                    for (roomNum in reservedRooms) {
+                        if (isTimeConflict(startTime, endTime, bookedStart, bookedEnd)) {
+                            unavailableRooms.add(roomNum)
+                        }
+                    }
+                }
+            }
+
+            updateUIAvailability(unavailableRooms)
+        }.addOnFailureListener {
+            Log.e("FirebaseError", "Failed to fetch reservations: ${it.message}")
+        }
+    }
+
+
+
+
+
+    private fun isTimeConflict(startTime: String, endTime: String, bookedStart: String, bookedEnd: String): Boolean {
+        val formatter = SimpleDateFormat("hh:mm a", Locale.getDefault())
+
+        val selectedStart = formatter.parse(startTime)
+        val selectedEnd = formatter.parse(endTime)
+        val existingStart = formatter.parse(bookedStart)
+        val existingEnd = formatter.parse(bookedEnd)
+
+        return (selectedStart!!.before(existingEnd) && selectedEnd!!.after(existingStart))
+    }
+
+
+
+
+    private fun updateUIAvailability(unavailableRooms: List<String>) {
+        val checkBoxes = listOf(checkBox1, checkBox2, checkBox3, checkBox4)
+        val roomNumbers = listOf("1", "2", "3", "4")
+
+        for (i in checkBoxes.indices) {
+            val checkBox = checkBoxes[i]
+            val roomNumber = roomNumbers[i]
+
+            if (unavailableRooms.contains(roomNumber)) {
+                checkBox.isEnabled = false
+                checkBox.text = "Discussion Room $roomNumber (Unavailable)"
+                checkBox.isChecked = false // Uncheck if previously selected
+            } else {
+                checkBox.isEnabled = true
+                checkBox.text = "Discussion Room $roomNumber (Available)"
+            }
+        }
+    }
+
+
+
+
 
     fun btn_reserve_next(view: View) {
         val uid = firebaseAuth.currentUser?.uid
