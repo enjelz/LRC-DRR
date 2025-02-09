@@ -87,7 +87,7 @@ class Reserve : DrawerBaseActivity() {
 
                 // Check if the selected day is Sunday
                 if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
-                    Toast.makeText(this, "Sundays are not selectable.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Reservations are only available Monday to Saturday. Please select a different date.", Toast.LENGTH_SHORT).show()
                     return@DatePickerDialog
                 }
 
@@ -108,16 +108,17 @@ class Reserve : DrawerBaseActivity() {
         startTimePickerDialog = TimePickerDialog(
             this,
             { _, hourOfDay, minute ->
-                if (hourOfDay < 8 || hourOfDay > 17) { // Restrict to 8 AM - 5 PM ~~~
+                if (hourOfDay < 8 || hourOfDay >= 17) { // Restrict to 8 AM - 5 PM
                     Toast.makeText(this, "Select a time between 8:00am - 5:00pm.", Toast.LENGTH_SHORT).show()
                     return@TimePickerDialog
                 }
                 val calendar = Calendar.getInstance()
                 calendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
                 calendar.set(Calendar.MINUTE, minute)
+                selectedStartTime = calendar
 
                 val selectedTime = timeFormat.format(calendar.time)
-                btnTimeStart.text = selectedTime // Update button text
+                btnTimeStart.text = selectedTime // Update button text only
             },
             8,
             0,
@@ -127,8 +128,8 @@ class Reserve : DrawerBaseActivity() {
         endTimePickerDialog = TimePickerDialog(
             this,
             { _, hourOfDay, minute ->
-                if (hourOfDay < 8 || hourOfDay > 17) { // Restrict to 8 AM - 5 PM
-                    Toast.makeText(this, "Select a time between 8:00 AM - 5:00 PM.", Toast.LENGTH_SHORT).show()
+                if (hourOfDay < 8 || hourOfDay >= 17 || (hourOfDay == 17 && minute > 0)) { // Restrict to 8 AM - 5 PM
+                    Toast.makeText(this, "Select a time between 8:00am - 5:00pm.", Toast.LENGTH_SHORT).show()
                     return@TimePickerDialog
                 }
 
@@ -136,21 +137,23 @@ class Reserve : DrawerBaseActivity() {
                 calendarEnd.set(Calendar.HOUR_OF_DAY, hourOfDay)
                 calendarEnd.set(Calendar.MINUTE, minute)
 
-                if (selectedStartTime != null && calendarEnd.before(selectedStartTime)) {
-                    Toast.makeText(
-                        this,
-                        "Please ensure the end time is later than the start time.",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    return@TimePickerDialog
-                }else {
-                    val selectedTime = timeFormat.format(calendarEnd.time)
-                    btnTimeEnd.text = selectedTime // Update button text
-                    checkRoomAvailability() // Check room availability after selecting end time
+                // Check if end time is after start time
+                if (selectedStartTime != null) {
+                    if (calendarEnd.before(selectedStartTime) || calendarEnd == selectedStartTime) {
+                        Toast.makeText(
+                            this,
+                            "End time must be later than start time.",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        return@TimePickerDialog
+                    }
                 }
 
+                val selectedTime = timeFormat.format(calendarEnd.time)
+                btnTimeEnd.text = selectedTime // Update button text
+                checkRoomAvailability() // Only check availability after end time is selected
             },
-            8,
+            17,
             0,
             false
         )
@@ -190,6 +193,10 @@ class Reserve : DrawerBaseActivity() {
 
             for (reservationSnapshot in snapshot.children) {
                 val resDate = reservationSnapshot.child("date").getValue(String::class.java) ?: continue
+                val status = reservationSnapshot.child("status").getValue(String::class.java)
+
+                // Skip this reservation if it's cancelled
+                if (status == "CANCELLED") continue
 
                 if (resDate == selectedDate) { // Check only reservations on the selected date
                     val rooms = reservationSnapshot.child("roomNum").getValue(String::class.java) ?: continue
@@ -199,7 +206,7 @@ class Reserve : DrawerBaseActivity() {
                     // Split the room numbers (stored as comma-separated values)
                     val reservedRooms = rooms.split(",").map { it.trim() }
 
-                    // Check if the room conflicts, including the newly made reservation
+                    // Check if the room conflicts, excluding cancelled reservations
                     for (roomNum in reservedRooms) {
                         if (isTimeConflict(startTime, endTime, bookedStart, bookedEnd)) {
                             unavailableRooms.add(roomNum)
