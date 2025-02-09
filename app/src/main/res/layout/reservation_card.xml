@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/reservation_card"
     android:layout_width="match_parent"
     android:layout_height="45dp"
     android:layout_marginTop="15dp"
@@ -18,9 +19,9 @@
             android:id="@+id/dispRefNum"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="10dp"
+            android:layout_weight="1"
             android:fontFamily="sans-serif-medium"
             android:text="Reference Number: LRCDR-000XX"
             android:textColor="@android:color/white"

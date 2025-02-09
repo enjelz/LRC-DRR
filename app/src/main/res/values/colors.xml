@@ -10,4 +10,10 @@
     <color name="confirm">#008000</color> <!-- Green -->
     <color name="cancel">#800000</color> <!-- Maroon -->
     <color name="no_show">#808080</color> <!-- Grey -->
+
+    <!-- Darker shades for arrow backgrounds -->
+    <color name="pending_dark">#995C2F00</color>  <!-- Darker orange -->
+    <color name="confirm_dark">#99004D00</color>  <!-- Darker green -->
+    <color name="cancel_dark">#99400000</color>   <!-- Darker maroon -->
+    <color name="blue_dark">#990B1A3B</color>     <!-- Darker blue -->
 </resources>
