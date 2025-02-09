@@ -41,7 +41,7 @@ class Reserve : DrawerBaseActivity() {
     private lateinit var checkBox4: CheckBox
     private val selectedRooms: MutableList<String> = mutableListOf()
 
-
+    private var selectedStartTime: Calendar? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -131,29 +131,24 @@ class Reserve : DrawerBaseActivity() {
                     Toast.makeText(this, "Select a time between 8:00 AM - 5:00 PM.", Toast.LENGTH_SHORT).show()
                     return@TimePickerDialog
                 }
-                val calendarStart = Calendar.getInstance()
-                calendarStart.set(Calendar.HOUR_OF_DAY, hourOfDay) // Use the selected start time here
-                calendarStart.set(Calendar.MINUTE, minute)
 
                 val calendarEnd = Calendar.getInstance()
                 calendarEnd.set(Calendar.HOUR_OF_DAY, hourOfDay)
                 calendarEnd.set(Calendar.MINUTE, minute)
 
-//                val defaultStartTime = getString(R.string.default_start_time_text)
-//                val calendarStartToText = calendarStart.toString()
-//
-//                if (calendarStartToText == defaultStartTime){
-//                    Toast.makeText(this, "Please select start time first.", Toast.LENGTH_SHORT).show()
-//                    return@TimePickerDialog
-//                } else
-                    if (calendarEnd.before(calendarStart)) { // Compare the start time and end time
-                    Toast.makeText(this, "Please ensure the end time is later than the start time.", Toast.LENGTH_SHORT).show()
+                if (selectedStartTime != null && calendarEnd.before(selectedStartTime)) {
+                    Toast.makeText(
+                        this,
+                        "Please ensure the end time is later than the start time.",
+                        Toast.LENGTH_SHORT
+                    ).show()
                     return@TimePickerDialog
-                } else {
+                }else {
                     val selectedTime = timeFormat.format(calendarEnd.time)
                     btnTimeEnd.text = selectedTime // Update button text
                     checkRoomAvailability() // Check room availability after selecting end time
                 }
+
             },
             8,
             0,
@@ -291,7 +286,12 @@ class Reserve : DrawerBaseActivity() {
     }
 
     fun btnTimeStart(view: View) {
-        startTimePickerDialog.show()
+        val defaultDate =  getString(R.string.default_date_text)
+        if (btnDate.text.toString() == defaultDate){
+            Toast.makeText(this, "Please select a date first.", Toast.LENGTH_SHORT).show()
+        }else{
+            startTimePickerDialog.show()
+        }
     }
 
     fun btnTimeEnd(view: View) {
