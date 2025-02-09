@@ -8,6 +8,7 @@ import android.text.style.ClickableSpan
 import android.text.style.UnderlineSpan
 import android.view.View
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -24,24 +25,31 @@ import com.google.firebase.database.ValueEventListener
 
 class Login : AppCompatActivity() {
 
-
     private lateinit var firebaseAuth: FirebaseAuth
-    lateinit var loginBinding: ActivityLoginBinding
-    lateinit var txtEmail: EditText
-    lateinit var txtPass: EditText
+    private lateinit var loginBinding: ActivityLoginBinding
+    private lateinit var txtEmail: EditText
+    private lateinit var txtPass: EditText
+    private lateinit var togglePassword: ImageView
+    private var isPasswordVisible = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login) // Provide layout resource ID
+        setContentView(R.layout.activity_login)
         loginBinding = ActivityLoginBinding.inflate(layoutInflater)
         enableEdgeToEdge()
 
         firebaseAuth = FirebaseAuth.getInstance()
 
-
-        //getting txt from email input field
+        // Initialize views
         txtEmail = findViewById(R.id.txtEmail)
         txtPass = findViewById(R.id.txtPass)
+        togglePassword = findViewById(R.id.togglePassword)
+
+        // Setup password visibility toggle
+        togglePassword.setOnClickListener {
+            isPasswordVisible = !isPasswordVisible
+            togglePasswordVisibility()
+        }
 
         //signup span "Don't have an account?"
         val spanSignup = findViewById<TextView>(R.id.spanSignup)
@@ -60,6 +68,20 @@ class Login : AppCompatActivity() {
 
         spanSignup.text = spannableStringSignup
         spanSignup.movementMethod = android.text.method.LinkMovementMethod.getInstance()
+    }
+
+    private fun togglePasswordVisibility() {
+        if (isPasswordVisible) {
+            // Show password
+            txtPass.transformationMethod = null
+            togglePassword.setImageResource(R.drawable.ic_eye)
+        } else {
+            // Hide password
+            txtPass.transformationMethod = android.text.method.PasswordTransformationMethod.getInstance()
+            togglePassword.setImageResource(R.drawable.ic_eye_off)
+        }
+        // Maintain cursor position
+        txtPass.setSelection(txtPass.text.length)
     }
 
     //this is for login button
@@ -125,7 +147,4 @@ class Login : AppCompatActivity() {
             Toast.makeText(this, "Fields cannot be empty", Toast.LENGTH_SHORT).show()
         }
     }
-
-
-
 }

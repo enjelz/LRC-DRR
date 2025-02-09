@@ -45,18 +45,34 @@
             android:padding="15dp"
             android:textColor="@color/black" />
 
-        <EditText
-            android:id="@+id/txtPass"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
             android:layout_marginTop="15dp"
-            android:layout_marginEnd="30dp"
-            android:background="@drawable/custom_edittext"
-            android:hint="Password"
-            android:inputType="textPassword"
-            android:padding="15dp"
-            android:textColor="@color/black" />
+            android:layout_marginEnd="30dp">
+
+            <EditText
+                android:id="@+id/txtPass"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/custom_edittext"
+                android:hint="Password"
+                android:inputType="textPassword"
+                android:padding="15dp"
+                android:textColor="@color/black" />
+
+            <ImageView
+                android:id="@+id/togglePassword"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="end|center_vertical"
+                android:layout_marginEnd="15dp"
+                android:src="@drawable/ic_eye_off"
+                android:clickable="true"
+                android:focusable="true" />
+
+        </FrameLayout>
 
         <Button
             android:id="@+id/loginButton"

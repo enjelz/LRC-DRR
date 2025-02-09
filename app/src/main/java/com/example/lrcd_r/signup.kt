@@ -9,6 +9,7 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
@@ -35,7 +36,9 @@ class signup : AppCompatActivity() {
     lateinit var txtID: EditText
     lateinit var txtEmail: EditText
     lateinit var txtPass: EditText
+    private lateinit var togglePassword: ImageView
     private var selectedUserType: String = "" // Variable to store the selected user type
+    private var isPasswordVisible = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,6 +57,7 @@ class signup : AppCompatActivity() {
         txtID = findViewById(R.id.txtID)
         txtEmail = findViewById(R.id.txtEmail)
         txtPass = findViewById(R.id.txtPass)
+        togglePassword = findViewById(R.id.togglePassword)
 
         // Get the spinner
         val userTypeSpinner: Spinner = findViewById(R.id.userTypeSpinner)
@@ -113,6 +117,26 @@ class signup : AppCompatActivity() {
 
         spanLogin.text = spannableString
         spanLogin.movementMethod = android.text.method.LinkMovementMethod.getInstance()
+
+        // Setup password visibility toggle
+        togglePassword.setOnClickListener {
+            isPasswordVisible = !isPasswordVisible
+            togglePasswordVisibility()
+        }
+    }
+
+    private fun togglePasswordVisibility() {
+        if (isPasswordVisible) {
+            // Show password
+            txtPass.transformationMethod = null
+            togglePassword.setImageResource(R.drawable.ic_eye)
+        } else {
+            // Hide password
+            txtPass.transformationMethod = android.text.method.PasswordTransformationMethod.getInstance()
+            togglePassword.setImageResource(R.drawable.ic_eye_off)
+        }
+        // Maintain cursor position
+        txtPass.setSelection(txtPass.text.length)
     }
 
     fun signup(view: View) {
