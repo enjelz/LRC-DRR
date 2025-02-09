@@ -5,12 +5,12 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg_white"
-    tools:context=".admin.AdminReservationHistoryActivity">
+    android:background="#e4e4e4"
+    tools:context=".users.ReservationsHistoryActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <LinearLayout
@@ -106,8 +106,7 @@
 
             <ScrollView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp">
+                android:layout_height="wrap_content">
 
                 <LinearLayout
                     android:id="@+id/reservationsHistoryCard"
@@ -116,6 +115,19 @@
                     android:layout_marginStart="20dp"
                     android:layout_marginEnd="20dp"
                     android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/default_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:textAlignment="center"
+                        android:fontFamily="sans-serif-medium"
+                        android:text="You have no reservation history"
+                        android:textColor="@color/gray"
+                        android:textSize="15sp"
+                        android:visibility="gone"
+                        android:textStyle="italic" />
 
                 </LinearLayout>
             </ScrollView>

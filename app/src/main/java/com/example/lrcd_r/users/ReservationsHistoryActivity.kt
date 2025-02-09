@@ -24,6 +24,7 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import android.app.Dialog
+import android.graphics.Typeface
 
 class ReservationsHistoryActivity : DrawerBaseActivity() {
 
@@ -52,20 +53,20 @@ class ReservationsHistoryActivity : DrawerBaseActivity() {
         databaseReference = FirebaseDatabase.getInstance().getReference("Reservations")
 
         setupFilterDialog()
-        
+
         val filterContainer = findViewById<LinearLayout>(R.id.filterContainer)
         filterContainer.setOnClickListener {
             filterDialog.show()
         }
-        
+
         fetchReservations()
     }
 
     fun Upcoming(view: View) {
         val intent = Intent(this, ReservationsActivity::class.java)
-        overridePendingTransition(0, 0) // Disable animations
         startActivity(intent)
-        overridePendingTransition(0, 0) // Disable animations again
+        finish() // Finish current activity immediately
+        overridePendingTransition(0, 0) // Remove transition animation
     }
 
     private fun setupFilterDialog() {
@@ -106,18 +107,37 @@ class ReservationsHistoryActivity : DrawerBaseActivity() {
         databaseReference.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 reservationsLayout.removeAllViews() // Clear old data
+                
+                // Create default text view first but set to GONE
+                val defaultTextView = TextView(this@ReservationsHistoryActivity).apply {
+                    id = R.id.default_text
+                    layoutParams = LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT
+                    ).apply {
+                        topMargin = resources.getDimensionPixelSize(R.dimen.margin_20dp)
+                    }
+                    text = "You have no reservation history"
+                    textAlignment = View.TEXT_ALIGNMENT_CENTER
+                    setTextColor(ContextCompat.getColor(context, R.color.gray))
+                    textSize = 15f
+                    typeface = Typeface.create("sans-serif-medium", Typeface.ITALIC)
+                    visibility = View.GONE // Set to GONE by default
+                }
+                reservationsLayout.addView(defaultTextView)
+                
+                var hasReservations = false
 
                 // First, collect all the data we need
                 val reservationsData = mutableListOf<Pair<String, String>>()
-                
+
                 for (reservationSnapshot in snapshot.children) {
                     val reservationUserID = reservationSnapshot.child("userID").value?.toString()
                     val status = reservationSnapshot.child("status").getValue(String::class.java)
 
-                    // Check if reservation belongs to the logged-in user and status is NOT null/empty
                     if (reservationUserID == userID && !status.isNullOrEmpty()) {
-                        // Apply filter
                         if (currentFilter == null || status.uppercase() == currentFilter) {
+                            hasReservations = true
                             val refNum = reservationSnapshot.key.toString()
                             reservationsData.add(Pair(refNum, status))
                         }
@@ -127,6 +147,11 @@ class ReservationsHistoryActivity : DrawerBaseActivity() {
                 // Then create all cards at once
                 reservationsData.forEach { (refNum, status) ->
                     addReservationCard(refNum, status)
+                }
+
+                // Only make default text visible if there are no reservations
+                if (!hasReservations) {
+                    defaultTextView.visibility = View.VISIBLE
                 }
             }
 

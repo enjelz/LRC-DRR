@@ -5,6 +5,7 @@
     <color name="gold">#927d52</color>
     <color name="blue">#161f48</color>
     <color name="bg_white">#e4e4e4</color>
+    <color name="gray">#545454</color>
 
     <color name="pending">#FFA500</color> <!-- Orange -->
     <color name="confirm">#008000</color> <!-- Green -->

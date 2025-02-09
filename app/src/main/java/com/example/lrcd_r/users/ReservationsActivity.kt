@@ -2,6 +2,7 @@ package com.example.lrcd_r.users
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Typeface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +11,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.core.content.ContextCompat
 import com.example.lrcd_r.R
 import com.example.lrcd_r.databinding.ActivityReservationsBinding
 import com.google.firebase.database.DataSnapshot
@@ -53,18 +55,42 @@ class ReservationsActivity :  DrawerBaseActivity() {
         databaseReference.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 reservationsLayout.removeAllViews() // Clear old data
+                
+                // Create default text view first but set to GONE
+                val defaultTextView = TextView(this@ReservationsActivity).apply {
+                    id = R.id.default_text
+                    layoutParams = LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT
+                    ).apply {
+                        topMargin = resources.getDimensionPixelSize(R.dimen.margin_20dp)
+                    }
+                    text = "You have no upcoming reservation schedule"
+                    textAlignment = View.TEXT_ALIGNMENT_CENTER
+                    setTextColor(ContextCompat.getColor(context, R.color.gray))
+                    textSize = 15f
+                    typeface = Typeface.create("sans-serif-medium", Typeface.ITALIC)
+                    visibility = View.GONE // Set to GONE by default
+                }
+                reservationsLayout.addView(defaultTextView)
+                
+                var hasReservations = false
 
+                // Add all reservation cards
                 for (reservationSnapshot in snapshot.children) {
                     val reservationUserID = reservationSnapshot.child("userID").value?.toString()
                     val status = reservationSnapshot.child("status").getValue(String::class.java)
 
-                    // Check if reservation belongs to the logged-in user and status is null or empty
                     if (reservationUserID == userID && status.isNullOrEmpty()) {
+                        hasReservations = true
                         val refNum = reservationSnapshot.key.toString()
-
-                        // Create a new reservation card dynamically
                         addReservationCard(refNum)
                     }
+                }
+
+                // Only make default text visible if there are no reservations
+                if (!hasReservations) {
+                    defaultTextView.visibility = View.VISIBLE
                 }
             }
 
@@ -107,8 +133,8 @@ class ReservationsActivity :  DrawerBaseActivity() {
 
     fun History(view: View) {
         val intent = Intent(this, ReservationsHistoryActivity::class.java)
-        overridePendingTransition(0, 0) // Disable animations
         startActivity(intent)
-        overridePendingTransition(0, 0) // Disable animations again
+        finish() // Finish current activity immediately
+        overridePendingTransition(0, 0) // Remove transition animation
     }
 }
